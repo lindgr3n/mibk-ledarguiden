@@ -1,8 +1,113 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+
+// Aktiv säsong styr vilket innehåll som visas (ADR 0001).
+const active = (await getCollection('sasonger')).filter((s) => s.data.status === 'aktiv');
+if (active.length !== 1) throw new Error(`Exakt en säsong måste vara aktiv, hittade ${active.length}`);
+const season = active[0];
+const content = (await getCollection('reglerochdokument')).find((c) => c.data.season.id === season.id);
+if (!content) throw new Error(`Inget innehåll för Regler och dokument i säsong ${season.data.label}`);
+const { documents, news, matchEnvironment } = content.data;
 ---
 
 <Layout title="Regler och dokument">
 	<h1>Regler och dokument</h1>
-	<p>Originalkällor och regelverk samlas här.</p>
+	<p class="season">Säsong {season.data.label}</p>
+	<p>
+		Här samlas förbundets originaldokument. Ledarguiden är en snabbguide: när den skiljer sig från
+		originaldokumenten är det originalkällan som gäller.
+	</p>
+
+	<section aria-labelledby="originaldokument" class="docs-section">
+		<h2 id="originaldokument">Originaldokument</h2>
+		<ul class="doc-list">
+			{
+				documents.map((doc) => (
+					<li data-document={doc.id}>
+						<a href={doc.url}>{doc.title}</a>
+						<p>{doc.description}</p>
+						<p class="provenance">
+							Kontrollerad {doc.checked}
+							{doc.foundAt && (
+								<>
+									{' '}· Finns på <a href={doc.foundAt.url}>{doc.foundAt.label}</a>
+								</>
+							)}
+						</p>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<section aria-labelledby="nyheter" class="docs-section">
+		<h2 id="nyheter">{news.title}</h2>
+		<p><strong>{news.summary}</strong></p>
+		<ul>
+			{
+				news.items.map((item) => (
+					<li>
+						<strong>{item.label}:</strong> {item.text}
+					</li>
+				))
+			}
+		</ul>
+		<ul class="doc-list">
+			{
+				news.links.map((link) => (
+					<li>
+						<a href={link.url}>{link.label}</a> – {link.note}
+					</li>
+				))
+			}
+		</ul>
+		<p class="notice">{news.caveat}</p>
+		<p class="provenance">Kontrollerad {news.checked}</p>
+	</section>
+
+	<section aria-labelledby="matchmiljo" class="docs-section">
+		<h2 id="matchmiljo">Bra matchmiljö</h2>
+		<p>{matchEnvironment.definition}</p>
+		<p>Fördjupa dig i förbundets material:</p>
+		<ul class="doc-list">
+			{
+				matchEnvironment.links.map((link) => (
+					<li>
+						<a href={link.url}>{link.label}</a> – {link.note}
+						<p class="provenance">Kontrollerad {link.checked}</p>
+					</li>
+				))
+			}
+		</ul>
+	</section>
 </Layout>
+
+<style>
+	.docs-section {
+		margin-top: 2rem;
+		padding-top: 1.5rem;
+		border-top: 2px solid var(--line);
+	}
+	.doc-list {
+		list-style: none;
+		padding: 0;
+	}
+	.doc-list li {
+		margin-bottom: 1rem;
+	}
+	.doc-list li > a {
+		font-weight: 700;
+	}
+	.doc-list p {
+		margin: 0.25rem 0 0;
+	}
+	.provenance {
+		font-size: 0.9rem;
+		color: var(--charcoal);
+	}
+	.notice {
+		border-left: 4px solid var(--orange);
+		padding-left: 0.75rem;
+	}
+</style>
