@@ -1,0 +1,55 @@
+# Röd nivå, säsong 2026/27. Källa: docs/quick-look/division-5.md (Västernorrlands ungdomsmatris).
+# Uppgifterna är hittills verifierade för division 5. Lägg till division 1-4 i appliesTo först när
+# de kontrollerats mot originalkällan.
+season: 2026-2027
+level: rod
+name: Röd nivå
+divisions:
+  from: 1
+  to: 5
+factGroups:
+  - id: spelform-och-speltid
+    title: Spelform och speltid
+    status: verifierad
+    appliesTo: [5]
+    checked: "2026-10-12"
+    source:
+      label: Västernorrlands ungdomsmatris 2026/27, sida 1
+      url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+    facts:
+      - { key: spelform, label: Spelform, value: "5 utespelare + målvakt" }
+      - { key: matchtid, label: Speltid, value: "3 × 15 min effektiv tid" }
+      - { key: paus, label: Paus, value: "5 minuter; inget sidbyte" }
+      - { key: byten, label: Byten, value: Flygande }
+  - id: plan-och-mal
+    title: Plan och mål
+    status: verifierad
+    appliesTo: [5]
+    checked: "2026-10-12"
+    source:
+      label: Västernorrlands ungdomsmatris 2026/27, sida 1
+      url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+    facts:
+      - { key: plan, label: Plan, value: "18 × 36 m" }
+      - { key: mal, label: Mål, value: "160 × 115 cm" }
+  - id: domare-och-sekretariat
+    title: Domare och sekretariat
+    status: verifierad
+    appliesTo: [5]
+    checked: "2026-10-12"
+    source:
+      label: Västernorrlands ungdomsmatris 2026/27, sida 1
+      url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+    facts:
+      - { key: domare, label: Domare, value: "2, tillsatta av VIBF" }
+      - { key: sekretariat, label: Sekretariat, value: "iBIS Online; resultattavla" }
+  - id: ledarutbildning
+    title: Ledarutbildning
+    status: verifierad
+    appliesTo: [5]
+    checked: "2026-10-12"
+    source:
+      label: Västernorrlands ungdomsmatris 2026/27, sida 1
+      url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+    facts:
+      - { key: ledarutbildning, label: Ledarutbildning, value: "Grundutbildning barn/ungdom + Steg 1 Röd (eller högre nivå)" }
