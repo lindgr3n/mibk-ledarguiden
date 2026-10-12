@@ -20,3 +20,13 @@ Consult these guides before working on related tasks:
 - [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+
+## Agent skills
+
+### Issue tracker
+
+Issues are tracked in GitHub Issues for this repository. See `docs/agents/issue-tracker.md`.
+
+### Domain docs
+
+This is a single-context repository with `GLOSSARY.md` and `docs/adr/` at the root. See `docs/agents/domain.md`.
