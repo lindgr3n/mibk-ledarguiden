@@ -1,8 +1,303 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+
+// Startsidan visar den aktiva säsongen (ADR 0001).
+const active = (await getCollection('sasonger')).filter((s) => s.data.status === 'aktiv');
+if (active.length !== 1) throw new Error(`Exakt en säsong måste vara aktiv, hittade ${active.length}`);
+const season = active[0];
+
+const guides = (await getCollection('nivaguider')).filter((g) => g.data.season.id === season.id);
+const guideFor = (level: 'bla' | 'rod') => {
+	const guide = guides.find((g) => g.data.level === level);
+	if (!guide) throw new Error(`Nivåguide saknas för ${level} i säsong ${season.data.label}`);
+	return guide.data;
+};
+const divisionsText = (d: { from: number; to: number }) =>
+	d.from === d.to ? `Division ${d.from}` : `Division ${d.from}–${d.to}`;
+
+// Grön nivå saknar guide i första leveransen och länkar därför ingenstans.
+const levels = [
+	{ key: 'gron', name: 'Grön nivå', divisions: 'Division 8–9', href: undefined },
+	{ key: 'bla', name: 'Blå nivå', divisions: divisionsText(guideFor('bla').divisions), href: '/bla/' },
+	{ key: 'rod', name: 'Röd nivå', divisions: divisionsText(guideFor('rod').divisions), href: '/rod/' },
+];
+
+// Bra matchmiljö: definitionen ägs av Regler och dokument.
+const content = (await getCollection('reglerochdokument')).find((c) => c.data.season.id === season.id);
+if (!content) throw new Error(`Inget innehåll för Regler och dokument i säsong ${season.data.label}`);
+const { definition } = content.data.matchEnvironment;
 ---
 
 <Layout title="Ledarguide 2026/27">
-	<h1>Ledarguide 2026/27</h1>
-	<p>Hitta rätt inför matchen.</p>
+	<section class="hero" aria-labelledby="hero-title">
+		<img
+			class="hero-image"
+			src="/images/brand/moalvens-crowd-hero.webp"
+			alt="Publiken på läktaren i Skyttis"
+			width="1600"
+			height="900"
+		/>
+		<div class="hero-copy">
+			<img
+				class="hero-logo"
+				src="/images/brand/moalvens-ibk-logo.png"
+				alt="Moälvens IBK"
+				width="96"
+				height="96"
+			/>
+			<p class="season">Säsong {season.data.label}</p>
+			<h1 id="hero-title">Ledarguide {season.data.label}</h1>
+			<p class="lead">Hitta rätt inför matchen.</p>
+			<a class="cta" href="#valj-niva">Välj nivå</a>
+		</div>
+	</section>
+
+	<section id="valj-niva" class="picker" aria-labelledby="valj-niva-title">
+		<h2 id="valj-niva-title">Välj nivå</h2>
+		<ul class="levels">
+			{
+				levels.map((level) => (
+					<li class={`level level-${level.key}`}>
+						{level.href ? (
+							<a href={level.href}>
+								<span class="level-name">{level.name}</span>
+								<span class="level-divisions">{level.divisions}</span>
+								<span class="level-state">Öppna guiden</span>
+							</a>
+						) : (
+							<div class="level-inactive">
+								<span class="level-name">{level.name}</span>
+								<span class="level-divisions">{level.divisions}</span>
+								<span class="level-state">Kommer senare</span>
+							</div>
+						)}
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<div class="split">
+		<section aria-labelledby="matchdagen-title" class="block">
+			<h2 id="matchdagen-title">Matchdagen</h2>
+			<p>Checklistan inför och under matchen, från samling till matchflytt.</p>
+			<a class="more" href="/matchdagen/">Öppna Matchdagen</a>
+		</section>
+
+		<section aria-labelledby="matchmiljo-title" class="block">
+			<h2 id="matchmiljo-title">Bra matchmiljö</h2>
+			<p>{definition}</p>
+			<a class="more" href="/regler/#matchmiljo">Förbundets material om bra matchmiljö</a>
+		</section>
+	</div>
+
+	<section aria-labelledby="regler-title" class="block wide">
+		<h2 id="regler-title">Regler och dokument</h2>
+		<p>
+			Förbundets originaldokument, nyheter för säsongen och de källor som gäller när ledarguiden och
+			originalen skiljer sig åt.
+		</p>
+		<a class="more" href="/regler/">Gå till Regler och dokument</a>
+	</section>
+
+	<section aria-labelledby="arkiv-title" class="block wide archive">
+		<h2 id="arkiv-title">Tidigare säsonger</h2>
+		<p>Kommer när nästa säsong publiceras. Då sparas {season.data.label} som ett arkiv.</p>
+	</section>
 </Layout>
+
+<style>
+	/* Hero: bred publikbild med mörk toning; vattenstämpeln i bilden behålls (ingen beskärning uppåt/nedåt av stämpeln). */
+	.hero {
+		position: relative;
+		margin-inline: -1rem;
+		min-height: 22rem;
+		display: flex;
+		align-items: flex-end;
+		color: #fff;
+		background: var(--black);
+		overflow: hidden;
+	}
+	.hero-image {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center;
+	}
+	.hero::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		background: linear-gradient(90deg, rgb(9 10 10 / 0.92) 0%, rgb(9 10 10 / 0.7) 55%, rgb(9 10 10 / 0.25) 100%);
+	}
+	.hero-copy {
+		position: relative;
+		z-index: 2;
+		padding: 1.5rem 1rem 4rem;
+	}
+	.hero-logo {
+		display: block;
+		width: 4.5rem;
+		height: 4.5rem;
+		object-fit: contain;
+		margin-bottom: 1rem;
+	}
+	.season {
+		margin: 0 0 0.25rem;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		color: var(--orange);
+	}
+	.hero h1 {
+		margin-bottom: 0.25rem;
+	}
+	.lead {
+		font-size: 1.375rem;
+		margin: 0 0 1.25rem;
+	}
+	.cta {
+		display: inline-block;
+		background: var(--orange);
+		color: var(--black);
+		font-weight: 700;
+		padding: 0.625rem 1.25rem;
+		text-decoration: none;
+	}
+	.cta:hover {
+		background: #fff;
+	}
+
+	/* Nivåväljaren bryter hero-kanten: sammanhängande fält utan mellanrum. */
+	.picker {
+		position: relative;
+		z-index: 3;
+		margin-top: -3rem;
+		background: var(--paper);
+		border-top: 6px solid var(--orange);
+		padding: 1rem 0 0;
+	}
+	.picker h2 {
+		font-size: 1.125rem;
+		text-transform: none;
+		color: var(--charcoal);
+	}
+	.levels {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: 1fr;
+		border: 2px solid var(--black);
+	}
+	.level + .level {
+		border-top: 2px solid var(--black);
+	}
+	.level a,
+	.level-inactive {
+		display: grid;
+		gap: 0.125rem;
+		padding: 1.25rem 1rem;
+		color: #fff;
+		text-decoration: none;
+		min-height: 7rem;
+		align-content: end;
+	}
+	.level-gron {
+		background: var(--level-green);
+	}
+	.level-bla {
+		background: var(--level-blue);
+	}
+	.level-rod {
+		background: var(--level-red);
+	}
+	/* Kommande nivå: dämpad, streckad kant, tydligt text-märkt. */
+	.level-inactive {
+		background-image: repeating-linear-gradient(135deg, rgb(0 0 0 / 0.18) 0 0.5rem, transparent 0.5rem 1rem);
+		cursor: default;
+	}
+	.level-name {
+		font-family: var(--font-heading);
+		font-weight: 700;
+		font-size: 2.25rem;
+		line-height: 1;
+	}
+	.level-divisions {
+		font-size: 1.0625rem;
+	}
+	.level-state {
+		margin-top: 0.5rem;
+		font-weight: 700;
+		font-size: 0.9375rem;
+		text-transform: none;
+	}
+	.level a .level-state::after {
+		content: ' →';
+	}
+	.level a {
+		transition: filter 120ms ease;
+	}
+	.level a:hover {
+		filter: brightness(1.12);
+	}
+	.level a:focus-visible {
+		outline-color: #fff;
+		outline-offset: -6px;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.level a {
+			transition: none;
+		}
+	}
+
+	.split {
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+	.block {
+		margin-top: 2rem;
+		padding-top: 1.25rem;
+		border-top: 2px solid var(--line);
+	}
+	.more {
+		font-weight: 700;
+		text-decoration-color: var(--orange);
+		text-decoration-thickness: 3px;
+		text-underline-offset: 4px;
+	}
+	.archive {
+		color: var(--charcoal);
+	}
+
+	@media (min-width: 48rem) {
+		.hero {
+			min-height: 28rem;
+			margin-inline: calc(50% - 50vw);
+		}
+		.hero-copy {
+			width: 100%;
+			max-width: 64rem;
+			margin-inline: auto;
+			padding: 2rem 1rem 5rem;
+		}
+		.levels {
+			grid-template-columns: repeat(3, 1fr);
+		}
+		.level + .level {
+			border-top: 0;
+			border-left: 2px solid var(--black);
+		}
+		.level a,
+		.level-inactive {
+			min-height: 10rem;
+		}
+		.split {
+			grid-template-columns: 1fr 1fr;
+			column-gap: 2.5rem;
+		}
+	}
+</style>
