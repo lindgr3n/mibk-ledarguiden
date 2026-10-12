@@ -1,0 +1,65 @@
+# Matchdagen, säsong 2026/27. Källa: docs/matchdagen.md och Västernorrlands ungdomsmatris.
+# Skriv aldrig in matchflyttsavgifter eller tidsgränser här – de ändras; länka till aktuell information.
+season: 2026-2027
+sections:
+  - id: fore-match
+    title: Före match
+    items:
+      - id: licens-skyddsglasogon
+        text: Spelarna har licens och skyddsglasögon.
+        ruleSource: distriktsanpassning
+        checked: "2026-10-12"
+        source: &matris
+          label: Västernorrlands ungdomsmatris 2026/27, sida 1
+          url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+      - id: ibis
+        text: Laguppställningen är inlagd i iBIS i god tid.
+        ruleSource: distriktsanpassning
+        checked: "2026-10-12"
+        source: *matris
+      - id: ledarlicens
+        text: Alla i båset har rätt ledarlicens.
+        ruleSource: foreningsvagledning
+      - id: matchvardar
+        text: "Hemmamatch: två matchvärdar med rosa västar är utsedda."
+        homeOnly: true
+        ruleSource: distriktsanpassning
+        checked: "2026-10-12"
+        source: *matris
+      - id: sekretariat
+        text: "Hemmamatch: sekretariat/tidtagare är bemannat enligt divisionens matris."
+        homeOnly: true
+        ruleSource: distriktsanpassning
+        checked: "2026-10-12"
+        source: *matris
+      - id: mottagande
+        text: Domare och gästande lag får ett bra mottagande.
+        ruleSource: foreningsvagledning
+  - id: under-och-efter-match
+    title: Under och efter match
+    items:
+      - id: tryggt-klimat
+        text: Matchvärdarna hjälper till att upprätthålla ett tryggt klimat.
+        ruleSource: foreningsvagledning
+      - id: resultat
+        text: Resultat och matchuppgifter hanteras enligt aktuell divisions rutin.
+        ruleSource: foreningsvagledning
+      - id: uteblivna-domare
+        text: "Om domare uteblir eller annat går fel: informera VIBF:s kansli."
+        ruleSource: foreningsvagledning
+relocation:
+  title: Om matchen behöver flyttas
+  intro: Avgifter och tidsgränser för matchflytt ändras under säsongen och visas därför inte här. Kontrollera alltid aktuell information innan du gör något.
+  reminder: Kom ihåg att avboka halltid.
+  link:
+    label: Aktuell matchflyttsinformation hos Västernorrlands IBF
+    url: "https://www.innebandy.se/vasternorrland/tavling/matchflytt"
+readMore:
+  - label: Ungdomsmatris 2026/27 – divisionernas krav, även sida 2
+    url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf"
+  - label: Barn och ungdom – manualer och föreskrifter
+    url: "https://www.innebandy.se/vasternorrland/tavling/barnungdom"
+  - label: Lokala förutsättningar 2026/27
+    url: "https://www.innebandy.se/media/sb3hooik/lokala-forutsattningar-vnibf-2026-2027.pdf"
+  - label: Upptaktsträffar (presentationen för blå/röd 29/9)
+    url: "https://www.innebandy.se/vasternorrland/tavling/barnungdom/upptaktstraffar-powerpoint"
