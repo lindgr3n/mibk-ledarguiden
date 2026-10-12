@@ -1,14 +1,15 @@
 ---
 // Gemensam vy för en nivåguide (Röd, Blå, ...): matchfakta, divisionsanpassningar,
 // uppdateringsnotiser och regelhierarki. Sidorna anger bara vilken nivå som ska visas.
-import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import RuleHierarchy from './RuleHierarchy.astro';
 import UpdateNotices from './UpdateNotices.astro';
-import { describeDivisions, getActiveGuide, getSeasonGuide } from '../lib/nivaguide';
+import FactList from './FactList.astro';
+import { describeDivisions, getActiveGuide, getSeasonById, getSeasonGuide, type Level } from '../lib/nivaguide';
+import { ruleTypes } from '../lib/regelhierarki';
 
 interface Props {
-	level: 'gron' | 'bla' | 'rod';
+	level: Level;
 	// Id för en arkiverad säsong (t.ex. 2026-2027). Utan den visas den aktiva säsongen.
 	seasonId?: string;
 }
@@ -16,13 +17,13 @@ interface Props {
 const { level, seasonId } = Astro.props;
 const { guide, season, factGroups, ruleSections, unverifiedDivisions, divisionAdaptations } =
 		seasonId
-		? await getSeasonGuide((await getCollection('sasonger')).find((x) => x.id === seasonId)!, level)
+		? await getSeasonGuide(await getSeasonById(seasonId), level)
 		: await getActiveGuide(level);
 const archived = season.status === 'arkiverad';
 const { from, to } = guide.divisions;
 ---
 
-<Layout title={archived ? `${guide.name} – arkiv ${season.label}` : guide.name}>
+<Layout seasonLabel={season.label} title={archived ? `${guide.name} – arkiv ${season.label}` : guide.name}>
 	{
 		archived && (
 			<aside class="archive-banner" role="note" aria-label="Arkiv">
@@ -55,15 +56,13 @@ const { from, to } = guide.divisions;
 			factGroups.map((group) => (
 				<section class="fact-group" data-fact-group={group.id} aria-labelledby={`g-${group.id}`}>
 					<h3 id={`g-${group.id}`}>{group.title}</h3>
-					<dl>
-						{group.facts.map((fact) => (
-							<div>
-								<dt>{fact.label}</dt>
-								<dd>{fact.value}</dd>
-							</div>
-						))}
-					</dl>
+						<FactList facts={group.facts} />
 					<p class="provenance">
+						{group.ruleSource && (
+								<>
+									<span class="rule-label">{ruleTypes[group.ruleSource].label}</span> ·{' '}
+								</>
+							)}
 						Gäller {describeDivisions(group.appliesTo).toLowerCase()} · Kontrollerad {group.checked} ·{' '}
 						<a href={group.source.url}>Originalkälla: {group.source.label}</a>
 					</p>
@@ -86,18 +85,22 @@ const { from, to } = guide.divisions;
 						{d.adaptations.map((a) => (
 							<div class="fact-group" data-adaptation={a.id}>
 								<h4>{a.title}</h4>
-								<dl>
-									{a.facts.map((fact) => (
-										<div>
-											<dt>{fact.label}</dt>
-											<dd>{fact.value}</dd>
-										</div>
-									))}
-								</dl>
+								<FactList facts={a.facts} />
 								<p class="provenance">
+									{a.ruleSource && (
+										<>
+											<span class="rule-label">{ruleTypes[a.ruleSource].label}</span> ·{' '}
+										</>
+									)}
 									Gäller division {d.division} · Kontrollerad {a.checked} ·{' '}
 									<a href={a.source.url}>Originalkälla: {a.source.label}</a>
 								</p>
+							</div>
+						))}
+						{d.unverified.map((u) => (
+							<div class="fact-group unverified" data-unverified-adaptation={u.id}>
+								<h4>{u.title} – ej verifierat</h4>
+								<p class="notice">{u.note}</p>
 							</div>
 						))}
 					</section>

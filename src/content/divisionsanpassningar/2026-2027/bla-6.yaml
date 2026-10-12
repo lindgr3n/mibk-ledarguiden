@@ -5,6 +5,7 @@ adaptations:
   - id: tidtagning-och-byten
     title: Tidtagning och byten
     status: verifierad
+    ruleSource: distriktsanpassning
     checked: "2026-10-12"
     source:
       label: Västernorrlands ungdomsmatris 2026/27, sida 1

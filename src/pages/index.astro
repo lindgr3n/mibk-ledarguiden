@@ -1,27 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import { getActiveSeason, getArchivedSeasons, getLevelOverview } from '../lib/nivaguide';
 
 // Startsidan visar den aktiva säsongen (ADR 0001).
-const active = (await getCollection('sasonger')).filter((s) => s.data.status === 'aktiv');
-if (active.length !== 1) throw new Error(`Exakt en säsong måste vara aktiv, hittade ${active.length}`);
-const season = active[0];
-
-const guides = (await getCollection('nivaguider')).filter((g) => g.data.season.id === season.id);
-const guideFor = (level: 'bla' | 'rod') => {
-	const guide = guides.find((g) => g.data.level === level);
-	if (!guide) throw new Error(`Nivåguide saknas för ${level} i säsong ${season.data.label}`);
-	return guide.data;
-};
-const divisionsText = (d: { from: number; to: number }) =>
-	d.from === d.to ? `Division ${d.from}` : `Division ${d.from}–${d.to}`;
-
-// Grön nivå saknar guide i första leveransen och länkar därför ingenstans.
-const levels = [
-	{ key: 'gron', name: 'Grön nivå', divisions: 'Division 8–9', href: undefined },
-	{ key: 'bla', name: 'Blå nivå', divisions: divisionsText(guideFor('bla').divisions), href: '/bla/' },
-	{ key: 'rod', name: 'Röd nivå', divisions: divisionsText(guideFor('rod').divisions), href: '/rod/' },
-];
+const season = await getActiveSeason();
+const levels = await getLevelOverview();
+const archivedSeasons = (await getArchivedSeasons()).sort((a, b) => b.id.localeCompare(a.id));
+const archiveLevels = levels.filter((l) => l.href);
 
 // Bra matchmiljö: definitionen ägs av Regler och dokument.
 const content = (await getCollection('reglerochdokument')).find((c) => c.data.season.id === season.id);
@@ -29,7 +15,7 @@ if (!content) throw new Error(`Inget innehåll för Regler och dokument i säson
 const { definition } = content.data.matchEnvironment;
 ---
 
-<Layout title="Ledarguide 2026/27">
+<Layout title={`Ledarguide ${season.data.label}`}>
 	<section class="hero" aria-labelledby="hero-title">
 		<img
 			class="hero-image"
@@ -63,13 +49,13 @@ const { definition } = content.data.matchEnvironment;
 							<a href={level.href}>
 								<span class="level-name">{level.name}</span>
 								<span class="level-divisions">{level.divisions}</span>
-								<span class="level-state">Öppna guiden</span>
+								<span class="level-state">{level.state}</span>
 							</a>
 						) : (
 							<div class="level-inactive">
 								<span class="level-name">{level.name}</span>
 								<span class="level-divisions">{level.divisions}</span>
-								<span class="level-state">Kommer senare</span>
+								<span class="level-state">{level.state}</span>
 							</div>
 						)}
 					</li>
@@ -103,7 +89,25 @@ const { definition } = content.data.matchEnvironment;
 
 	<section aria-labelledby="arkiv-title" class="block wide archive">
 		<h2 id="arkiv-title">Tidigare säsonger</h2>
-		<p>Kommer när nästa säsong publiceras. Då sparas {season.data.label} som ett arkiv.</p>
+		{
+			archivedSeasons.length > 0 ? (
+				<ul class="archive-list">
+					{archivedSeasons.map((s) => (
+						<li>
+							<strong>Säsong {s.data.label}</strong>:{' '}
+							{archiveLevels.map((l, i) => (
+								<>
+									{i > 0 && ' · '}
+									<a href={`/sasonger/${s.id}/${l.key}/`}>{l.name}</a>
+								</>
+							))}
+						</li>
+					))}
+				</ul>
+			) : (
+				<p>Kommer när nästa säsong publiceras. Då sparas {season.data.label} som ett arkiv.</p>
+			)
+		}
 	</section>
 </Layout>
 

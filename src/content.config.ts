@@ -40,7 +40,7 @@ const faktagrupp = z.object({
 	appliesTo: z.array(z.number().int().min(1)).min(1),
 	checked: isoDate,
 	source: originalkalla,
-	// Reserverat för regelhierarkin (nationell regel / distriktsanpassning / föreningsvägledning).
+	// Regelkälla (nationell regel / distriktsanpassning / föreningsvägledning, ADR 0003); visas som etikett.
 	ruleSource: z.enum(['nationell-regel', 'distriktsanpassning', 'foreningsvagledning']).optional(),
 	facts: z
 		.array(z.object({ key: z.string().min(1), label: z.string().min(1), value: z.string().min(1) }))
@@ -118,7 +118,7 @@ const nivaguider = defineCollection({
 // Divisionsanpassningar (ADR 0002): en fil per division, <säsong>/<nivå>-<division>.yaml.
 // Lagrar ENBART divisionens avvikelser från nivåguiden; gemensamma fakta ägs av nivåguiden och får
 // inte upprepas här. Att divisionen ligger inom nivåguidens divisioner och att faktanycklarna inte
-// krockar med nivåguidens kontrolleras vid bygge i getDivisionView (src/lib/nivaguide.ts).
+// krockar med nivåguidens kontrolleras vid bygge i getSeasonGuide (src/lib/nivaguide.ts).
 const divisionsanpassning = z.object({
 	id: z.string().min(1),
 	title: z.string().min(1),
@@ -126,6 +126,9 @@ const divisionsanpassning = z.object({
 	checked: isoDate,
 	source: originalkalla,
 	ruleSource: z.enum(['nationell-regel', 'distriktsanpassning', 'foreningsvagledning']).optional(),
+	// Anteckning som visas när anpassningen är overifierad (själva uppgifterna publiceras aldrig).
+	// Ska ange varifrån uppgiften härrör och att den inte är verifierad.
+	unverifiedNote: z.string().min(1).optional(),
 	facts: z
 		.array(z.object({ key: z.string().min(1), label: z.string().min(1), value: z.string().min(1) }))
 		.min(1),

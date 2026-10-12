@@ -1,17 +1,20 @@
 # Division 7, säsong 2026/27: bara avvikelser från Blå nivå (ADR 0002).
-# Källa: specen (issue #2): matrisen visar att division 7 använder rullande tid och särskilda bytesregler
-# under delar av säsongen. De exakta bytesreglerna och perioderna är INTE dokumenterade i repot och
-# får inte skrivas hit förrän de kontrollerats mot originalkällan.
+# OVERIFIERAD: det enda som finns dokumenterat är specens uppgift (issue #2, Further Notes) att division 7
+# använder rullande tid och särskilda bytesregler under delar av säsongen. Matrisen har inte kontrollerats
+# mot originalkällan och de exakta reglerna och perioderna är okända. Uppgifterna (facts) publiceras därför
+# inte; bara unverifiedNote visas. Sätt status: verifierad först när de kontrollerats mot matrisen.
 guide: 2026-2027/bla
 division: 7
 adaptations:
   - id: tidtagning-och-byten
     title: Tidtagning och byten
-    status: verifierad
+    status: overifierad
+    ruleSource: distriktsanpassning
     checked: "2026-10-12"
     source:
       label: Västernorrlands ungdomsmatris 2026/27, sida 1
       url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+    unverifiedNote: "Enligt specen för ledarguiden (issue #2, Further Notes) använder division 7 rullande tid och särskilda bytesregler under delar av säsongen, medan division 6 har effektiv tid. Detta är inte verifierat mot originalkällan – exakta regler och perioder är okända. Läs matrisen."
     facts:
       - { key: tidtagning, label: Tidtagning, value: "Rullande tid" }
-      - { key: byten, label: Byten, value: "Särskilda bytesregler gäller under delar av säsongen. Exakta regler och perioder är inte verifierade här – läs originalkällan." }
+      - { key: byten, label: Byten, value: "Särskilda bytesregler under delar av säsongen" }

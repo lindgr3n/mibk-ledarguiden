@@ -4,7 +4,7 @@
 // aktiva säsongen (som ligger på de stabila adresserna) gör det aldrig.
 // Matchdagen och Regler och dokument arkiveras inte som egna sidor, se docs/saesongslivscykel.md.
 import Nivaguide from '../../../components/Nivaguide.astro';
-import { getArchivePaths } from '../../../lib/nivaguide';
+import { getArchivePaths, type Level } from '../../../lib/nivaguide';
 
 export async function getStaticPaths() {
 	return getArchivePaths();
@@ -14,4 +14,4 @@ const { level } = Astro.params;
 const { seasonId } = Astro.props;
 ---
 
-<Nivaguide level={level as 'gron' | 'bla' | 'rod'} seasonId={seasonId} />
+<Nivaguide level={level as Level} seasonId={seasonId} />

@@ -1,6 +1,6 @@
 import { getCollection } from 'astro:content';
 
-type Level = 'gron' | 'bla' | 'rod';
+export type Level = 'gron' | 'bla' | 'rod';
 
 // Fakta som varje publicerad nivåguide måste ha (verifierade) för att bygget ska lyckas.
 // Kontrolleras bara för aktiv och arkiverad säsong; ett utkast får ha overifierade fakta.
@@ -13,6 +13,13 @@ export async function getActiveSeason() {
 		throw new Error(`Exakt en säsong måste vara aktiv, hittade ${active.length}`);
 	}
 	return active[0];
+}
+
+// Säsong via id (t.ex. 2026-2027); misslyckas om den inte finns.
+export async function getSeasonById(id: string) {
+	const season = (await getCollection('sasonger')).find((s) => s.id === id);
+	if (!season) throw new Error(`Okänd säsong: ${id}`);
+	return season;
 }
 
 // Arkiverade säsonger: publiceras skrivskyddat på permanenta adresser /sasonger/<säsong>/.
@@ -78,9 +85,16 @@ export async function getSeasonGuide(
 				division: d.data.division,
 				// Endast verifierade anpassningar publiceras.
 				adaptations: d.data.adaptations.filter((a) => a.status === 'verifierad'),
+				// Overifierade anpassningar publiceras aldrig; bara en anteckning om att de finns (med
+				// källhänvisning till specen) visas, aldrig själva uppgifterna.
+				unverified: d.data.adaptations.flatMap((a) =>
+					a.status === 'overifierad' && a.unverifiedNote
+						? [{ id: a.id, title: a.title, note: a.unverifiedNote }]
+						: [],
+				),
 			};
 		})
-		.filter((d) => d.adaptations.length > 0)
+		.filter((d) => d.adaptations.length > 0 || d.unverified.length > 0)
 		.sort((a, b) => a.division - b.division);
 
 	return {
@@ -118,10 +132,47 @@ export async function getDivisionView(level: Level, division: number) {
 // "Division 1–4" / "Division 3" / "Division 1, 3 och 5" för en lista divisioner.
 export function describeDivisions(divisions: number[]): string {
 	const sorted = [...divisions].sort((a, b) => a - b);
-	const isRange = sorted.length > 2 && sorted.every((d, i) => i === 0 || d === sorted[i - 1] + 1);
+	const isRange = sorted.length > 1 && sorted.every((d, i) => i === 0 || d === sorted[i - 1] + 1);
 	if (sorted.length === 1) return `Division ${sorted[0]}`;
 	if (isRange) return `Division ${sorted[0]}–${sorted[sorted.length - 1]}`;
 	return `Division ${sorted.slice(0, -1).join(', ')} och ${sorted[sorted.length - 1]}`;
+}
+
+export function describeDivisionRange({ from, to }: { from: number; to: number }): string {
+	return describeDivisions(Array.from({ length: to - from + 1 }, (_, i) => from + i));
+}
+
+// Grön nivå har ingen nivåguide ännu, så dess divisioner kan inte hämtas från innehållet.
+// Enda platsen där de anges; startsidan och Nivåer delar den (specen, issue #2).
+export const GRON_PLACEHOLDER = { name: 'Grön nivå', divisions: { from: 8, to: 9 }, state: 'Kommer senare' };
+
+// Nivåerna i visningsordning (grön, blå, röd) för den aktiva säsongen. Divisionerna för blå och röd
+// kommer från innehållet; en nivå utan guide (grön) har ingen href.
+export async function getLevelOverview() {
+	const season = await getActiveSeason();
+	const guides = (await getCollection('nivaguider')).filter((g) => g.data.season.id === season.id);
+	const fromGuide = (level: 'bla' | 'rod') => {
+		const guide = guides.find((g) => g.data.level === level);
+		if (!guide) throw new Error(`Nivåguide saknas för ${level} i säsong ${season.data.label}`);
+		return {
+			key: level,
+			name: guide.data.name,
+			divisions: describeDivisionRange(guide.data.divisions),
+			href: `/${level}/`,
+			state: 'Öppna guiden',
+		};
+	};
+	return [
+		{
+			key: 'gron' as const,
+			name: GRON_PLACEHOLDER.name,
+			divisions: describeDivisionRange(GRON_PLACEHOLDER.divisions),
+			href: undefined,
+			state: GRON_PLACEHOLDER.state,
+		},
+		fromGuide('bla'),
+		fromGuide('rod'),
+	];
 }
 
 // Alla arkivsidor som ska genereras: en per arkiverad säsong och nivåguide.

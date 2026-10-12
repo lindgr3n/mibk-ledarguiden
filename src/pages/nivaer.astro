@@ -1,13 +1,21 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getLevelOverview } from '../lib/nivaguide';
+
+const levels = await getLevelOverview();
 ---
 
 <Layout title="Nivåer">
 	<h1>Nivåer</h1>
 	<p>Välj nivå för att se vad som gäller i din division.</p>
 	<ul>
-		<li>Grön nivå – guide kommer senare</li>
-		<li><a href="/bla/">Blå nivå</a> – division 6–7</li>
-		<li><a href="/rod/">Röd nivå</a> – division 1–5</li>
+		{
+			levels.map((level) => (
+				<li>
+					{level.href ? <a href={level.href}>{level.name}</a> : level.name} – {level.divisions}
+					{!level.href && <> · {level.state}</>}
+				</li>
+			))
+		}
 	</ul>
 </Layout>
