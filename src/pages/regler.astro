@@ -1,11 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import { getActiveSeason } from '../lib/nivaguide';
 
 // Aktiv säsong styr vilket innehåll som visas (ADR 0001).
-const active = (await getCollection('sasonger')).filter((s) => s.data.status === 'aktiv');
-if (active.length !== 1) throw new Error(`Exakt en säsong måste vara aktiv, hittade ${active.length}`);
-const season = active[0];
+const season = await getActiveSeason();
 const content = (await getCollection('reglerochdokument')).find((c) => c.data.season.id === season.id);
 if (!content) throw new Error(`Inget innehåll för Regler och dokument i säsong ${season.data.label}`);
 const { documents, news, matchEnvironment } = content.data;

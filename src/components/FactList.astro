@@ -1,0 +1,18 @@
+---
+// Lista med etikett/värde för en faktagrupp eller divisionsanpassning.
+interface Props {
+	facts: { label: string; value: string }[];
+}
+const { facts } = Astro.props;
+---
+
+<dl>
+	{
+		facts.map((fact) => (
+			<div>
+				<dt>{fact.label}</dt>
+				<dd>{fact.value}</dd>
+			</div>
+		))
+	}
+</dl>

@@ -37,7 +37,7 @@ test('gemensamma fakta är bara verifierade för division 6 och det framgår', a
 	await expect(facts.getByText(/Division 7 är inte verifierade ännu/)).toBeVisible();
 });
 
-test('divisionsanpassningar visas separat: division 6 effektiv tid, division 7 rullande tid', async ({ page }) => {
+test('divisionsanpassningar visas separat: division 6 effektiv tid, division 7 overifierad', async ({ page }) => {
 	await page.goto('/bla/');
 	const adaptations = page.getByRole('region', { name: 'Divisionsanpassningar' });
 	await expect(adaptations).toBeVisible();
@@ -45,15 +45,24 @@ test('divisionsanpassningar visas separat: division 6 effektiv tid, division 7 r
 	const d6 = adaptations.locator('[data-division="6"]');
 	await expect(d6.getByRole('heading', { level: 3 })).toHaveText('Division 6');
 	await expect(d6.getByText('Effektiv tid', { exact: true })).toBeVisible();
-	await expect(d6.getByText('Rullande tid')).toHaveCount(0);
+	await expect(d6.getByText('Flygande', { exact: true })).toBeVisible();
+	await expect(d6.getByText('Distriktsanpassning', { exact: true })).toBeVisible();
 
+	// Division 7 är inte verifierad mot originalkällan: inga publicerade uppgifter, bara en
+	// tydligt märkt anteckning som hänvisar till specen och visar att skillnaden mot division 6 finns.
 	const d7 = adaptations.locator('[data-division="7"]');
 	await expect(d7.getByRole('heading', { level: 3 })).toHaveText('Division 7');
-	await expect(d7.getByText('Rullande tid', { exact: true })).toBeVisible();
-	await expect(d7.getByText(/särskilda bytesregler/i)).toBeVisible();
-	await expect(d7.getByText('Effektiv tid')).toHaveCount(0);
+	await expect(d7.locator('dl')).toHaveCount(0);
+	await expect(d7.getByText('Rullande tid', { exact: true })).toHaveCount(0);
+	await expect(d7.getByText('Effektiv tid', { exact: true })).toHaveCount(0);
+	const pending = d7.locator('[data-unverified-adaptation]');
+	await expect(pending.getByRole('heading', { level: 4 })).toContainText('ej verifierat');
+	await expect(pending).toContainText('rullande tid');
+	await expect(pending).toContainText('särskilda bytesregler');
+	await expect(pending).toContainText('Further Notes');
+	await expect(pending).toContainText('inte verifierat mot originalkällan');
 
-	// Varje anpassning har kontrolldatum och originalkälla.
+	// Varje verifierad anpassning har kontrolldatum och originalkälla.
 	for (const group of await adaptations.locator('[data-adaptation]').all()) {
 		await expect(group.getByText('Kontrollerad 2026-10-12')).toBeVisible();
 		await expect(group.getByRole('link', { name: /Originalkälla/ })).toHaveAttribute('href', matrisSida1);

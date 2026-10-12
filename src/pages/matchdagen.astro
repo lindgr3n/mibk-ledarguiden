@@ -1,20 +1,15 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import { getActiveSeason } from '../lib/nivaguide';
+import { ruleTypes } from '../lib/regelhierarki';
 
 // Matchdagen för den aktiva säsongen (ADR 0001).
-const active = (await getCollection('sasonger')).filter((s) => s.data.status === 'aktiv');
-if (active.length !== 1) throw new Error(`Exakt en säsong måste vara aktiv, hittade ${active.length}`);
-const season = active[0];
+const season = await getActiveSeason();
 const entry = (await getCollection('matchdagen')).find((m) => m.data.season.id === season.id);
 if (!entry) throw new Error(`Ingen Matchdagen för säsong ${season.data.label}`);
 const { sections, relocation, readMore } = entry.data;
 
-const ruleLabel = {
-	'nationell-regel': 'Nationell regel',
-	distriktsanpassning: 'Distriktsanpassning',
-	foreningsvagledning: 'Föreningsvägledning',
-};
 ---
 
 <Layout title="Matchdagen">
@@ -40,7 +35,7 @@ const ruleLabel = {
 							<li data-item={item.id}>
 								<span>{item.text}</span>
 								<span class="provenance">
-									<span class="rule-label">{ruleLabel[item.ruleSource]}</span>
+									<span class="rule-label">{ruleTypes[item.ruleSource].label}</span>
 									{item.source && item.checked && (
 										<>
 											{' '}· Kontrollerad {item.checked} ·{' '}
@@ -48,6 +43,9 @@ const ruleLabel = {
 										</>
 									)}
 								</span>
+								{item.ruleSource === 'foreningsvagledning' && (
+									<span class="rule-caveat">{ruleTypes.foreningsvagledning.description}</span>
+								)}
 							</li>
 						))}
 					</ul>

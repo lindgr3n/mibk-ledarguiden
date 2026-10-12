@@ -4,11 +4,15 @@ import '@fontsource/source-sans-3/latin-400.css';
 import '@fontsource/source-sans-3/latin-600.css';
 import '../styles/global.css';
 
+import { getActiveSeason } from '../lib/nivaguide';
+
 interface Props {
 	title: string;
+	// Säsongsetikett i sidfoten. Utan den används den aktiva säsongen; arkivsidor anger sin egen.
+	seasonLabel?: string;
 }
 
-const { title } = Astro.props;
+const { title, seasonLabel = (await getActiveSeason()).data.label } = Astro.props;
 const fullTitle = Astro.url.pathname === '/' ? title : `${title} – Moälvens ledarguide`;
 
 // Huvudmenyn: exakt dessa fyra val, i den här ordningen.
@@ -60,7 +64,7 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWi
 			<slot />
 		</main>
 		<footer class="site-footer">
-			<div class="wrap">Moälvens IBK · Ledarguide 2026/27</div>
+			<div class="wrap">Moälvens IBK · Ledarguide {seasonLabel}</div>
 		</footer>
 	</body>
 </html>

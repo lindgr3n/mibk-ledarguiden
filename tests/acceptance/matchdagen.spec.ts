@@ -67,3 +67,15 @@ test('matchflytt länkar till aktuell information utan hårdkodade avgifter elle
 	expect(text).not.toMatch(/\d+\s*kr\b/i);
 	expect(text).not.toMatch(/\d+\s*dagar/i);
 });
+
+test('föreningsvägledning på Matchdagen anger att den inte ersätter reglerna', async ({ page }) => {
+	await page.goto('/matchdagen/');
+	const items = page.locator('li[data-item]').filter({ hasText: 'Föreningsvägledning' });
+	expect(await items.count()).toBeGreaterThan(0);
+	for (const item of await items.all()) {
+		await expect(item).toContainText('ersätter inte reglerna');
+	}
+	await expect(page.locator('li[data-item]').filter({ hasText: 'Distriktsanpassning' }).first()).not.toContainText(
+		'ersätter inte reglerna',
+	);
+});

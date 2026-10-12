@@ -73,3 +73,34 @@ test('säsongsarkivet är en teaser utan länkar eller kontroller', async ({ pag
 	await expect(archive.getByRole('button')).toHaveCount(0);
 	await expect(page.getByRole('searchbox')).toHaveCount(0);
 });
+
+test('säsongsarkivet listar arkiverade säsonger när sådana finns', async ({ page }) => {
+	await page.goto('http://localhost:4323/');
+	const archive = page.getByRole('region', { name: 'Tidigare säsonger' });
+	await expect(archive).toContainText('2026/27');
+	await expect(archive).not.toContainText('Kommer när nästa säsong publiceras');
+	await expect(archive.getByRole('link', { name: 'Röd nivå' })).toHaveAttribute('href', '/sasonger/2026-2027/rod/');
+	await expect(archive.getByRole('link', { name: 'Blå nivå' })).toHaveAttribute('href', '/sasonger/2026-2027/bla/');
+});
+
+test('säsongsetiketten följer den aktiva säsongen i rubrik, titel och sidfot', async ({ page }) => {
+	await page.goto('http://localhost:4323/');
+	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ledarguide 2027/28');
+	await expect(page).toHaveTitle('Ledarguide 2027/28');
+	await expect(page.locator('footer')).toContainText('Ledarguide 2027/28');
+	// Arkivsidor visar sin egen säsong i sidfoten.
+	await page.goto('http://localhost:4323/sasonger/2026-2027/rod/');
+	await expect(page.locator('footer')).toContainText('Ledarguide 2026/27');
+	await page.goto('/');
+	await expect(page.locator('footer')).toContainText('Ledarguide 2026/27');
+});
+
+test('grön nivå har samma ord och divisioner på startsidan och på Nivåer', async ({ page }) => {
+	await page.goto('/nivaer/');
+	const gron = page.getByRole('listitem').filter({ hasText: 'Grön nivå' });
+	await expect(gron).toContainText('Kommer senare');
+	await expect(gron).toContainText('Division 8–9');
+	await expect(gron.getByRole('link')).toHaveCount(0);
+	await expect(page.getByRole('listitem').filter({ hasText: 'Blå nivå' })).toContainText('Division 6–7');
+	await expect(page.getByRole('listitem').filter({ hasText: 'Röd nivå' })).toContainText('Division 1–5');
+});
