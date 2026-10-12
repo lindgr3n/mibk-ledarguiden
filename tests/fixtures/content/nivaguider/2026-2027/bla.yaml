@@ -1,0 +1,24 @@
+# Testfixtur: används bara av acceptanstesterna (byggs till dist-fixture, publiceras aldrig).
+# Allt innehåll här är påhittat testdata.
+season: 2026-2027
+level: bla
+name: Blå nivå
+divisions:
+  from: 6
+  to: 7
+factGroups:
+  - id: testgrupp
+    title: Testgrupp
+    status: verifierad
+    appliesTo: [6, 7]
+    checked: "2031-01-01"
+    source:
+      label: Testkälla
+      url: "https://example.com/testkalla"
+    facts:
+      - { key: spelform, label: Spelform, value: "Test" }
+      - { key: matchtid, label: Speltid, value: "Test" }
+      - { key: plan, label: Plan, value: "Test" }
+      - { key: mal, label: Mål, value: "Test" }
+      - { key: domare, label: Domare, value: "Test" }
+      - { key: sekretariat, label: Sekretariat, value: "Test" }

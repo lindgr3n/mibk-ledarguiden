@@ -22,12 +22,58 @@ export async function getActiveGuide(level: Level) {
 	const unverifiedDivisions = Array.from({ length: to - from + 1 }, (_, i) => from + i).filter(
 		(d) => !covered.has(d),
 	);
+
+	// Divisionsanpassningar (ADR 0002): bara avvikelser, aldrig gemensamma fakta. Bygget misslyckas
+	// om en division ligger utanför nivån eller om en anpassning upprepar en faktanyckel som nivåguiden äger.
+	const commonKeys = new Set(guide.data.factGroups.flatMap((g) => g.facts.map((f) => f.key)));
+	const divisionAdaptations = (await getCollection('divisionsanpassningar'))
+		.filter((d) => d.data.guide.id === guide.id)
+		.map((d) => {
+			if (d.data.division < from || d.data.division > to) {
+				throw new Error(`Division ${d.data.division} ligger utanför ${guide.data.name} (${from}–${to})`);
+			}
+			for (const key of d.data.adaptations.flatMap((a) => a.facts.map((f) => f.key))) {
+				if (commonKeys.has(key)) {
+					throw new Error(
+						`Division ${d.data.division} upprepar nivåguidens faktum "${key}" – lagra bara avvikelser`,
+					);
+				}
+			}
+			return {
+				division: d.data.division,
+				// Endast verifierade anpassningar publiceras.
+				adaptations: d.data.adaptations.filter((a) => a.status === 'verifierad'),
+			};
+		})
+		.filter((d) => d.adaptations.length > 0)
+		.sort((a, b) => a.division - b.division);
+
 	return {
 		guide: guide.data,
 		season: season.data,
 		factGroups: published,
 		ruleSections: guide.data.ruleSections,
 		unverifiedDivisions,
+		divisionAdaptations,
+	};
+}
+
+// Framtida divisionsvy (ingen publik sida ännu): nivåguidens gemensamma fakta sammanfogade med
+// divisionens egna anpassningar vid bygge. Inget dupliceras – gemensamma fakta kommer bara från nivåguiden.
+export async function getDivisionView(level: Level, division: number) {
+	const { guide, season, factGroups, ruleSections, divisionAdaptations } = await getActiveGuide(level);
+	if (division < guide.divisions.from || division > guide.divisions.to) {
+		throw new Error(`Division ${division} ingår inte i ${guide.name}`);
+	}
+	return {
+		season,
+		division,
+		levelName: guide.name,
+		commonFactGroups: factGroups.filter((g) => g.appliesTo.includes(division)),
+		adaptations: divisionAdaptations.find((d) => d.division === division)?.adaptations ?? [],
+		ruleSections: ruleSections
+			.map((r) => ({ ...r, statements: r.statements.filter((s) => s.appliesTo.includes(division)) }))
+			.filter((r) => r.statements.length > 0),
 	};
 }
 

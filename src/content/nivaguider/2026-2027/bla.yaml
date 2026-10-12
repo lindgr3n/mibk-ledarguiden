@@ -1,0 +1,56 @@
+# Blå nivå, säsong 2026/27. Källa: docs/quick-look/division-6.md (Västernorrlands ungdomsmatris).
+# De gemensamma uppgifterna är hittills bara verifierade för division 6. Lägg till division 7 i appliesTo
+# först när de kontrollerats mot originalkällan. Det som skiljer division 6 och 7 åt (tidtagning, byten)
+# ligger i src/content/divisionsanpassningar och upprepas inte här.
+season: 2026-2027
+level: bla
+name: Blå nivå
+divisions:
+  from: 6
+  to: 7
+factGroups:
+  - id: spelform-och-speltid
+    title: Spelform och speltid
+    status: verifierad
+    appliesTo: [6]
+    checked: "2026-10-12"
+    source:
+      label: Västernorrlands ungdomsmatris 2026/27, sida 1
+      url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+    facts:
+      - { key: spelform, label: Spelform, value: "4 utespelare + målvakt" }
+      - { key: matchtid, label: Speltid, value: "2 × 15 min" }
+      - { key: paus, label: Paus, value: "3 minuter; inget sidbyte" }
+  - id: plan-och-mal
+    title: Plan och mål
+    status: verifierad
+    appliesTo: [6]
+    checked: "2026-10-12"
+    source:
+      label: Västernorrlands ungdomsmatris 2026/27, sida 1
+      url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+    facts:
+      - { key: plan, label: Plan, value: "15 × 30 m" }
+      - { key: mal, label: Mål, value: "120 × 90 cm" }
+  - id: domare-och-sekretariat
+    title: Domare och sekretariat
+    status: verifierad
+    appliesTo: [6]
+    checked: "2026-10-12"
+    source:
+      label: Västernorrlands ungdomsmatris 2026/27, sida 1
+      url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+    facts:
+      - { key: domare, label: Domare, value: "2, tillsatta av VIBF" }
+      - { key: sekretariat, label: Sekretariat, value: "Tidtagare + matchklocka; ingen resultattavla" }
+      - { key: tabell, label: Tabell, value: "Ingen offentlig tabell" }
+  - id: ledarutbildning
+    title: Ledarutbildning
+    status: verifierad
+    appliesTo: [6]
+    checked: "2026-10-12"
+    source:
+      label: Västernorrlands ungdomsmatris 2026/27, sida 1
+      url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+    facts:
+      - { key: ledarutbildning, label: Ledarutbildning, value: "Grundutbildning barn/ungdom + Steg 1 Blå (eller högre nivå)" }

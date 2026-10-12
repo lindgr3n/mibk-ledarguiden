@@ -1,0 +1,14 @@
+# Division 6, säsong 2026/27: bara avvikelser från Blå nivå (ADR 0002). Källa: docs/quick-look/division-6.md.
+guide: 2026-2027/bla
+division: 6
+adaptations:
+  - id: tidtagning-och-byten
+    title: Tidtagning och byten
+    status: verifierad
+    checked: "2026-10-12"
+    source:
+      label: Västernorrlands ungdomsmatris 2026/27, sida 1
+      url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+    facts:
+      - { key: tidtagning, label: Tidtagning, value: "Effektiv tid" }
+      - { key: byten, label: Byten, value: "Flygande" }

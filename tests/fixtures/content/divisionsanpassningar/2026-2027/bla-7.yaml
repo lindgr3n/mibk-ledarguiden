@@ -1,0 +1,13 @@
+# Testfixtur, påhittat testdata.
+guide: 2026-2027/bla
+division: 7
+adaptations:
+  - id: testanpassning
+    title: Testanpassning
+    status: verifierad
+    checked: "2031-01-01"
+    source:
+      label: Testkälla
+      url: "https://example.com/testkalla"
+    facts:
+      - { key: tidtagning, label: Tidtagning, value: "Test" }

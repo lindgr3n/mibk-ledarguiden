@@ -125,6 +125,38 @@ const nivaguider = defineCollection({
 		}),
 });
 
+// Divisionsanpassningar (ADR 0002): en fil per division, <säsong>/<nivå>-<division>.yaml.
+// Lagrar ENBART divisionens avvikelser från nivåguiden; gemensamma fakta ägs av nivåguiden och får
+// inte upprepas här. Att divisionen ligger inom nivåguidens divisioner och att faktanycklarna inte
+// krockar med nivåguidens kontrolleras vid bygge i getDivisionView (src/lib/nivaguide.ts).
+const divisionsanpassning = z.object({
+	id: z.string().min(1),
+	title: z.string().min(1),
+	status: z.enum(['verifierad', 'overifierad']),
+	checked: isoDate,
+	source: originalkalla,
+	ruleSource: z.enum(['nationell-regel', 'distriktsanpassning', 'foreningsvagledning']).optional(),
+	facts: z
+		.array(z.object({ key: z.string().min(1), label: z.string().min(1), value: z.string().min(1) }))
+		.min(1),
+});
+
+const divisionsanpassningar = defineCollection({
+	loader: glob({ pattern: '*/*.yaml', base: `${contentRoot}/divisionsanpassningar` }),
+	schema: z
+		.object({
+			guide: reference('nivaguider'),
+			division: z.number().int().min(1),
+			adaptations: z.array(divisionsanpassning).min(1),
+		})
+		.superRefine((d, ctx) => {
+			const ids = d.adaptations.map((a) => a.id);
+			if (new Set(ids).size !== ids.length) {
+				ctx.addIssue({ code: 'custom', message: 'Divisionsanpassningar måste ha unika id' });
+			}
+		}),
+});
+
 // Matchdagen: checklista per säsong, filnamn <säsong>.yaml. Punkter som anger regelfakta
 // (nationell regel / distriktsanpassning) kräver originalkälla och kontrolldatum; rena
 // föreningsråd (foreningsvagledning) behöver ingen. Matchflytt har bara en länk till aktuell
@@ -219,4 +251,4 @@ const reglerochdokument = defineCollection({
 	}),
 });
 
-export const collections = { sasonger, nivaguider, matchdagen, reglerochdokument };
+export const collections = { sasonger, nivaguider, divisionsanpassningar, matchdagen, reglerochdokument };
