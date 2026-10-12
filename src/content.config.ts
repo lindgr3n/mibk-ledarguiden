@@ -80,6 +80,64 @@ const nivaguider = defineCollection({
 		}),
 });
 
+// Matchdagen: checklista per säsong, filnamn <säsong>.yaml. Punkter som anger regelfakta
+// (nationell regel / distriktsanpassning) kräver originalkälla och kontrolldatum; rena
+// föreningsråd (foreningsvagledning) behöver ingen. Matchflytt har bara en länk till aktuell
+// information – avgifter och tidsgränser får inte lagras här.
+const checklistpunkt = z
+	.object({
+		id: z.string().min(1),
+		text: z.string().min(1),
+		homeOnly: z.boolean().default(false),
+		ruleSource: z.enum(['nationell-regel', 'distriktsanpassning', 'foreningsvagledning']),
+		checked: isoDate.optional(),
+		source: originalkalla.optional(),
+	})
+	.refine((p) => p.ruleSource === 'foreningsvagledning' || (p.checked && p.source), {
+		message: 'Punkter som anger regelfakta kräver checked och source',
+		path: ['source'],
+	});
+
+const matchdagen = defineCollection({
+	loader: glob({ pattern: '*.yaml', base: './src/content/matchdagen' }),
+	schema: z
+		.object({
+			season: reference('sasonger'),
+			sections: z
+				.array(
+					z.object({
+						id: z.string().min(1),
+						title: z.string().min(1),
+						items: z.array(checklistpunkt).min(1),
+					}),
+				)
+				.min(1),
+			relocation: z.object({
+				title: z.string().min(1),
+				intro: z.string().min(1),
+				reminder: z.string().min(1),
+				link: originalkalla,
+			}),
+			readMore: z.array(originalkalla).min(1),
+		})
+		.superRefine((m, ctx) => {
+			const ids = m.sections.flatMap((s) => s.items.map((i) => i.id));
+			if (new Set(ids).size !== ids.length) {
+				ctx.addIssue({ code: 'custom', message: 'Checklistepunkter måste ha unika id' });
+			}
+			const forbidden = /\d+\s*(kr|kronor|dagar|dygn)\b/i;
+			const r = m.relocation;
+			if ([r.intro, r.reminder].some((t) => forbidden.test(t))) {
+				ctx.addIssue({
+					code: 'custom',
+					path: ['relocation'],
+					message: 'Matchflytt får inte ange avgifter eller tidsgränser – länka till aktuell information',
+				});
+			}
+		}),
+});
+
+
 // Regler och dokument: förbundets originaldokument, nyheter för säsongen och bra matchmiljö.
 // Filnamn <säsong>.yaml. Inga föreningsprinciper för ledarbeteende ryms i modellen (open-questions.md).
 const httpsUrl = z.url().refine((u) => u.startsWith('https://'), 'Länken måste vara en https-länk');
@@ -116,4 +174,4 @@ const reglerochdokument = defineCollection({
 	}),
 });
 
-export const collections = { sasonger, nivaguider, reglerochdokument };
+export const collections = { sasonger, nivaguider, matchdagen, reglerochdokument };
