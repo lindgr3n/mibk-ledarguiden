@@ -1,0 +1,18 @@
+# Testfixtur, påhittat testdata.
+season: 2027-2028
+level: rod
+name: Röd nivå
+divisions:
+  from: 1
+  to: 5
+factGroups:
+  - id: testgrupp
+    title: Testgrupp
+    status: overifierad
+    appliesTo: [1, 2, 3, 4, 5]
+    checked: "2031-01-01"
+    source:
+      label: Testkälla
+      url: "https://example.com/testkalla"
+    facts:
+      - { key: spelform, label: Spelform, value: "UTKASTFAKTA" }

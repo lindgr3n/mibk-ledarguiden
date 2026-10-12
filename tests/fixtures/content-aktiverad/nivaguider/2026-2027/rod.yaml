@@ -1,0 +1,23 @@
+# Testfixtur, påhittat testdata.
+season: 2026-2027
+level: rod
+name: Röd nivå
+divisions:
+  from: 1
+  to: 5
+factGroups:
+  - id: testgrupp
+    title: Testgrupp
+    status: verifierad
+    appliesTo: [1, 2, 3, 4, 5]
+    checked: "2031-01-01"
+    source:
+      label: Testkälla
+      url: "https://example.com/testkalla"
+    facts:
+      - { key: spelform, label: Spelform, value: "ARKIVFAKTA" }
+      - { key: matchtid, label: Speltid, value: "Test" }
+      - { key: plan, label: Plan, value: "Test" }
+      - { key: mal, label: Mål, value: "Test" }
+      - { key: domare, label: Domare, value: "Test" }
+      - { key: sekretariat, label: Sekretariat, value: "Test" }

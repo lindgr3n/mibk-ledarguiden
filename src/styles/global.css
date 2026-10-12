@@ -444,3 +444,15 @@ nav a[aria-current='page'] {
 		font-weight: 400;
 	}
 }
+
+/* Arkiv: tydligt sekundär markering av föregående säsongs sidor */
+.archive-banner {
+	padding: 0.75rem 1rem;
+	margin-bottom: 1.5rem;
+	border: 2px dashed var(--orange);
+	background: #fff;
+}
+
+.archive-banner p {
+	margin: 0.25rem 0 0;
+}
