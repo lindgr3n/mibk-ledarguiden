@@ -111,7 +111,7 @@ const { definition } = content.data.matchEnvironment;
 	/* Hero: bred publikbild med mörk toning; vattenstämpeln i bilden behålls (ingen beskärning uppåt/nedåt av stämpeln). */
 	.hero {
 		position: relative;
-		margin-inline: -1rem;
+		margin: -2rem -1rem 0;
 		min-height: 22rem;
 		display: flex;
 		align-items: flex-end;
@@ -176,16 +176,19 @@ const { definition } = content.data.matchEnvironment;
 		position: relative;
 		z-index: 3;
 		margin-top: -3rem;
-		background: var(--paper);
-		border-top: 6px solid var(--orange);
-		padding: 1rem 0 0;
 	}
+	/* Rubriken finns för skärmläsare; "Välj nivå"-knappen i hero ger den synliga etiketten. */
 	.picker h2 {
-		font-size: 1.125rem;
-		text-transform: none;
-		color: var(--charcoal);
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
 	}
 	.levels {
+		background: var(--paper);
 		list-style: none;
 		margin: 0;
 		padding: 0;
@@ -264,6 +267,9 @@ const { definition } = content.data.matchEnvironment;
 		border-top: 2px solid var(--line);
 	}
 	.more {
+		display: inline-flex;
+		align-items: center;
+		min-height: 2.75rem;
 		font-weight: 700;
 		text-decoration-color: var(--orange);
 		text-decoration-thickness: 3px;
@@ -277,6 +283,7 @@ const { definition } = content.data.matchEnvironment;
 		.hero {
 			min-height: 28rem;
 			margin-inline: calc(50% - 50vw);
+			margin-top: -2rem;
 		}
 		.hero-copy {
 			width: 100%;
