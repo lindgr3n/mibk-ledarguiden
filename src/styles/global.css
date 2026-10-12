@@ -315,6 +315,7 @@ nav a[aria-current='page'] {
 
 .rule-warning strong::before {
 	content: '\26A0\00a0';
+}
 
 /* Matchdagen */
 .shortcuts ul {
@@ -378,9 +379,69 @@ nav a[aria-current='page'] {
 	font-weight: 600;
 }
 
+/* ==== Utskrift (ticket #11) – all print-CSS samlas här ==== */
 @media print {
+	/* Navigation, sidfot och genvägar tas bort */
+	.site-header,
+	.site-footer,
 	.shortcuts {
 		display: none;
+	}
+
+	body {
+		display: block;
+		min-height: 0;
+		background: #fff;
+		color: #000;
+		font-size: 11pt;
+	}
+
+	main,
+	.wrap {
+		padding: 0;
+		max-width: none;
+	}
+
+	/* Ingen färgdekoration; nivån framgår av rubriken (t.ex. "Röd nivå") */
+	.level-head,
+	.level-head.level-bla,
+	.level-head.level-gron {
+		background: none;
+		color: #000;
+		padding: 0 0 0.5rem;
+		border-left: 0;
+		border-bottom: 2pt solid #000;
+	}
+
+	.level-head h1,
+	.level-head .level-meta {
+		color: #000;
+	}
+
+	/* Håll ihop faktagrupper och checklistepunkter */
+	.fact-group,
+	.checklist li,
+	.checklist-section {
+		break-inside: avoid;
+	}
+
+	h1,
+	h2,
+	h3 {
+		break-after: avoid;
+	}
+
+	/* Originalkällor: visa webbadressen på papper */
+	main a[href^='http'] {
+		color: #000;
+		text-decoration: underline;
+		overflow-wrap: anywhere;
+	}
+
+	main a[href^='http']::after {
+		content: ' (' attr(href) ')';
+		font-size: 0.85em;
+		font-weight: 400;
 	}
 }
 
