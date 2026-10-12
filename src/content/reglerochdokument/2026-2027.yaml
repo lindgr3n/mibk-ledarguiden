@@ -1,0 +1,55 @@
+# Regler och dokument, säsong 2026/27. Källor: docs/README.md, docs/nya-regler-2026-27.md,
+# docs/implementation-brief.md. Alla länkar ska finnas i docs/. Inga egna Moälven-principer
+# för ledarbeteende publiceras förrän de jämförts med föreningens riktlinjer (docs/open-questions.md).
+season: 2026-2027
+documents:
+  - id: regelbok
+    title: Regelbok 2026
+    description: Förbundets fullständiga regelhandbok. Ny regelhandbok gäller från 1 juli 2026.
+    checked: "2026-10-12"
+    url: "https://www.innebandy.se/media/qaljq1sz/regelhandboken-2026-lowres.pdf"
+    foundAt:
+      label: "Västernorrlands IBF: Regler, direktiv och tolkningar"
+      url: "https://www.innebandy.se/vasternorrland/tavling/regler-direktiv-och-tolkningar"
+  - id: ungdomsmatris
+    title: Ungdomsmatris 2026/27
+    description: Västernorrlands ungdomsmatris med divisionernas krav. Sida 2 gäller division 5.
+    checked: "2026-10-12"
+    url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf"
+    foundAt:
+      label: "Västernorrlands IBF: Matris – Serieöversikt"
+      url: "https://www.innebandy.se/vasternorrland/tavling/matris-serieoversikt"
+  - id: lokala-forutsattningar
+    title: Lokala förutsättningar 2026/27
+    description: Lokala tävlingsbestämmelser i Västernorrland.
+    checked: "2026-10-12"
+    url: "https://www.innebandy.se/media/sb3hooik/lokala-forutsattningar-vnibf-2026-2027.pdf"
+    foundAt:
+      label: "Västernorrlands IBF: Lokala tävlingsbestämmelser"
+      url: "https://www.innebandy.se/vasternorrland/tavling/lokala-tavlingsbestammelser"
+news:
+  title: Nytt för 2026/27
+  summary: Ny regelhandbok gäller från 1 juli 2026.
+  checked: "2026-10-12"
+  items:
+    - label: Målvakternas säkerhet
+      text: Skymning, målvaktsområde och kontakt med målvakt. Se presentationen sida 2–4.
+    - label: Byteszonen
+      text: Spelares och ledares placering. Se presentationen sida 5–7.
+    - label: Övriga ändringar
+      text: Se presentationsbilderna och den ändringsmarkerade regelhandboken i stället för en ofullständig andrahandslista.
+  links:
+    - label: Nya regler 2026 – presentation (27 sidor)
+      note: Enklaste vägen in.
+      url: "https://www.innebandy.se/media/wg3jha4x/nya-regler-presentation.pdf"
+    - label: Regelhandboken med alla ändringar från 2022 markerade
+      note: För att se exakt vad som förändrats.
+      url: "https://www.innebandy.se/media/yyzmfrej/regelhandboken-2026-med-alla-andringar-fran-2022.pdf"
+  caveat: Presentationen gäller regeländringar nationellt. Alla punkter är inte nödvändigtvis tillämpliga på ungdomsnivå utan anpassningar. Se därför alltid ungdomsundantagen och lokala bestämmelser innan en generell regel tillämpas.
+matchEnvironment:
+  definition: En trygg, respektfull och utvecklande match där ledarnas agerande sätter tonen för spelare, domare och publik.
+  links:
+    - label: "Barn och ungdom (Västernorrlands IBF)"
+      note: Manualer och föreskrifter, bland annat om hur en ungdomsmatch arrangeras.
+      checked: "2026-10-12"
+      url: "https://www.innebandy.se/vasternorrland/tavling/barnungdom"
