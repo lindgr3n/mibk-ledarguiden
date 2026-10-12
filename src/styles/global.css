@@ -26,6 +26,7 @@ html {
 body {
 	margin: 0;
 	min-height: 100vh;
+	overflow-x: clip;
 	display: flex;
 	flex-direction: column;
 	background: var(--paper);
@@ -75,6 +76,28 @@ a {
 :focus-visible {
 	outline: 3px solid var(--orange);
 	outline-offset: 2px;
+}
+
+/* Hoppa-till-innehåll: dold tills den får tangentbordsfokus */
+.skip-link {
+	position: absolute;
+	left: 0.5rem;
+	top: 0.5rem;
+	z-index: 100;
+	padding: 0.75rem 1rem;
+	background: var(--orange);
+	color: var(--black);
+	font-weight: 700;
+	transform: translateY(-200%);
+}
+
+.skip-link:focus {
+	transform: none;
+	outline-color: var(--black);
+}
+
+main:focus {
+	outline: none;
 }
 
 /* Header och huvudmeny */
@@ -148,6 +171,13 @@ nav a[aria-current='page'] {
 	}
 }
 
+/* Länklistor i löptext: minst 44 px tryckyta */
+main ul:not(.checklist) > li > a {
+	display: inline-flex;
+	align-items: center;
+	min-height: 2.75rem;
+}
+
 /* Nivåguide */
 .level-head {
 	padding: 1rem 1.25rem;
@@ -163,6 +193,10 @@ nav a[aria-current='page'] {
 
 .level-head.level-gron {
 	border-left-color: var(--level-green);
+}
+
+.level-head.level-neutral {
+	border-left-color: var(--orange);
 }
 
 .division-adaptations .division {
