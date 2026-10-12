@@ -53,3 +53,23 @@ factGroups:
       url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
     facts:
       - { key: ledarutbildning, label: Ledarutbildning, value: "Grundutbildning barn/ungdom + Steg 1 Röd (eller högre nivå)" }
+# Regelhierarki (ADR 0003). Bara dokumenterade uppgifter (docs/nya-regler-2026-27.md,
+# docs/quick-look/division-5.md). Lägg till regelavsnitt först när texten kontrollerats mot originalkällan.
+ruleSections:
+  - id: regelhandbok-2026
+    title: Regelhandbok 2026
+    statements:
+      - ruleSource: nationell-regel
+        text: "Ny regelhandbok gäller från 1 juli 2026. Presentationen Nya regler 2026 gäller regeländringar nationellt och är inte nödvändigtvis tillämplig på ungdomsnivå utan anpassningar."
+        appliesTo: [5]
+        checked: "2026-10-12"
+        source:
+          label: Regelhandbok 2026 (Svensk Innebandy)
+          url: "https://www.innebandy.se/media/qaljq1sz/regelhandboken-2026-lowres.pdf"
+      - ruleSource: distriktsanpassning
+        text: "Västernorrlands ungdomsmatris innehåller anpassningar för division 5, bland annat om målvakt som senare spelar ute, protokoll och utvisningar. Läs dem på matrisens sida 2 och kontrollera alltid lokala ungdomsundantag innan en nationell regel tillämpas."
+        appliesTo: [5]
+        checked: "2026-10-12"
+        source:
+          label: Västernorrlands ungdomsmatris 2026/27, sida 2
+          url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=2"

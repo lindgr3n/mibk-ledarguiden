@@ -214,6 +214,95 @@ nav a[aria-current='page'] {
 .update-notices ul {
 	margin: 0;
 	padding-left: 1.25rem;
+}
+
+/* Regelhierarki: typ visas med text, kantstil och symbol, aldrig bara med färg */
+.rule-hierarchy {
+	margin-top: 2rem;
+}
+
+.rule-legend {
+	margin: 0 0 1rem;
+	display: grid;
+	gap: 0.5rem;
+}
+
+.rule-legend dt {
+	font-weight: 600;
+}
+
+.rule-legend dd {
+	margin: 0;
+}
+
+.rule-type,
+.rule-statement {
+	padding: 0.5rem 0.75rem;
+	background: #fff;
+	border-left: 0.5rem solid var(--ink);
+}
+
+.rule-statement {
+	margin-block: 0.5rem;
+}
+
+.rule-statement p {
+	margin: 0.25rem 0;
+}
+
+.rule-distriktsanpassning {
+	border-left-style: double;
+	border-left-width: 0.75rem;
+}
+
+.rule-foreningsvagledning {
+	background: var(--paper);
+	border: 2px dashed var(--ink);
+}
+
+.rule-label {
+	display: inline-block;
+	padding: 0.05rem 0.5rem;
+	font-weight: 600;
+	color: #fff;
+	background: var(--ink);
+}
+
+.rule-nationell-regel .rule-label::before {
+	content: '\25A0\00a0';
+}
+
+.rule-distriktsanpassning .rule-label::before {
+	content: '\25C6\00a0';
+}
+
+.rule-foreningsvagledning .rule-label {
+	color: var(--ink);
+	background: #fff;
+	border: 1px dashed var(--ink);
+}
+
+.rule-foreningsvagledning .rule-label::before {
+	content: '\25CB\00a0';
+}
+
+.rule-section {
+	padding-block: 1rem;
+	border-top: 1px solid var(--line);
+}
+
+.rule-deviation {
+	font-weight: 600;
+}
+
+.rule-warning {
+	padding: 0.5rem 0.75rem;
+	border: 3px solid var(--level-red);
+	background: #fff;
+}
+
+.rule-warning strong::before {
+	content: '\26A0\00a0';
 
 /* Matchdagen */
 .shortcuts ul {

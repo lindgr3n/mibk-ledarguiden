@@ -1,0 +1,16 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import RuleHierarchy from '../../../components/RuleHierarchy.astro';
+import { exampleSections } from '../../../lib/fixtures/regelhierarki';
+
+// Bara i testläge (astro build --mode test): i produktionsbygget genereras inga sidor.
+export function getStaticPaths() {
+	return import.meta.env.MODE === 'test' ? [{ params: { name: 'regelhierarki' } }] : [];
+}
+---
+
+<Layout title="Exempel regelhierarki">
+	<h1>Exempel regelhierarki</h1>
+	<p>Uppdiktade exempel för acceptanstester. Inte publicerat innehåll.</p>
+	<RuleHierarchy sections={exampleSections} />
+</Layout>

@@ -54,6 +54,35 @@ const uppdateringsnotis = z.object({
 	source: originalkalla.optional(),
 });
 
+// Regelhierarki (ADR 0003). Ett regelavsnitt samlar uttalanden om samma sak; varje uttalande
+// tillhör exakt en regeltyp. Nationell regel och distriktsanpassning kräver originalkälla.
+// Föreningsvägledning är Moälvens egna råd och har ingen originalkälla.
+// needsConfirmation sätts när aktuella källor motsäger varandra och visas som "Behöver bekräftas".
+const regeluttalande = z
+	.object({
+		ruleSource: z.enum(['nationell-regel', 'distriktsanpassning', 'foreningsvagledning']),
+		text: z.string().min(1),
+		appliesTo: z.array(z.number().int().min(1)).min(1),
+		checked: isoDate,
+		source: originalkalla.optional(),
+	})
+	.superRefine((s, ctx) => {
+		if (s.ruleSource !== 'foreningsvagledning' && !s.source) {
+			ctx.addIssue({
+				code: 'custom',
+				path: ['source'],
+				message: 'Nationell regel och distriktsanpassning kräver originalkälla',
+			});
+		}
+	});
+
+const regelavsnitt = z.object({
+	id: z.string().min(1),
+	title: z.string().min(1),
+	statements: z.array(regeluttalande).min(1),
+	needsConfirmation: z.string().min(1).optional(),
+});
+
 // Fakta som varje nivåguide måste ha (publicerade) för att bygget ska lyckas.
 const REQUIRED_FACT_KEYS = ['spelform', 'matchtid', 'plan', 'mal', 'domare', 'sekretariat'];
 
@@ -70,11 +99,16 @@ const nivaguider = defineCollection({
 				.refine((d) => d.from <= d.to, 'from måste vara <= to'),
 			factGroups: z.array(faktagrupp).min(1),
 			updateNotices: z.array(uppdateringsnotis).default([]),
+			ruleSections: z.array(regelavsnitt).default([]),
 		})
 		.superRefine((guide, ctx) => {
 			const ids = guide.factGroups.map((g) => g.id);
 			if (new Set(ids).size !== ids.length) {
 				ctx.addIssue({ code: 'custom', message: 'Faktagrupper måste ha unika id' });
+			}
+			const ruleIds = guide.ruleSections.map((r) => r.id);
+			if (new Set(ruleIds).size !== ruleIds.length) {
+				ctx.addIssue({ code: 'custom', message: 'Regelavsnitt måste ha unika id' });
 			}
 			const published = guide.factGroups
 				.filter((g) => g.status === 'verifierad')
