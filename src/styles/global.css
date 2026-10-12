@@ -147,3 +147,59 @@ nav a[aria-current='page'] {
 		scroll-behavior: auto !important;
 	}
 }
+
+/* Nivåguide */
+.level-head {
+	padding: 1rem 1.25rem;
+	margin-bottom: 1.5rem;
+	color: #fff;
+	background: var(--charcoal);
+	border-left: 0.5rem solid var(--level-red);
+}
+
+.level-head h1 {
+	margin-bottom: 0.25rem;
+}
+
+.level-meta {
+	margin: 0;
+}
+
+.season {
+	font-weight: 600;
+}
+
+.notice {
+	padding: 0.5rem 0.75rem;
+	border-left: 4px solid var(--orange);
+	background: #fff;
+}
+
+.fact-group {
+	padding-block: 1rem;
+	border-top: 1px solid var(--line);
+}
+
+.fact-group dl {
+	margin: 0;
+}
+
+.fact-group dl > div {
+	display: grid;
+	grid-template-columns: minmax(7rem, 11rem) 1fr;
+	gap: 0.25rem 1rem;
+	padding-block: 0.25rem;
+}
+
+.fact-group dt {
+	font-weight: 600;
+}
+
+.fact-group dd {
+	margin: 0;
+}
+
+.provenance {
+	margin: 0.5rem 0 0;
+	font-size: 0.9375rem;
+}
