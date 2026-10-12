@@ -157,6 +157,18 @@ nav a[aria-current='page'] {
 	border-left: 0.5rem solid var(--level-red);
 }
 
+.level-head.level-bla {
+	border-left-color: var(--level-blue);
+}
+
+.level-head.level-gron {
+	border-left-color: var(--level-green);
+}
+
+.division-adaptations .division {
+	margin-top: 1rem;
+}
+
 .level-head h1 {
 	margin-bottom: 0.25rem;
 }

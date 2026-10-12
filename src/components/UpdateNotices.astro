@@ -1,0 +1,35 @@
+---
+// Uppdateringsnotiser under säsongen (valfria på en nivåguide). Renderar ingenting utan notiser.
+interface Notice {
+	date: string;
+	text: string;
+	source?: { label: string; url: string };
+}
+interface Props {
+	notices: Notice[];
+}
+
+const { notices } = Astro.props;
+const sorted = [...notices].sort((a, b) => b.date.localeCompare(a.date));
+---
+
+{
+	sorted.length > 0 && (
+		<section aria-labelledby="uppdateringar" class="update-notices">
+			<h2 id="uppdateringar">Uppdatering under säsongen</h2>
+			<ul>
+				{sorted.map((n) => (
+					<li>
+						<time datetime={n.date}>{n.date}</time> · {n.text}
+						{n.source && (
+							<>
+								{' '}
+								<a href={n.source.url}>{n.source.label}</a>
+							</>
+						)}
+					</li>
+				))}
+			</ul>
+		</section>
+	)
+}

@@ -1,0 +1,94 @@
+---
+// Gemensam vy för en nivåguide (Röd, Blå, ...): matchfakta, divisionsanpassningar,
+// uppdateringsnotiser och regelhierarki. Sidorna anger bara vilken nivå som ska visas.
+import Layout from '../layouts/Layout.astro';
+import RuleHierarchy from './RuleHierarchy.astro';
+import UpdateNotices from './UpdateNotices.astro';
+import { describeDivisions, getActiveGuide } from '../lib/nivaguide';
+
+interface Props {
+	level: 'gron' | 'bla' | 'rod';
+}
+
+const { level } = Astro.props;
+const { guide, season, factGroups, ruleSections, unverifiedDivisions, divisionAdaptations } =
+	await getActiveGuide(level);
+const { from, to } = guide.divisions;
+---
+
+<Layout title={guide.name}>
+	<header class={`level-head level-${level}`}>
+		<h1>{guide.name}</h1>
+		<p class="level-meta">
+			<span class="season">Säsong {season.label}</span> · division {from}–{to}
+		</p>
+	</header>
+
+	<section aria-labelledby="matchfakta" class="match-facts">
+		<h2 id="matchfakta">Matchfakta</h2>
+		{
+			unverifiedDivisions.length > 0 && (
+				<p class="notice">
+					Uppgifterna nedan är verifierade för {describeDivisions(factGroups.flatMap((g) => g.appliesTo)).toLowerCase()}.{' '}
+					{describeDivisions(unverifiedDivisions)} är inte verifierade ännu – kontrollera originalkällan.
+				</p>
+			)
+		}
+		{
+			factGroups.map((group) => (
+				<section class="fact-group" data-fact-group={group.id} aria-labelledby={`g-${group.id}`}>
+					<h3 id={`g-${group.id}`}>{group.title}</h3>
+					<dl>
+						{group.facts.map((fact) => (
+							<div>
+								<dt>{fact.label}</dt>
+								<dd>{fact.value}</dd>
+							</div>
+						))}
+					</dl>
+					<p class="provenance">
+						Gäller {describeDivisions(group.appliesTo).toLowerCase()} · Kontrollerad {group.checked} ·{' '}
+						<a href={group.source.url}>Originalkälla: {group.source.label}</a>
+					</p>
+				</section>
+			))
+		}
+	</section>
+
+	{
+		divisionAdaptations.length > 0 && (
+			<section aria-labelledby="divisionsanpassningar" class="division-adaptations">
+				<h2 id="divisionsanpassningar">Divisionsanpassningar</h2>
+				<p>
+					Det som skiljer divisionerna åt. Allt annat gäller {guide.name.toLowerCase()} i sin helhet enligt matchfakta
+					ovan.
+				</p>
+				{divisionAdaptations.map((d) => (
+					<section class="division" data-division={d.division} aria-labelledby={`d-${d.division}`}>
+						<h3 id={`d-${d.division}`}>Division {d.division}</h3>
+						{d.adaptations.map((a) => (
+							<div class="fact-group" data-adaptation={a.id}>
+								<h4>{a.title}</h4>
+								<dl>
+									{a.facts.map((fact) => (
+										<div>
+											<dt>{fact.label}</dt>
+											<dd>{fact.value}</dd>
+										</div>
+									))}
+								</dl>
+								<p class="provenance">
+									Gäller division {d.division} · Kontrollerad {a.checked} ·{' '}
+									<a href={a.source.url}>Originalkälla: {a.source.label}</a>
+								</p>
+							</div>
+						))}
+					</section>
+				))}
+			</section>
+		)
+	}
+
+	<UpdateNotices notices={guide.updateNotices} />
+	<RuleHierarchy sections={ruleSections} />
+</Layout>
