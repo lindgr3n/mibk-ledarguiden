@@ -1,0 +1,14 @@
+# Testfixtur, påhittat testdata.
+season: 2027-2028
+sections:
+  - id: fore-match
+    title: Före match
+    items:
+      - { id: testpunkt, text: Testpunkt matchdagen, ruleSource: foreningsvagledning }
+relocation:
+  title: Matchflytt
+  intro: Testintro.
+  reminder: Testpåminnelse.
+  link: { label: Testkälla, url: "https://example.com/testkalla" }
+readMore:
+  - { label: Testkälla, url: "https://example.com/testkalla" }

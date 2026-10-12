@@ -1,0 +1,17 @@
+---
+// Arkiv (ADR 0001): föregående säsongers nivåguider, skrivskyddade, på permanenta adresser som
+// /sasonger/2026-2027/rod/. Bara säsonger med status "arkiverad" genererar sidor; utkast och den
+// aktiva säsongen (som ligger på de stabila adresserna) gör det aldrig.
+// Matchdagen och Regler och dokument arkiveras inte som egna sidor, se docs/saesongslivscykel.md.
+import Nivaguide from '../../../components/Nivaguide.astro';
+import { getArchivePaths } from '../../../lib/nivaguide';
+
+export async function getStaticPaths() {
+	return getArchivePaths();
+}
+
+const { level } = Astro.params;
+const { seasonId } = Astro.props;
+---
+
+<Nivaguide level={level as 'gron' | 'bla' | 'rod'} seasonId={seasonId} />

@@ -61,6 +61,8 @@ const uppdateringsnotis = z.object({
 const regeluttalande = z
 	.object({
 		ruleSource: z.enum(['nationell-regel', 'distriktsanpassning', 'foreningsvagledning']),
+		// Som faktagrupper: bara "verifierad" publiceras (ett säsongsutkast sätter allt till "overifierad").
+		status: z.enum(['verifierad', 'overifierad']).default('verifierad'),
 		text: z.string().min(1),
 		appliesTo: z.array(z.number().int().min(1)).min(1),
 		checked: isoDate,
@@ -83,8 +85,8 @@ const regelavsnitt = z.object({
 	needsConfirmation: z.string().min(1).optional(),
 });
 
-// Fakta som varje nivåguide måste ha (publicerade) för att bygget ska lyckas.
-const REQUIRED_FACT_KEYS = ['spelform', 'matchtid', 'plan', 'mal', 'domare', 'sekretariat'];
+// Obligatoriska fakta (REQUIRED_FACT_KEYS i src/lib/nivaguide.ts) kontrolleras när en aktiv eller arkiverad
+// säsong publiceras, inte här, så att ett säsongsutkast med overifierade fakta får finnas.
 
 // Nivåguide: filnamn <säsong>/<nivå>.yaml, t.ex. 2026-2027/rod.yaml
 const nivaguider = defineCollection({
@@ -109,18 +111,6 @@ const nivaguider = defineCollection({
 			const ruleIds = guide.ruleSections.map((r) => r.id);
 			if (new Set(ruleIds).size !== ruleIds.length) {
 				ctx.addIssue({ code: 'custom', message: 'Regelavsnitt måste ha unika id' });
-			}
-			const published = guide.factGroups
-				.filter((g) => g.status === 'verifierad')
-				.flatMap((g) => g.facts.map((f) => f.key));
-			for (const key of REQUIRED_FACT_KEYS) {
-				if (!published.includes(key)) {
-					ctx.addIssue({
-						code: 'custom',
-						path: ['factGroups'],
-						message: `Obligatoriskt faktum saknas bland verifierade faktagrupper: ${key}`,
-					});
-				}
 			}
 		}),
 });
@@ -176,7 +166,7 @@ const checklistpunkt = z
 	});
 
 const matchdagen = defineCollection({
-	loader: glob({ pattern: '*.yaml', base: './src/content/matchdagen' }),
+	loader: glob({ pattern: '*.yaml', base: `${contentRoot}/matchdagen` }),
 	schema: z
 		.object({
 			season: reference('sasonger'),
@@ -221,7 +211,7 @@ const httpsUrl = z.url().refine((u) => u.startsWith('https://'), 'Länken måste
 const labelled = { label: z.string().min(1), url: httpsUrl };
 
 const reglerochdokument = defineCollection({
-	loader: glob({ pattern: '*.yaml', base: './src/content/reglerochdokument' }),
+	loader: glob({ pattern: '*.yaml', base: `${contentRoot}/reglerochdokument` }),
 	schema: z.object({
 		season: reference('sasonger'),
 		documents: z

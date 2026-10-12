@@ -24,6 +24,17 @@ export default defineConfig({
 				LEDARGUIDE_OUT_DIR: './dist-fixture',
 			},
 		},
+		{
+			// Fixturbygge "efter aktivering": föregående säsong arkiverad, nästa säsong aktiv.
+			command: 'npx astro build && npx astro preview --ignore-lock --port 4323',
+			url: 'http://localhost:4323',
+			reuseExistingServer: false,
+			timeout: 180_000,
+			env: {
+				LEDARGUIDE_CONTENT_ROOT: './tests/fixtures/content-aktiverad',
+				LEDARGUIDE_OUT_DIR: './dist-fixture-aktiverad',
+			},
+		},
 	],
 	projects: [
 		{ name: 'mobil', use: { ...devices['Pixel 7'] } },
