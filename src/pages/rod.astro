@@ -44,4 +44,27 @@ const { from, to } = guide.divisions;
 			))
 		}
 	</section>
+
+	{
+		guide.updateNotices.length > 0 && (
+			<section aria-labelledby="uppdateringar" class="update-notices">
+				<h2 id="uppdateringar">Uppdatering under säsongen</h2>
+				<ul>
+					{[...guide.updateNotices]
+						.sort((a, b) => b.date.localeCompare(a.date))
+						.map((n) => (
+							<li>
+								<time datetime={n.date}>{n.date}</time> · {n.text}
+								{n.source && (
+									<>
+										{' '}
+										<a href={n.source.url}>{n.source.label}</a>
+									</>
+								)}
+							</li>
+						))}
+				</ul>
+			</section>
+		)
+	}
 </Layout>
