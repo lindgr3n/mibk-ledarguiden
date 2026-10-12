@@ -1,0 +1,18 @@
+# Testfixtur, påhittat testdata.
+season: 2027-2028
+level: bla
+name: Blå nivå
+divisions:
+  from: 6
+  to: 7
+factGroups:
+  - id: testgrupp
+    title: Testgrupp
+    status: overifierad
+    appliesTo: [6, 7]
+    checked: "2031-01-01"
+    source:
+      label: Testkälla
+      url: "https://example.com/testkalla"
+    facts:
+      - { key: spelform, label: Spelform, value: "UTKASTFAKTA" }

@@ -1,0 +1,21 @@
+# Testfixtur, påhittat testdata.
+season: 2027-2028
+documents:
+  - id: testdokument
+    title: Testdokument
+    description: Påhittat dokument.
+    checked: "2031-01-01"
+    url: "https://example.com/testdokument"
+news:
+  title: Testnyheter
+  summary: Testsammanfattning.
+  checked: "2031-01-01"
+  items:
+    - { label: Test, text: Testtext }
+  links:
+    - { label: Testkälla, url: "https://example.com/testkalla", note: Testnotering }
+  caveat: Testförbehåll.
+matchEnvironment:
+  definition: Testdefinition.
+  links:
+    - { label: Testkälla, url: "https://example.com/testkalla", note: Testnotering, checked: "2031-01-01" }

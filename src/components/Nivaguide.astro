@@ -1,22 +1,39 @@
 ---
 // Gemensam vy för en nivåguide (Röd, Blå, ...): matchfakta, divisionsanpassningar,
 // uppdateringsnotiser och regelhierarki. Sidorna anger bara vilken nivå som ska visas.
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import RuleHierarchy from './RuleHierarchy.astro';
 import UpdateNotices from './UpdateNotices.astro';
-import { describeDivisions, getActiveGuide } from '../lib/nivaguide';
+import { describeDivisions, getActiveGuide, getSeasonGuide } from '../lib/nivaguide';
 
 interface Props {
 	level: 'gron' | 'bla' | 'rod';
+	// Id för en arkiverad säsong (t.ex. 2026-2027). Utan den visas den aktiva säsongen.
+	seasonId?: string;
 }
 
-const { level } = Astro.props;
+const { level, seasonId } = Astro.props;
 const { guide, season, factGroups, ruleSections, unverifiedDivisions, divisionAdaptations } =
-	await getActiveGuide(level);
+		seasonId
+		? await getSeasonGuide((await getCollection('sasonger')).find((x) => x.id === seasonId)!, level)
+		: await getActiveGuide(level);
+const archived = season.status === 'arkiverad';
 const { from, to } = guide.divisions;
 ---
 
-<Layout title={guide.name}>
+<Layout title={archived ? `${guide.name} – arkiv ${season.label}` : guide.name}>
+	{
+		archived && (
+			<aside class="archive-banner" role="note" aria-label="Arkiv">
+				<strong>Arkiv – gällde säsong {season.label}</strong>
+				<p>
+					Det här är en oföränderlig kopia av vad som gällde då. Använd den inte inför match.{' '}
+					<a href={`/${level}/`}>Gå till aktuell säsong</a>
+				</p>
+			</aside>
+		)
+	}
 	<header class={`level-head level-${level}`}>
 		<h1>{guide.name}</h1>
 		<p class="level-meta">
