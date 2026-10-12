@@ -1,7 +1,7 @@
 # build output
 dist/
-dist-fixture/
-dist-fixture-aktiverad/
+dist-fixture*/
+dist-fixture*/
 
 # generated types
 .astro/
