@@ -12,10 +12,13 @@ const isoDate = z
 		message: 'Ogiltigt datum',
 	});
 
+// Innehållsroten kan bytas ut av acceptanstesternas fixturbygge (tests/fixtures/content).
+const contentRoot = process.env.LEDARGUIDE_CONTENT_ROOT ?? './src/content';
+
 // Säsong: filnamnet (id) är adressvänligt, t.ex. 2026-2027. Bara en säsong får vara aktiv;
 // den visas på de stabila adresserna (/rod/). Utkast publiceras aldrig.
 const sasonger = defineCollection({
-	loader: glob({ pattern: '*.yaml', base: './src/content/sasonger' }),
+	loader: glob({ pattern: '*.yaml', base: `${contentRoot}/sasonger` }),
 	schema: z.object({
 		label: z.string().regex(/^\d{4}\/\d{2}$/, 'Säsongsnamn ska se ut som 2026/27'),
 		status: z.enum(['aktiv', 'utkast', 'arkiverad']),
@@ -44,12 +47,19 @@ const faktagrupp = z.object({
 		.min(1),
 });
 
+// Uppdateringsnotis: en kort notis när en faktagrupp ändras under säsongen (valfri på nivåguiden).
+const uppdateringsnotis = z.object({
+	date: isoDate,
+	text: z.string().min(1),
+	source: originalkalla.optional(),
+});
+
 // Fakta som varje nivåguide måste ha (publicerade) för att bygget ska lyckas.
 const REQUIRED_FACT_KEYS = ['spelform', 'matchtid', 'plan', 'mal', 'domare', 'sekretariat'];
 
 // Nivåguide: filnamn <säsong>/<nivå>.yaml, t.ex. 2026-2027/rod.yaml
 const nivaguider = defineCollection({
-	loader: glob({ pattern: '*/*.yaml', base: './src/content/nivaguider' }),
+	loader: glob({ pattern: '*/*.yaml', base: `${contentRoot}/nivaguider` }),
 	schema: z
 		.object({
 			season: reference('sasonger'),
@@ -59,6 +69,7 @@ const nivaguider = defineCollection({
 				.object({ from: z.number().int().min(1), to: z.number().int().min(1) })
 				.refine((d) => d.from <= d.to, 'from måste vara <= to'),
 			factGroups: z.array(faktagrupp).min(1),
+			updateNotices: z.array(uppdateringsnotis).default([]),
 		})
 		.superRefine((guide, ctx) => {
 			const ids = guide.factGroups.map((g) => g.id);
