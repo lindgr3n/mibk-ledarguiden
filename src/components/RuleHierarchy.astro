@@ -1,0 +1,63 @@
+---
+// Regelhierarkin (ADR 0003): nationell regel, distriktsanpassning och föreningsvägledning
+// visas åtskilda. Används av nivåguider med `ruleSections` från getActiveGuide().
+import { describeDivisions } from '../lib/nivaguide';
+import { deviatesFromNational, ruleOrder, ruleTypes, sortedStatements, type RuleSection } from '../lib/regelhierarki';
+
+interface Props {
+	sections: RuleSection[];
+	headingId?: string;
+}
+
+const { sections, headingId = 'regler-och-kallor' } = Astro.props;
+---
+
+{
+	sections.length > 0 && (
+		<section aria-labelledby={headingId} class="rule-hierarchy">
+			<h2 id={headingId}>Regler och källor</h2>
+			<dl class="rule-legend" data-rule-legend>
+				{ruleOrder.map((kind) => (
+					<div class={`rule-type rule-${kind}`}>
+						<dt>
+							<span class="rule-label">{ruleTypes[kind].label}</span>
+						</dt>
+						<dd>{ruleTypes[kind].description}</dd>
+					</div>
+				))}
+			</dl>
+			{sections.map((section) => (
+				<section class="rule-section" data-rule-section={section.id} aria-labelledby={`r-${section.id}`}>
+					<h3 id={`r-${section.id}`}>{section.title}</h3>
+					{deviatesFromNational(section) && <p class="rule-deviation">Avviker från nationell regel</p>}
+					{section.needsConfirmation && (
+						<p class="rule-warning" role="note">
+							<strong>Behöver bekräftas</strong> – {section.needsConfirmation}
+						</p>
+					)}
+					{sortedStatements(section).map((s) => (
+						<article class={`rule-statement rule-${s.ruleSource}`} data-rule-source={s.ruleSource}>
+							<p class="rule-kind">
+								<span class="rule-label">{ruleTypes[s.ruleSource].label}</span>{' '}
+								<span class="rule-issuer">{ruleTypes[s.ruleSource].issuer}</span>
+							</p>
+							<p class="rule-text">{s.text}</p>
+							{s.ruleSource === 'foreningsvagledning' && (
+								<p class="rule-caveat">Råd från föreningen – ersätter inte reglerna.</p>
+							)}
+							<p class="provenance">
+								Gäller {describeDivisions(s.appliesTo).toLowerCase()} · Kontrollerad {s.checked}
+								{s.source && (
+									<>
+										{' '}
+										· <a href={s.source.url}>Originalkälla: {s.source.label}</a>
+									</>
+								)}
+							</p>
+						</article>
+					))}
+				</section>
+			))}
+		</section>
+	)
+}

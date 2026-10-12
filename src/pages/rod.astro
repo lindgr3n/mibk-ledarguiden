@@ -1,8 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import RuleHierarchy from '../components/RuleHierarchy.astro';
 import { describeDivisions, getActiveGuide } from '../lib/nivaguide';
 
-const { guide, season, factGroups, unverifiedDivisions } = await getActiveGuide('rod');
+const { guide, season, factGroups, ruleSections, unverifiedDivisions } = await getActiveGuide('rod');
 const { from, to } = guide.divisions;
 ---
 
@@ -44,4 +45,6 @@ const { from, to } = guide.divisions;
 			))
 		}
 	</section>
+
+	<RuleHierarchy sections={ruleSections} />
 </Layout>

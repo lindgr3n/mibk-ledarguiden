@@ -22,7 +22,13 @@ export async function getActiveGuide(level: Level) {
 	const unverifiedDivisions = Array.from({ length: to - from + 1 }, (_, i) => from + i).filter(
 		(d) => !covered.has(d),
 	);
-	return { guide: guide.data, season: season.data, factGroups: published, unverifiedDivisions };
+	return {
+		guide: guide.data,
+		season: season.data,
+		factGroups: published,
+		ruleSections: guide.data.ruleSections,
+		unverifiedDivisions,
+	};
 }
 
 // "Division 1–4" / "Division 3" / "Division 1, 3 och 5" för en lista divisioner.

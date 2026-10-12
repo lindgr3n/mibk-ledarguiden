@@ -10,7 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "astro build && playwright test"
+    "test": "astro build --mode test && playwright test"
   },
   "dependencies": {
     "@fontsource/barlow-condensed": "^5.3.0",
