@@ -137,4 +137,41 @@ const matchdagen = defineCollection({
 		}),
 });
 
-export const collections = { sasonger, nivaguider, matchdagen };
+
+// Regler och dokument: förbundets originaldokument, nyheter för säsongen och bra matchmiljö.
+// Filnamn <säsong>.yaml. Inga föreningsprinciper för ledarbeteende ryms i modellen (open-questions.md).
+const httpsUrl = z.url().refine((u) => u.startsWith('https://'), 'Länken måste vara en https-länk');
+const labelled = { label: z.string().min(1), url: httpsUrl };
+
+const reglerochdokument = defineCollection({
+	loader: glob({ pattern: '*.yaml', base: './src/content/reglerochdokument' }),
+	schema: z.object({
+		season: reference('sasonger'),
+		documents: z
+			.array(
+				z.object({
+					id: z.string().min(1),
+					title: z.string().min(1),
+					description: z.string().min(1),
+					checked: isoDate,
+					url: httpsUrl,
+					foundAt: z.object(labelled).optional(),
+				}),
+			)
+			.min(1),
+		news: z.object({
+			title: z.string().min(1),
+			summary: z.string().min(1),
+			checked: isoDate,
+			items: z.array(z.object({ label: z.string().min(1), text: z.string().min(1) })).min(1),
+			links: z.array(z.object({ ...labelled, note: z.string().min(1) })).min(1),
+			caveat: z.string().min(1),
+		}),
+		matchEnvironment: z.object({
+			definition: z.string().min(1),
+			links: z.array(z.object({ ...labelled, note: z.string().min(1), checked: isoDate })).min(1),
+		}),
+	}),
+});
+
+export const collections = { sasonger, nivaguider, matchdagen, reglerochdokument };
