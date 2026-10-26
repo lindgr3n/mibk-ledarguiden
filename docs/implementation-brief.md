@@ -97,7 +97,7 @@ Första versionen beskriver en bra matchmiljö som trygg, respektfull och utveck
 - Administratörsgränssnitt eller CMS.
 - Sökfunktion.
 - Flerspråksstöd.
-- Grön nivå och divisionssidor.
+- Grön nivå. (Divisionssidor ingår sedan ADR 0004.)
 - Fastslagna egna handlingsråd för matchmiljö innan föreningens riktlinjer kontrollerats.
 
 ## Klart när

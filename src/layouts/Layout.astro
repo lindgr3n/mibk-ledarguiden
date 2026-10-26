@@ -1,8 +1,10 @@
 ---
-import '@fontsource/barlow-condensed/latin-700.css';
+import '@fontsource/roboto-slab/latin-700.css';
+import '@fontsource/source-sans-3/latin-700.css';
 import '@fontsource/source-sans-3/latin-400.css';
 import '@fontsource/source-sans-3/latin-600.css';
 import '../styles/global.css';
+import '../styles/components.css';
 
 import { getActiveSeason } from '../lib/nivaguide';
 
@@ -10,9 +12,11 @@ interface Props {
 	title: string;
 	// Säsongsetikett i sidfoten. Utan den används den aktiva säsongen; arkivsidor anger sin egen.
 	seasonLabel?: string;
+	// Startsidan har det höga huvudet med ordmärke (referensbilden landingpage.png).
+	variant?: 'home';
 }
 
-const { title, seasonLabel = (await getActiveSeason()).data.label } = Astro.props;
+const { title, seasonLabel = (await getActiveSeason()).data.label, variant } = Astro.props;
 const fullTitle = Astro.url.pathname === '/' ? title : `${title} – Moälvens ledarguide`;
 
 // Huvudmenyn: exakt dessa fyra val, i den här ordningen.
@@ -39,11 +43,18 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWi
 	</head>
 	<body>
 		<a class="skip-link" href="#innehall">Hoppa till innehållet</a>
-		<header class="site-header">
-			<div class="wrap header-inner">
+		<header class:list={['site-header', { 'site-header-home': variant === 'home' }]}>
+			<div class="header-inner">
 				<a class="brand" href="/">
-					<img src="/images/brand/moalvens-ibk-logo.png" alt="" width="40" height="40" />
-					<span>Moälvens ledarguide</span>
+					<img src="/images/brand/moalvens-ibk-logo.png" alt="Moälvens IBK, till startsidan" width="112" height="112" />
+					{
+						variant === 'home' && (
+							<span class="wordmark" aria-hidden="true">
+								<span class="wordmark-name">Moälvens IBK</span>
+								<span class="wordmark-sub">Innebandy | Västernorrland</span>
+							</span>
+						)
+					}
 				</a>
 				<nav aria-label="Huvudmeny">
 					<ul>
@@ -60,8 +71,11 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWi
 				</nav>
 			</div>
 		</header>
-		<main id="innehall" class="wrap" tabindex="-1">
-			<slot />
+		<main id="innehall" tabindex="-1">
+			<slot name="hero" />
+			<div class="wrap content">
+				<slot />
+			</div>
 		</main>
 		<footer class="site-footer">
 			<div class="wrap">Moälvens IBK · Ledarguide {seasonLabel}</div>

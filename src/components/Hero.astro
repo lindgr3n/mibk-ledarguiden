@@ -1,0 +1,24 @@
+---
+// Bred hero med klubb- och bollbilden och mörk toning från vänster (referensbilderna). Innehållet läggs i standard-sloten.
+interface Props {
+	variant?: 'home' | 'detail';
+	labelledby?: string;
+	imageAlt?: string;
+}
+
+const { variant = 'detail', labelledby, imageAlt = '' } = Astro.props;
+---
+
+<section class:list={['hero', `hero-${variant}`]} aria-labelledby={labelledby}>
+	<img
+		class="hero-image"
+		src="/images/brand/moalvens-hero.webp"
+		alt={imageAlt}
+		width="2048"
+		height="768"
+		fetchpriority="high"
+	/>
+	<div class="wrap hero-inner">
+		<slot />
+	</div>
+</section>

@@ -66,14 +66,21 @@ export async function getSeasonGuide(
 	);
 
 	// Divisionsanpassningar (ADR 0002): bara avvikelser, aldrig gemensamma fakta. Bygget misslyckas
-	// om en division ligger utanför nivån eller om en anpassning upprepar en faktanyckel som nivåguiden äger.
-	const commonKeys = new Set(guide.data.factGroups.flatMap((g) => g.facts.map((f) => f.key)));
+	// om en division ligger utanför nivån eller om en anpassning upprepar en faktanyckel som nivåguiden äger
+	// för just den divisionen (en faktagrupp som inte gäller divisionen räknas inte).
+	const commonKeysFor = (division: number) =>
+		new Set(
+			guide.data.factGroups
+				.filter((g) => g.appliesTo.includes(division))
+				.flatMap((g) => g.facts.map((f) => f.key)),
+		);
 	const divisionAdaptations = (await getCollection('divisionsanpassningar'))
 		.filter((d) => d.data.guide.id === guide.id)
 		.map((d) => {
 			if (d.data.division < from || d.data.division > to) {
 				throw new Error(`Division ${d.data.division} ligger utanför ${guide.data.name} (${from}–${to})`);
 			}
+			const commonKeys = commonKeysFor(d.data.division);
 			for (const key of d.data.adaptations.flatMap((a) => a.facts.map((f) => f.key))) {
 				if (commonKeys.has(key)) {
 					throw new Error(
@@ -113,7 +120,8 @@ export async function getSeasonGuide(
 // Framtida divisionsvy (ingen publik sida ännu): nivåguidens gemensamma fakta sammanfogade med
 // divisionens egna anpassningar vid bygge. Inget dupliceras – gemensamma fakta kommer bara från nivåguiden.
 export async function getDivisionView(level: Level, division: number) {
-	const { guide, season, factGroups, ruleSections, divisionAdaptations } = await getActiveGuide(level);
+	const { guide, season, factGroups, ruleSections, divisionAdaptations, unverifiedDivisions } =
+		await getActiveGuide(level);
 	if (division < guide.divisions.from || division > guide.divisions.to) {
 		throw new Error(`Division ${division} ingår inte i ${guide.name}`);
 	}
@@ -123,6 +131,9 @@ export async function getDivisionView(level: Level, division: number) {
 		levelName: guide.name,
 		commonFactGroups: factGroups.filter((g) => g.appliesTo.includes(division)),
 		adaptations: divisionAdaptations.find((d) => d.division === division)?.adaptations ?? [],
+		unverifiedAdaptations: divisionAdaptations.find((d) => d.division === division)?.unverified ?? [],
+		sourceUrl: factGroups[0]?.source,
+		unverifiedDivisions,
 		ruleSections: ruleSections
 			.map((r) => ({ ...r, statements: r.statements.filter((s) => s.appliesTo.includes(division)) }))
 			.filter((r) => r.statements.length > 0),
@@ -138,6 +149,10 @@ export function describeDivisions(divisions: number[]): string {
 	return `Division ${sorted.slice(0, -1).join(', ')} och ${sorted[sorted.length - 1]}`;
 }
 
+export function divisionNumbers({ from, to }: { from: number; to: number }): number[] {
+	return Array.from({ length: to - from + 1 }, (_, i) => from + i);
+}
+
 export function describeDivisionRange({ from, to }: { from: number; to: number }): string {
 	return describeDivisions(Array.from({ length: to - from + 1 }, (_, i) => from + i));
 }
@@ -146,7 +161,7 @@ export function describeDivisionRange({ from, to }: { from: number; to: number }
 // Enda platsen där de anges; startsidan och Nivåer delar den (specen, issue #2).
 export const GRON_PLACEHOLDER = { name: 'Grön nivå', divisions: { from: 8, to: 9 }, state: 'Kommer senare' };
 
-// Nivåerna i visningsordning (grön, blå, röd) för den aktiva säsongen. Divisionerna för blå och röd
+// Nivåerna i visningsordning (röd, blå, grön – som i referensbilderna) för den aktiva säsongen. Divisionerna för blå och röd
 // kommer från innehållet; en nivå utan guide (grön) har ingen href.
 export async function getLevelOverview() {
 	const season = await getActiveSeason();
@@ -163,6 +178,8 @@ export async function getLevelOverview() {
 		};
 	};
 	return [
+		fromGuide('rod'),
+		fromGuide('bla'),
 		{
 			key: 'gron' as const,
 			name: GRON_PLACEHOLDER.name,
@@ -170,8 +187,6 @@ export async function getLevelOverview() {
 			href: undefined,
 			state: GRON_PLACEHOLDER.state,
 		},
-		fromGuide('bla'),
-		fromGuide('rod'),
 	];
 }
 

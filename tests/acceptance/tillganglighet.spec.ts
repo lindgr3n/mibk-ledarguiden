@@ -140,10 +140,10 @@ test('nivåväljaren anger nivå och status med text, inte bara färg', async ({
 	await page.goto('/');
 	for (const [name, state] of [
 		['Grön nivå', 'Kommer senare'],
-		['Blå nivå', 'Öppna guiden'],
-		['Röd nivå', 'Öppna guiden'],
+		['Blå nivå', 'Gå till blå nivå'],
+		['Röd nivå', 'Gå till röd nivå'],
 	]) {
-		await expect(page.locator('.levels li', { hasText: name })).toContainText(state);
+		await expect(page.locator('.level-cards li', { hasText: name })).toContainText(state);
 	}
 	await page.goto('/rod/');
 	await expect(page.getByRole('heading', { level: 1 })).toContainText('Röd nivå');
@@ -163,8 +163,9 @@ test('bygget är host-agnostiskt: ingen adapter, statisk utdata', () => {
 
 test('Matchdagen bär ingen nivåfärg (röd kant antyder annars Röd nivå)', async ({ page }) => {
 	await page.goto('/matchdagen/');
-	const border = await page.locator('.level-head').evaluate((e) => getComputedStyle(e).borderLeftColor);
-	expect(border).not.toBe('rgb(181, 18, 27)');
-	expect(border).not.toBe('rgb(7, 87, 166)');
-	expect(border).not.toBe('rgb(8, 122, 63)');
+	const color = await page.locator('.hero h1 span').first().evaluate((e) => getComputedStyle(e).color);
+	// Nivåfärgerna (röd, blå, grön på mörk botten) får inte användas för Matchdagen.
+	expect(color).not.toBe('rgb(255, 91, 80)');
+	expect(color).not.toBe('rgb(90, 174, 255)');
+	expect(color).not.toBe('rgb(67, 208, 138)');
 });

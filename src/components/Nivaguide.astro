@@ -1,11 +1,26 @@
 ---
-// Gemensam vy för en nivåguide (Röd, Blå, ...): matchfakta, divisionsanpassningar,
-// uppdateringsnotiser och regelhierarki. Sidorna anger bara vilken nivå som ska visas.
+// Gemensam vy för en nivåguide (Röd, Blå, ...): hero, divisionsflikar, snabb översikt, sidokolumn,
+// divisionsanpassningar, uppdateringsnotiser och regelhierarki (referensbild rod_detail.png).
+// Sidorna anger bara vilken nivå som ska visas.
+import ExternalLink from './ExternalLink.astro';
+import SourceRef from './SourceRef.astro';
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import Hero from './Hero.astro';
+import Icon from './Icon.astro';
 import RuleHierarchy from './RuleHierarchy.astro';
 import UpdateNotices from './UpdateNotices.astro';
 import FactList from './FactList.astro';
-import { describeDivisions, getActiveGuide, getSeasonById, getSeasonGuide, type Level } from '../lib/nivaguide';
+import {
+	describeDivisionRange,
+	describeDivisions,
+	divisionNumbers,
+	getActiveGuide,
+	getSeasonById,
+	getSeasonGuide,
+	type Level,
+} from '../lib/nivaguide';
+import { factIcon, splitLevelName } from '../lib/presentation';
 import { ruleTypes } from '../lib/regelhierarki';
 
 interface Props {
@@ -15,15 +30,38 @@ interface Props {
 }
 
 const { level, seasonId } = Astro.props;
-const { guide, season, factGroups, ruleSections, unverifiedDivisions, divisionAdaptations } =
-		seasonId
-		? await getSeasonGuide(await getSeasonById(seasonId), level)
-		: await getActiveGuide(level);
+const { guide, season, factGroups, ruleSections, unverifiedDivisions, divisionAdaptations } = seasonId
+	? await getSeasonGuide(await getSeasonById(seasonId), level)
+	: await getActiveGuide(level);
 const archived = season.status === 'arkiverad';
-const { from, to } = guide.divisions;
+
+const { word, rest: restOfName } = splitLevelName(guide.name);
+const levelDivisions = divisionNumbers(guide.divisions);
+const verifiedText = describeDivisions([...new Set(factGroups.flatMap((g) => g.appliesTo))]).toLowerCase();
+
+// Sidokolumnen (nytt, dokument, Matchdagen) hör till den aktiva säsongen och visas inte i arkivet.
+const activeSeason = archived ? undefined : (await getCollection('sasonger')).find((s) => s.data.label === season.label);
+const rules = activeSeason
+	? (await getCollection('reglerochdokument')).find((c) => c.data.season.id === activeSeason.id)?.data
+	: undefined;
+const matchday = activeSeason
+	? (await getCollection('matchdagen')).find((m) => m.data.season.id === activeSeason.id)?.data
+	: undefined;
 ---
 
 <Layout seasonLabel={season.label} title={archived ? `${guide.name} – arkiv ${season.label}` : guide.name}>
+	<Fragment slot="hero">
+		<Hero variant="detail" labelledby="level-title">
+			<p class="eyebrow">Moälvens innebandy · Säsong {season.label}</p>
+			<h1 id="level-title"><span class={`lvl-word-${level}`}>{word}</span> {restOfName}</h1>
+			<p class="hero-sub">{describeDivisionRange(guide.divisions)}</p>
+			<p class="hero-lead">
+				{guide.name} omfattar {describeDivisionRange(guide.divisions).toLowerCase()} i Västernorrlands
+				ungdomsserier. Här hittar du de viktigaste matchfakta, spelformerna och praktisk information för ledare.
+			</p>
+		</Hero>
+	</Fragment>
+
 	{
 		archived && (
 			<aside class="archive-banner" role="note" aria-label="Arkiv">
@@ -35,80 +73,194 @@ const { from, to } = guide.divisions;
 			</aside>
 		)
 	}
-	<header class={`level-head level-${level}`}>
-		<h1>{guide.name}</h1>
-		<p class="level-meta">
-			<span class="season">Säsong {season.label}</span> · division {from}–{to}
-		</p>
-	</header>
-
-	<section aria-labelledby="matchfakta" class="match-facts">
-		<h2 id="matchfakta">Matchfakta</h2>
-		{
-			unverifiedDivisions.length > 0 && (
-				<p class="notice">
-					Uppgifterna nedan är verifierade för {describeDivisions(factGroups.flatMap((g) => g.appliesTo)).toLowerCase()}.{' '}
-					{describeDivisions(unverifiedDivisions)} är inte verifierade ännu – kontrollera originalkällan.
-				</p>
-			)
-		}
-		{
-			factGroups.map((group) => (
-				<section class="fact-group" data-fact-group={group.id} aria-labelledby={`g-${group.id}`}>
-					<h3 id={`g-${group.id}`}>{group.title}</h3>
-						<FactList facts={group.facts} />
-					<p class="provenance">
-						{group.ruleSource && (
-								<>
-									<span class="rule-label">{ruleTypes[group.ruleSource].label}</span> ·{' '}
-								</>
-							)}
-						Gäller {describeDivisions(group.appliesTo).toLowerCase()} · Kontrollerad {group.checked} ·{' '}
-						<a href={group.source.url}>Originalkälla: {group.source.label}</a>
-					</p>
-				</section>
-			))
-		}
-	</section>
 
 	{
-		divisionAdaptations.length > 0 && (
-			<section aria-labelledby="divisionsanpassningar" class="division-adaptations">
-				<h2 id="divisionsanpassningar">Divisionsanpassningar</h2>
-				<p>
-					Det som skiljer divisionerna åt. Allt annat gäller {guide.name.toLowerCase()} i sin helhet enligt matchfakta
-					ovan.
-				</p>
-				{divisionAdaptations.map((d) => (
-					<section class="division" data-division={d.division} aria-labelledby={`d-${d.division}`}>
-						<h3 id={`d-${d.division}`}>Division {d.division}</h3>
-						{d.adaptations.map((a) => (
-							<div class="fact-group" data-adaptation={a.id}>
-								<h4>{a.title}</h4>
-								<FactList facts={a.facts} />
-								<p class="provenance">
-									{a.ruleSource && (
-										<>
-											<span class="rule-label">{ruleTypes[a.ruleSource].label}</span> ·{' '}
-										</>
-									)}
-									Gäller division {d.division} · Kontrollerad {a.checked} ·{' '}
-									<a href={a.source.url}>Originalkälla: {a.source.label}</a>
-								</p>
-							</div>
-						))}
-						{d.unverified.map((u) => (
-							<div class="fact-group unverified" data-unverified-adaptation={u.id}>
-								<h4>{u.title} – ej verifierat</h4>
-								<p class="notice">{u.note}</p>
-							</div>
-						))}
-					</section>
+		!archived && (
+			<ul class="division-tiles" aria-label={`Divisioner i ${guide.name.toLowerCase()}`}>
+				{levelDivisions.map((n) => (
+					<li>
+						<a class="division-tile" href={`/${level}/division-${n}/`}>
+							<Icon name="trophy" size={34} />
+							<span class="tile-text">
+								<strong>Division {n}</strong>
+								<span>{guide.name}</span>
+							</span>
+							<Icon name="chevron" size={18} />
+						</a>
+					</li>
 				))}
-			</section>
+			</ul>
 		)
 	}
 
-	<UpdateNotices notices={guide.updateNotices} />
-	<RuleHierarchy sections={ruleSections} />
+	<div class="level-layout">
+		<section class="card overview" aria-labelledby="matchfakta" id="snabb-oversikt">
+			<div class="overview-head">
+				<Icon name="doc" size={40} />
+				<div>
+					<h2 id="matchfakta">Snabb översikt</h2>
+					<p class="card-sub">Detta gäller på {guide.name.toLowerCase()} – verifierat för {verifiedText}</p>
+				</div>
+			</div>
+			{
+				unverifiedDivisions.length > 0 && (
+					<p class="notice">
+						Uppgifterna nedan är verifierade för {verifiedText}. {describeDivisions(unverifiedDivisions)} är inte
+						verifierade ännu – kontrollera originalkällan.
+					</p>
+				)
+			}
+			<ul class="fact-rows">
+				{
+					factGroups.flatMap((group) =>
+						group.facts.map((fact) => (
+							<li class="fact-row" data-fact={fact.key}>
+								<span class="fact-icon">
+									<Icon name={factIcon(fact.key)} size={26} />
+								</span>
+								<div>
+									<strong>{fact.value}</strong>
+									<span>{fact.label}</span>
+								</div>
+							</li>
+						)),
+					)
+				}
+			</ul>
+		</section>
+
+		{
+			rules && matchday && (
+				<div class="level-side">
+					<section class="card news-card" aria-labelledby="nytt-title">
+						<div class="side-head">
+							<Icon name="megaphone" size={44} />
+							<h2 id="nytt-title">{rules.news.title}</h2>
+						</div>
+						<p>{rules.news.summary} Här hittar du en sammanfattning av de viktigaste förändringarna.</p>
+						<a class="btn-outline" href="/regler/#nyheter">
+							Läs mer <Icon name="chevron" size={16} />
+						</a>
+					</section>
+
+					<div class="side-pair">
+						<section class="card" aria-labelledby="dokument-title">
+							<div class="side-head">
+								<Icon name="doc" size={40} />
+								<div>
+									<h3 id="dokument-title">Viktiga dokument</h3>
+									<p class="card-sub">Regler, bestämmelser och information</p>
+								</div>
+							</div>
+							<ul class="doc-links">
+								{rules.documents.map((doc) => (
+									<li>
+										<ExternalLink href={doc.url}>
+											{doc.title}
+											<Icon name="external" size={16} />
+										</ExternalLink>
+									</li>
+								))}
+							</ul>
+						</section>
+
+						<section class="card" aria-labelledby="matchdagen-side-title">
+							<div class="side-head">
+								<Icon name="calendar" size={40} />
+								<div>
+									<h3 id="matchdagen-side-title">Matchdagen</h3>
+									<p class="card-sub">Checklista för ledare</p>
+								</div>
+							</div>
+							<ol class="steps">
+								{matchday.sections.map((sec, i) => (
+									<li>
+										<a href={`/matchdagen/#${sec.id}`}>
+											<span class="step-no">{i + 1}</span>
+											<span>
+												<strong>{sec.title}</strong>
+												<small>{sec.items.length} punkter</small>
+											</span>
+										</a>
+									</li>
+								))}
+								<li>
+									<a href="/matchdagen/#matchflytt">
+										<span class="step-no">{matchday.sections.length + 1}</span>
+										<span>
+											<strong>{matchday.relocation.title}</strong>
+											<small>Länk till aktuell information</small>
+										</span>
+									</a>
+								</li>
+							</ol>
+						</section>
+					</div>
+				</div>
+			)
+		}
+	</div>
+
+	<section class="card level-more" aria-labelledby="kallor-title">
+		<h2 id="kallor-title">Källor och kontrolldatum</h2>
+		<ul class="sources-list">
+			{
+				factGroups.map((group) => (
+					<li data-fact-group={group.id}>
+						<strong>{group.title}</strong> ·{' '}
+						{group.ruleSource && (
+							<>
+								<span class="rule-label">{ruleTypes[group.ruleSource].label}</span> ·{' '}
+							</>
+						)}
+						Gäller {describeDivisions(group.appliesTo).toLowerCase()} · Kontrollerad {group.checked} ·{' '}
+						<SourceRef source={group.source} />
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<div class="level-more">
+		{
+			divisionAdaptations.length > 0 && (
+				<section aria-labelledby="divisionsanpassningar" class="division-adaptations">
+					<h2 id="divisionsanpassningar">Divisionsanpassningar</h2>
+					<p>
+						Det som skiljer divisionerna åt. Allt annat gäller {guide.name.toLowerCase()} i sin helhet enligt
+						översikten ovan.
+					</p>
+					{divisionAdaptations.map((d) => (
+						<section class="division" data-division={d.division} aria-labelledby={`d-${d.division}`}>
+							<h3 id={`d-${d.division}`}>Division {d.division}</h3>
+							{d.adaptations.map((a) => (
+								<div class="fact-group" data-adaptation={a.id}>
+									<h4>{a.title}</h4>
+									<FactList facts={a.facts} />
+									<p class="provenance">
+										{a.ruleSource && (
+											<>
+												<span class="rule-label">{ruleTypes[a.ruleSource].label}</span> ·{' '}
+											</>
+										)}
+										Gäller division {d.division} · Kontrollerad {a.checked} ·{' '}
+										<SourceRef source={a.source} />
+									</p>
+								</div>
+							))}
+							{d.unverified.map((u) => (
+								<div class="fact-group unverified" data-unverified-adaptation={u.id}>
+									<h4>{u.title} – ej verifierat</h4>
+									<p class="notice">{u.note}</p>
+								</div>
+							))}
+						</section>
+					))}
+				</section>
+			)
+		}
+
+		<UpdateNotices notices={guide.updateNotices} />
+		<RuleHierarchy sections={ruleSections} />
+	</div>
 </Layout>

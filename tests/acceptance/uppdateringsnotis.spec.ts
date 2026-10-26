@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-// Den publicerade sajten (port 4321) innehåller ingen uppdateringsnotis.
+// Den publicerade sajten (port 4421) innehåller ingen uppdateringsnotis.
 test('Röd nivå visar ingen uppdateringsnotis när den saknas', async ({ page }) => {
 	await page.goto('/rod/');
 	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Röd nivå');
@@ -8,9 +8,9 @@ test('Röd nivå visar ingen uppdateringsnotis när den saknas', async ({ page }
 	await expect(page.getByText('Uppdatering')).toHaveCount(0);
 });
 
-// Fixturbygget (port 4322) bygger från tests/fixtures/content, bara för testerna.
+// Fixturbygget (port 4422) bygger från tests/fixtures/content, bara för testerna.
 test.describe('med en uppdateringsnotis i innehållet', () => {
-	test.use({ baseURL: 'http://localhost:4322' });
+	test.use({ baseURL: 'http://localhost:4422' });
 
 	test('Röd nivå visar notisens datum, text och källa', async ({ page }) => {
 		await page.goto('/rod/');

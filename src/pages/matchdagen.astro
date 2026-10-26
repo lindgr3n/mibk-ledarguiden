@@ -1,6 +1,9 @@
 ---
+import ExternalLink from '../components/ExternalLink.astro';
+import SourceRef from '../components/SourceRef.astro';
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
 import { getActiveSeason } from '../lib/nivaguide';
 import { ruleTypes } from '../lib/regelhierarki';
 
@@ -9,16 +12,20 @@ const season = await getActiveSeason();
 const entry = (await getCollection('matchdagen')).find((m) => m.data.season.id === season.id);
 if (!entry) throw new Error(`Ingen Matchdagen för säsong ${season.data.label}`);
 const { sections, relocation, readMore } = entry.data;
+// Förklaringen av föreningsvägledning visas en gång på sidan, inte under varje punkt.
+const usesGuidance = sections.some((sec) => sec.items.some((i) => i.ruleSource === 'foreningsvagledning'));
 
 ---
 
 <Layout title="Matchdagen">
-	<div class="wrap">
-		<header class="level-head level-neutral">
-			<h1>Matchdagen</h1>
-			<p class="level-meta"><span class="season">Säsong {season.data.label}</span> · checklista för ledare</p>
-		</header>
-
+	<Fragment slot="hero">
+		<Hero variant="detail" labelledby="matchdagen-h1">
+			<p class="eyebrow">Moälvens innebandy · Säsong {season.data.label}</p>
+			<h1 id="matchdagen-h1"><span class="lvl-word-neutral">Match</span>dagen</h1>
+			<p class="hero-lead">Checklista för ledare: inför, under och efter match.</p>
+		</Hero>
+	</Fragment>
+	<div class="card-page">
 		<nav aria-label="Genvägar på sidan" class="shortcuts">
 			<ul>
 				{sections.map((s) => <li><a href={`#${s.id}`}>{s.title}</a></li>)}
@@ -27,24 +34,34 @@ const { sections, relocation, readMore } = entry.data;
 		</nav>
 
 		{
+			usesGuidance && (
+				<p class="rule-note">
+					<span class="rule-tag rule-foreningsvagledning">
+						<span class="rule-label">{ruleTypes.foreningsvagledning.label}</span>
+					</span>{' '}
+					{ruleTypes.foreningsvagledning.description}
+				</p>
+			)
+		}
+
+		{
 			sections.map((s) => (
 				<section id={s.id} aria-labelledby={`h-${s.id}`} class="checklist-section">
 					<h2 id={`h-${s.id}`}>{s.title}</h2>
 					<ul class="checklist">
 						{s.items.map((item) => (
 							<li data-item={item.id}>
-								<span>{item.text}</span>
-								<span class="provenance">
+								<span class="item-text">{item.text}</span>
+								<span class={`rule-tag rule-${item.ruleSource}`}>
 									<span class="rule-label">{ruleTypes[item.ruleSource].label}</span>
-									{item.source && item.checked && (
-										<>
-											{' '}· Kontrollerad {item.checked} ·{' '}
-											<a href={item.source.url}>Originalkälla: {item.source.label}</a>
-										</>
-									)}
 								</span>
-								{item.ruleSource === 'foreningsvagledning' && (
-									<span class="rule-caveat">{ruleTypes.foreningsvagledning.description}</span>
+								{item.source && item.checked && (
+									<span class="provenance">
+										<span class="provenance-source">
+											<SourceRef source={item.source} />
+										</span>
+										<span class="provenance-checked">Kontrollerad {item.checked}</span>
+									</span>
 								)}
 							</li>
 						))}
@@ -56,14 +73,14 @@ const { sections, relocation, readMore } = entry.data;
 		<section id="matchflytt" aria-labelledby="h-matchflytt" class="checklist-section">
 			<h2 id="h-matchflytt">{relocation.title}</h2>
 			<p>{relocation.intro}</p>
-			<p><a href={relocation.link.url}>{relocation.link.label}</a></p>
+			<p><ExternalLink href={relocation.link.url}>{relocation.link.label}</ExternalLink></p>
 			<p>{relocation.reminder}</p>
 		</section>
 
 		<section aria-labelledby="h-lasmer" class="checklist-section">
 			<h2 id="h-lasmer">Läs mer</h2>
 			<ul>
-				{readMore.map((l) => <li><a href={l.url}>{l.label}</a></li>)}
+				{readMore.map((l) => <li><ExternalLink href={l.url}>{l.label}</ExternalLink></li>)}
 			</ul>
 		</section>
 	</div>

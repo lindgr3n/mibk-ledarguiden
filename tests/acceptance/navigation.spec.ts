@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs';
 import { expect, test } from '@playwright/test';
 
 const menu = [
-	{ name: 'Hem', path: '/', heading: 'Ledarguide 2026/27' },
+	{ name: 'Hem', path: '/', heading: 'Moälvens IBK – Ledarguide 2026/27' },
 	{ name: 'Nivåer', path: '/nivaer/', heading: 'Nivåer' },
 	{ name: 'Matchdagen', path: '/matchdagen/', heading: 'Matchdagen' },
 	{ name: 'Regler och dokument', path: '/regler/', heading: 'Regler och dokument' },

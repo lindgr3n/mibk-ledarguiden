@@ -6,17 +6,17 @@ export default defineConfig({
 	testDir: './tests/acceptance',
 	fullyParallel: true,
 	reporter: 'list',
-	use: { baseURL: 'http://localhost:4321' },
+	use: { baseURL: 'http://localhost:4421' },
 	webServer: [
 		{
-			command: 'npx astro preview --ignore-lock --port 4321',
-			url: 'http://localhost:4321',
+			command: 'npx astro preview --ignore-lock --port 4421',
+			url: 'http://localhost:4421',
 			reuseExistingServer: false,
 		},
 		{
 			// Fixturbygge med testinnehåll (t.ex. en uppdateringsnotis) som aldrig publiceras.
-			command: 'npx astro build && npx astro preview --ignore-lock --port 4322',
-			url: 'http://localhost:4322',
+			command: 'npx astro build && npx astro preview --ignore-lock --port 4422',
+			url: 'http://localhost:4422',
 			reuseExistingServer: false,
 			timeout: 180_000,
 			env: {
@@ -26,8 +26,8 @@ export default defineConfig({
 		},
 		{
 			// Fixturbygge "efter aktivering": föregående säsong arkiverad, nästa säsong aktiv.
-			command: 'npx astro build && npx astro preview --ignore-lock --port 4323',
-			url: 'http://localhost:4323',
+			command: 'npx astro build && npx astro preview --ignore-lock --port 4423',
+			url: 'http://localhost:4423',
 			reuseExistingServer: false,
 			timeout: 180_000,
 			env: {

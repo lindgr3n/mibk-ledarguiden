@@ -1,6 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Icon from '../components/Icon.astro';
 import { getActiveSeason, getArchivedSeasons, getLevelOverview } from '../lib/nivaguide';
 
 // Startsidan visar den aktiva säsongen (ADR 0001).
@@ -13,50 +15,36 @@ const archiveLevels = levels.filter((l) => l.href);
 const content = (await getCollection('reglerochdokument')).find((c) => c.data.season.id === season.id);
 if (!content) throw new Error(`Inget innehåll för Regler och dokument i säsong ${season.data.label}`);
 const { definition } = content.data.matchEnvironment;
+const { news } = content.data;
 ---
 
-<Layout title={`Ledarguide ${season.data.label}`}>
-	<section class="hero" aria-labelledby="hero-title">
-		<img
-			class="hero-image"
-			src="/images/brand/moalvens-crowd-hero.webp"
-			alt="Publiken på läktaren i Skyttis"
-			width="1600"
-			height="900"
-		/>
-		<div class="hero-copy">
-			<img
-				class="hero-logo"
-				src="/images/brand/moalvens-ibk-logo.png"
-				alt="Moälvens IBK"
-				width="96"
-				height="96"
-			/>
-			<p class="season">Säsong {season.data.label}</p>
-			<h1 id="hero-title">Ledarguide {season.data.label}</h1>
-			<p class="lead">Hitta rätt inför matchen.</p>
-			<a class="cta" href="#valj-niva">Välj nivå</a>
-		</div>
-	</section>
+<Layout title={`Ledarguide ${season.data.label}`} variant="home">
+	<Fragment slot="hero">
+		<Hero variant="home" labelledby="hero-title" imageAlt="Innebandyklubba och boll på hallgolvet">
+			<p class="eyebrow">Välkommen till</p>
+			<h1 id="hero-title">
+				Moälvens IBK –{' '}<br /><span class="accent">Ledarguide</span> {season.data.label}
+			</h1>
+			<p class="hero-lead">Välj nivå för att hitta rätt information för ditt lag och dina matcher.</p>
+		</Hero>
+	</Fragment>
 
-	<section id="valj-niva" class="picker" aria-labelledby="valj-niva-title">
-		<h2 id="valj-niva-title">Välj nivå</h2>
-		<ul class="levels">
+	<section id="valj-niva" aria-labelledby="valj-niva-title">
+		<h2 id="valj-niva-title" class="visually-hidden">Välj nivå</h2>
+		<ul class="level-cards">
 			{
 				levels.map((level) => (
-					<li class={`level level-${level.key}`}>
+					<li class={`level-card level-card-${level.key}`}>
+						<Icon name="users" size={44} />
+						<h3>{level.name}</h3>
+						<p>{level.divisions}</p>
 						{level.href ? (
-							<a href={level.href}>
-								<span class="level-name">{level.name}</span>
-								<span class="level-divisions">{level.divisions}</span>
-								<span class="level-state">{level.state}</span>
+							<a class="btn-white" href={level.href}>
+								Gå till {level.name.toLowerCase()}
+								<Icon name="arrow" size={20} />
 							</a>
 						) : (
-							<div class="level-inactive">
-								<span class="level-name">{level.name}</span>
-								<span class="level-divisions">{level.divisions}</span>
-								<span class="level-state">{level.state}</span>
-							</div>
+							<span class="btn-white is-disabled">{level.state}</span>
 						)}
 					</li>
 				))
@@ -64,30 +52,50 @@ const { definition } = content.data.matchEnvironment;
 		</ul>
 	</section>
 
-	<div class="split">
-		<section aria-labelledby="matchdagen-title" class="block">
-			<h2 id="matchdagen-title">Matchdagen</h2>
-			<p>Checklistan inför och under matchen, från samling till matchflytt.</p>
-			<a class="more" href="/matchdagen/">Öppna Matchdagen</a>
+	<div class="panel-row">
+		<section class="card panel" aria-labelledby="nya-regler-title">
+			<Icon name="doc" size={56} />
+			<div>
+				<h2 id="nya-regler-title">Nya regler {season.data.label}</h2>
+				<p>{news.summary} Här hittar du en kort sammanfattning av vad som är nytt inför säsongen {season.data.label}.</p>
+			</div>
+			<a class="link-arrow" href="/regler/#nyheter">Till nya regler <Icon name="arrow" size={18} /></a>
 		</section>
 
-		<section aria-labelledby="matchmiljo-title" class="block">
-			<h2 id="matchmiljo-title">Bra matchmiljö</h2>
-			<p>{definition}</p>
-			<a class="more" href="/regler/#matchmiljo">Förbundets material om bra matchmiljö</a>
+		<section class="card panel" aria-labelledby="dokument-title">
+			<Icon name="book" size={56} />
+			<div>
+				<h2 id="dokument-title">Officiella dokument</h2>
+				<p>
+					Hitta rätt bland förbundets regler, direktiv och dokument. Här är de viktigaste länkarna för dig som
+					ledare i Moälvens IBK.
+				</p>
+			</div>
+			<a class="link-arrow" href="/regler/">Visa dokument <Icon name="arrow" size={18} /></a>
 		</section>
 	</div>
 
-	<section aria-labelledby="regler-title" class="block wide">
-		<h2 id="regler-title">Regler och dokument</h2>
-		<p>
-			Förbundets originaldokument, nyheter för säsongen och de källor som gäller när ledarguiden och
-			originalen skiljer sig åt.
-		</p>
-		<a class="more" href="/regler/">Gå till Regler och dokument</a>
-	</section>
+	<div class="panel-row">
+		<section class="card panel" aria-labelledby="matchdagen-title">
+			<Icon name="calendar" size={56} />
+			<div>
+				<h2 id="matchdagen-title">Matchdagen</h2>
+				<p>Checklistan inför och under matchen, från samling till matchflytt.</p>
+			</div>
+			<a class="link-arrow" href="/matchdagen/">Öppna Matchdagen <Icon name="arrow" size={18} /></a>
+		</section>
 
-	<section aria-labelledby="arkiv-title" class="block wide archive">
+		<section class="card panel" aria-labelledby="matchmiljo-title">
+			<Icon name="users" size={56} />
+			<div>
+				<h2 id="matchmiljo-title">Bra matchmiljö</h2>
+				<p>{definition}</p>
+			</div>
+			<a class="link-arrow" href="/regler/#matchmiljo">Förbundets material om bra matchmiljö <Icon name="arrow" size={18} /></a>
+		</section>
+	</div>
+
+	<section aria-labelledby="arkiv-title" class="archive-teaser">
 		<h2 id="arkiv-title">Tidigare säsonger</h2>
 		{
 			archivedSeasons.length > 0 ? (
@@ -110,205 +118,3 @@ const { definition } = content.data.matchEnvironment;
 		}
 	</section>
 </Layout>
-
-<style>
-	/* Hero: bred publikbild med mörk toning; vattenstämpeln i bilden behålls (ingen beskärning uppåt/nedåt av stämpeln). */
-	.hero {
-		position: relative;
-		margin: -2rem -1rem 0;
-		min-height: 22rem;
-		display: flex;
-		align-items: flex-end;
-		color: #fff;
-		background: var(--black);
-		overflow: hidden;
-	}
-	.hero-image {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		object-position: center;
-	}
-	.hero::before {
-		content: '';
-		position: absolute;
-		inset: 0;
-		z-index: 1;
-		background: linear-gradient(90deg, rgb(9 10 10 / 0.92) 0%, rgb(9 10 10 / 0.7) 55%, rgb(9 10 10 / 0.25) 100%);
-	}
-	.hero-copy {
-		position: relative;
-		z-index: 2;
-		padding: 1.5rem 1rem 4rem;
-	}
-	.hero-logo {
-		display: block;
-		width: 4.5rem;
-		height: 4.5rem;
-		object-fit: contain;
-		margin-bottom: 1rem;
-	}
-	.season {
-		margin: 0 0 0.25rem;
-		font-weight: 600;
-		letter-spacing: 0.04em;
-		color: var(--orange);
-	}
-	.hero h1 {
-		margin-bottom: 0.25rem;
-	}
-	.lead {
-		font-size: 1.375rem;
-		margin: 0 0 1.25rem;
-	}
-	.cta {
-		display: inline-block;
-		background: var(--orange);
-		color: var(--black);
-		font-weight: 700;
-		padding: 0.625rem 1.25rem;
-		text-decoration: none;
-	}
-	.cta:hover {
-		background: #fff;
-	}
-
-	/* Nivåväljaren bryter hero-kanten: sammanhängande fält utan mellanrum. */
-	.picker {
-		position: relative;
-		z-index: 3;
-		margin-top: -3rem;
-	}
-	/* Rubriken finns för skärmläsare; "Välj nivå"-knappen i hero ger den synliga etiketten. */
-	.picker h2 {
-		position: absolute;
-		width: 1px;
-		height: 1px;
-		margin: -1px;
-		overflow: hidden;
-		clip-path: inset(50%);
-		white-space: nowrap;
-	}
-	.levels {
-		background: var(--paper);
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: grid;
-		grid-template-columns: 1fr;
-		border: 2px solid var(--black);
-	}
-	.level + .level {
-		border-top: 2px solid var(--black);
-	}
-	.level a,
-	.level-inactive {
-		display: grid;
-		gap: 0.125rem;
-		padding: 1.25rem 1rem;
-		color: #fff;
-		text-decoration: none;
-		min-height: 7rem;
-		align-content: end;
-	}
-	.level-gron {
-		background: var(--level-green);
-	}
-	.level-bla {
-		background: var(--level-blue);
-	}
-	.level-rod {
-		background: var(--level-red);
-	}
-	/* Kommande nivå: dämpad, streckad kant, tydligt text-märkt. */
-	.level-inactive {
-		background-image: repeating-linear-gradient(135deg, rgb(0 0 0 / 0.18) 0 0.5rem, transparent 0.5rem 1rem);
-		cursor: default;
-	}
-	.level-name {
-		font-family: var(--font-heading);
-		font-weight: 700;
-		font-size: 2.25rem;
-		line-height: 1;
-	}
-	.level-divisions {
-		font-size: 1.0625rem;
-	}
-	.level-state {
-		margin-top: 0.5rem;
-		font-weight: 700;
-		font-size: 0.9375rem;
-		text-transform: none;
-	}
-	.level a .level-state::after {
-		content: ' →';
-	}
-	.level a {
-		transition: filter 120ms ease;
-	}
-	.level a:hover {
-		filter: brightness(1.12);
-	}
-	.level a:focus-visible {
-		outline-color: #fff;
-		outline-offset: -6px;
-	}
-	@media (prefers-reduced-motion: reduce) {
-		.level a {
-			transition: none;
-		}
-	}
-
-	.split {
-		display: grid;
-		grid-template-columns: 1fr;
-	}
-	.block {
-		margin-top: 2rem;
-		padding-top: 1.25rem;
-		border-top: 2px solid var(--line);
-	}
-	.more {
-		display: inline-flex;
-		align-items: center;
-		min-height: 2.75rem;
-		font-weight: 700;
-		text-decoration-color: var(--orange);
-		text-decoration-thickness: 3px;
-		text-underline-offset: 4px;
-	}
-	.archive {
-		color: var(--charcoal);
-	}
-
-	@media (min-width: 48rem) {
-		.hero {
-			min-height: 28rem;
-			margin-inline: calc(50% - 50vw);
-			margin-top: -2rem;
-		}
-		.hero-copy {
-			width: 100%;
-			max-width: 64rem;
-			margin-inline: auto;
-			padding: 2rem 1rem 5rem;
-		}
-		.levels {
-			grid-template-columns: repeat(3, 1fr);
-		}
-		.level + .level {
-			border-top: 0;
-			border-left: 2px solid var(--black);
-		}
-		.level a,
-		.level-inactive {
-			min-height: 10rem;
-		}
-		.split {
-			grid-template-columns: 1fr 1fr;
-			column-gap: 2.5rem;
-		}
-	}
-</style>

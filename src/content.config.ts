@@ -28,6 +28,8 @@ const sasonger = defineCollection({
 const originalkalla = z.object({
 	label: z.string().min(1),
 	url: z.url().refine((u) => u.startsWith('https://'), 'Originalkällan måste vara en https-länk'),
+	// Var i dokumentet uppgiften står (valfritt), eftersom en länk till ett helt dokument annars är för grov.
+	detail: z.string().min(1).optional(),
 });
 
 // En faktagrupp hör ihop med en originalkälla och ett kontrolldatum.

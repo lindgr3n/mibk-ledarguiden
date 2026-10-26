@@ -1,16 +1,28 @@
+/* Tokens följer referensbilderna i docs/references. Nivåfärg används alltid tillsammans med nivåns namn. */
 :root {
 	--orange: #f58220;
+	--orange-ink: #b14f00;
 	--black: #090a0a;
+	--header: #1c1e21;
 	--charcoal: #202326;
-	--paper: #f5f5f2;
+	--paper: #f4f4f1;
+	--card: #fff;
+	--card-line: #e6e6e1;
 	--ink: #17191a;
+	--muted: #5b6064;
 	--line: #d9dbd8;
 	--level-red: #b5121b;
 	--level-blue: #0757a6;
 	--level-green: #087a3f;
+	--level-red-on-dark: #ff5b50;
+	--level-blue-on-dark: #5aaeff;
+	--level-green-on-dark: #43d08a;
 
-	--font-heading: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+	--font-heading: 'Source Sans 3', system-ui, sans-serif;
+	--font-slab: 'Roboto Slab', Georgia, serif;
 	--font-body: 'Source Sans 3', system-ui, sans-serif;
+	--gutter: clamp(1rem, 3.4vw, 2rem);
+	--radius: 12px;
 }
 
 *,
@@ -32,28 +44,32 @@ body {
 	background: var(--paper);
 	color: var(--ink);
 	font-family: var(--font-body);
-	font-size: 1.125rem;
+	font-size: 1.0625rem;
 	line-height: 1.5;
 }
 
 main {
 	flex: 1;
-	padding-block: 2rem;
 }
 
 .wrap {
 	width: 100%;
-	max-width: 64rem;
+	max-width: 82rem;
 	margin-inline: auto;
-	padding-inline: 1rem;
+	padding-inline: var(--gutter);
+}
+
+.content {
+	padding-block: 1.25rem 3rem;
 }
 
 h1,
 h2,
-h3 {
+h3,
+h4 {
 	font-family: var(--font-heading);
 	font-weight: 700;
-	line-height: 1.1;
+	line-height: 1.15;
 	margin: 0 0 0.75rem;
 }
 
@@ -62,7 +78,11 @@ h1 {
 }
 
 h2 {
-	font-size: 1.75rem;
+	font-size: 1.625rem;
+}
+
+h3 {
+	font-size: 1.25rem;
 }
 
 p {
@@ -100,43 +120,46 @@ main:focus {
 	outline: none;
 }
 
-/* Header och huvudmeny */
+/* Header och huvudmeny (docs/references/landingpage.png och rod_detail.png) */
 .site-header {
-	background: var(--black);
+	position: relative;
+	z-index: 20;
+	background: var(--header);
 	color: #fff;
-	border-bottom: 4px solid var(--orange);
 }
 
 .header-inner {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	justify-content: space-between;
-	gap: 0.5rem 1.5rem;
-	padding-block: 0.5rem;
+	gap: 0 clamp(1rem, 3vw, 3rem);
+	min-height: 4.3rem;
+	padding: 0.35rem var(--gutter);
 }
 
 .brand {
 	display: flex;
 	align-items: center;
-	gap: 0.625rem;
-	font-family: var(--font-heading);
-	font-size: 1.375rem;
-	font-weight: 700;
+	gap: 1rem;
+	color: #fff;
 	text-decoration: none;
 }
 
 .brand img {
 	display: block;
-	width: 2.5rem;
-	height: 2.5rem;
+	width: 3rem;
+	height: 3rem;
 	object-fit: contain;
+}
+
+.wordmark {
+	display: none;
 }
 
 nav ul {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0 1.25rem;
+	gap: 0 clamp(1rem, 2.4vw, 2.25rem);
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -144,18 +167,72 @@ nav ul {
 
 nav a {
 	display: block;
-	padding: 0.5rem 0;
+	padding: 0.7rem 0.1rem;
 	text-decoration: none;
 	border-bottom: 3px solid transparent;
 }
 
-nav a:hover,
-nav a[aria-current='page'] {
+nav a:hover {
 	border-bottom-color: var(--orange);
 }
 
+nav a[aria-current='page'] {
+	color: var(--orange);
+	border-bottom-color: var(--orange);
+}
+
+@media (min-width: 48rem) {
+	.header-inner {
+		min-height: 4.3rem;
+		padding-block: 0;
+	}
+
+	/* Skölden hänger ned över hero-bilden på alla sidor utom startsidan */
+	.brand img {
+		width: 6.5rem;
+		height: 6.5rem;
+		margin-block: 0.3rem -2.5rem;
+	}
+
+	nav a {
+		padding-block: 1.45rem 1.25rem;
+	}
+
+	.site-header-home .header-inner {
+		min-height: 7.3rem;
+	}
+
+	.site-header-home .brand img {
+		width: 6.3rem;
+		height: 6.3rem;
+		margin-block: 0;
+	}
+
+	.site-header-home .wordmark {
+		display: grid;
+		gap: 0.3rem;
+	}
+
+	.site-header-home nav {
+		margin-inline-start: auto;
+	}
+}
+
+.wordmark-name {
+	font-size: clamp(1.9rem, 3vw, 2.9rem);
+	font-weight: 700;
+	line-height: 1;
+}
+
+.wordmark-sub {
+	font-size: 0.8rem;
+	letter-spacing: 0.3em;
+	text-transform: uppercase;
+	color: #d6d8da;
+}
+
 .site-footer {
-	background: var(--black);
+	background: var(--header);
 	color: #fff;
 	padding-block: 1.25rem;
 	font-size: 0.9375rem;
@@ -179,36 +256,8 @@ main ul:not(.checklist) > li > a {
 }
 
 /* Nivåguide */
-.level-head {
-	padding: 1rem 1.25rem;
-	margin-bottom: 1.5rem;
-	color: #fff;
-	background: var(--charcoal);
-	border-left: 0.5rem solid var(--level-red);
-}
-
-.level-head.level-bla {
-	border-left-color: var(--level-blue);
-}
-
-.level-head.level-gron {
-	border-left-color: var(--level-green);
-}
-
-.level-head.level-neutral {
-	border-left-color: var(--orange);
-}
-
 .division-adaptations .division {
 	margin-top: 1rem;
-}
-
-.level-head h1 {
-	margin-bottom: 0.25rem;
-}
-
-.level-meta {
-	margin: 0;
 }
 
 .season {
@@ -262,93 +311,137 @@ main ul:not(.checklist) > li > a {
 	padding-left: 1.25rem;
 }
 
-/* Regelhierarki: typ visas med text, kantstil och symbol, aldrig bara med färg */
+/* Regelhierarki (ADR 0003): typ visas med etikett, symbol och kantstil, aldrig bara med färg */
 .rule-hierarchy {
 	margin-top: 2rem;
 }
 
 .rule-legend {
-	margin: 0 0 1rem;
 	display: grid;
-	gap: 0.5rem;
+	gap: 0.75rem;
+	margin: 0 0 1.25rem;
 }
 
 .rule-legend dt {
-	font-weight: 600;
+	margin-bottom: 0.35rem;
 }
 
 .rule-legend dd {
 	margin: 0;
+	color: var(--muted);
+	font-size: 0.9375rem;
 }
 
 .rule-type,
 .rule-statement {
-	padding: 0.5rem 0.75rem;
+	padding: 0.9rem 1.1rem;
 	background: #fff;
-	border-left: 0.5rem solid var(--ink);
+	border: 1px solid var(--card-line);
+	border-radius: 10px;
 }
 
 .rule-statement {
-	margin-block: 0.5rem;
+	margin-block: 0.75rem;
 }
 
 .rule-statement p {
-	margin: 0.25rem 0;
+	margin: 0.35rem 0;
+}
+
+.rule-statement .rule-kind {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem;
+	margin-top: 0;
+}
+
+.rule-issuer {
+	color: var(--muted);
+	font-size: 0.9375rem;
+}
+
+.rule-nationell-regel {
+	border-color: #c9ccd0;
 }
 
 .rule-distriktsanpassning {
-	border-left-style: double;
-	border-left-width: 0.75rem;
+	background: #f8f5fd;
+	border-color: #ddd2f2;
 }
 
 .rule-foreningsvagledning {
 	background: var(--paper);
-	border: 2px dashed var(--ink);
+	border: 1px dashed #9aa0a6;
 }
 
 .rule-label {
-	display: inline-block;
-	padding: 0.05rem 0.5rem;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	font-size: 0.9375rem;
 	font-weight: 600;
-	color: #fff;
-	background: var(--ink);
+	white-space: nowrap;
+	color: var(--charcoal);
 }
 
-.rule-nationell-regel .rule-label::before {
-	content: '\25A0\00a0';
+/* Typ visas med en liten prick och text i typens färg (ingen fylld pill). Orange är föreningens färg;
+   lila och grafit är fria från nivåfärgerna. Typen framgår alltid av texten. */
+.rule-label::before {
+	content: '';
+	flex: none;
+	width: 0.6rem;
+	height: 0.6rem;
+	border-radius: 50%;
+	background: var(--rule-dot, #6d7378);
 }
 
-.rule-distriktsanpassning .rule-label::before {
-	content: '\25C6\00a0';
+.rule-nationell-regel .rule-label {
+	--rule-dot: #6d7378;
+	color: var(--charcoal);
+}
+
+.rule-distriktsanpassning .rule-label {
+	--rule-dot: #7a56c9;
+	color: #4a2d8a;
 }
 
 .rule-foreningsvagledning .rule-label {
-	color: var(--ink);
-	background: #fff;
-	border: 1px dashed var(--ink);
-}
-
-.rule-foreningsvagledning .rule-label::before {
-	content: '\25CB\00a0';
+	--rule-dot: var(--orange);
+	color: #a24700;
 }
 
 .rule-section {
-	padding-block: 1rem;
-	border-top: 1px solid var(--line);
+	padding-block: 1.25rem 0.25rem;
+	border-top: 1px solid var(--card-line);
+}
+
+.rule-section h3 {
+	margin-bottom: 0.25rem;
 }
 
 .rule-deviation {
+	margin: 0 0 0.25rem;
+	color: var(--orange-ink);
 	font-weight: 600;
 }
 
 .rule-warning {
-	padding: 0.5rem 0.75rem;
-	border: 3px solid var(--level-red);
-	background: #fff;
+	padding: 0.6rem 0.9rem;
+	border: 1px solid #e3b4b6;
+	border-left: 4px solid var(--level-red);
+	border-radius: 8px;
+	background: #fdf1f1;
 }
 
 .rule-warning strong::before {
 	content: '\26A0\00a0';
+}
+
+@media (min-width: 48rem) {
+	.rule-legend {
+		grid-template-columns: repeat(3, 1fr);
+	}
 }
 
 /* Matchdagen */
@@ -389,22 +482,13 @@ main ul:not(.checklist) > li > a {
 
 .checklist li {
 	display: grid;
-	grid-template-columns: 1.5rem 1fr;
+	grid-template-columns: 1fr;
 	gap: 0.125rem 0.75rem;
 	padding-block: 0.5rem;
 }
 
-.checklist li::before {
-	content: '';
-	grid-row: 1 / span 2;
-	width: 1.25rem;
-	height: 1.25rem;
-	margin-top: 0.2rem;
-	border: 2px solid var(--charcoal);
-}
-
 .checklist li > .provenance {
-	grid-column: 2;
+	grid-column: 1;
 	margin: 0;
 	font-size: 0.9375rem;
 }
@@ -434,22 +518,6 @@ main ul:not(.checklist) > li > a {
 	.wrap {
 		padding: 0;
 		max-width: none;
-	}
-
-	/* Ingen färgdekoration; nivån framgår av rubriken (t.ex. "Röd nivå") */
-	.level-head,
-	.level-head.level-bla,
-	.level-head.level-gron {
-		background: none;
-		color: #000;
-		padding: 0 0 0.5rem;
-		border-left: 0;
-		border-bottom: 2pt solid #000;
-	}
-
-	.level-head h1,
-	.level-head .level-meta {
-		color: #000;
 	}
 
 	/* Håll ihop faktagrupper och checklistepunkter */

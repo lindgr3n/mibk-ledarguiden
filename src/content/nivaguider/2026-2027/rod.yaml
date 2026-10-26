@@ -1,6 +1,7 @@
-# Röd nivå, säsong 2026/27. Källa: docs/quick-look/division-5.md (Västernorrlands ungdomsmatris).
-# Uppgifterna är hittills verifierade för division 5. Lägg till division 1-4 i appliesTo först när
-# de kontrollerats mot originalkällan.
+# Röd nivå, säsong 2026/27. Källa: Västernorrlands ungdomsmatris 2026/27 (sida 1) och docs/quick-look/division-5.md.
+# Matrisraderna för division 1-5 är lika på allt utom kolumnen Tabell / poängliga: division 1 har Ja/Ja,
+# division 2-5 har Ja/Nej. Därför gäller faktagrupperna division 1-5, tabellgruppen division 2-5, och
+# division 1:s avvikelse ligger i src/content/divisionsanpassningar (ADR 0002).
 season: 2026-2027
 level: rod
 name: Röd nivå
@@ -11,7 +12,7 @@ factGroups:
   - id: spelform-och-speltid
     title: Spelform och speltid
     status: verifierad
-    appliesTo: [5]
+    appliesTo: [1, 2, 3, 4, 5]
     checked: "2026-10-12"
     source:
       label: Västernorrlands ungdomsmatris 2026/27, sida 1
@@ -24,7 +25,7 @@ factGroups:
   - id: plan-och-mal
     title: Plan och mål
     status: verifierad
-    appliesTo: [5]
+    appliesTo: [1, 2, 3, 4, 5]
     checked: "2026-10-12"
     source:
       label: Västernorrlands ungdomsmatris 2026/27, sida 1
@@ -35,7 +36,7 @@ factGroups:
   - id: domare-och-sekretariat
     title: Domare och sekretariat
     status: verifierad
-    appliesTo: [5]
+    appliesTo: [1, 2, 3, 4, 5]
     checked: "2026-10-12"
     source:
       label: Västernorrlands ungdomsmatris 2026/27, sida 1
@@ -43,10 +44,20 @@ factGroups:
     facts:
       - { key: domare, label: Domare, value: "2, tillsatta av VIBF" }
       - { key: sekretariat, label: Sekretariat, value: "iBIS Online; resultattavla" }
+  - id: tabell-och-poangliga
+    title: Tabell och poängliga
+    status: verifierad
+    appliesTo: [2, 3, 4, 5]
+    checked: "2026-10-12"
+    source:
+      label: Västernorrlands ungdomsmatris 2026/27, sida 1
+      url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+    facts:
+      - { key: tabell, label: Tabell / poängliga, value: "Ja/Nej" }
   - id: ledarutbildning
     title: Ledarutbildning
     status: verifierad
-    appliesTo: [5]
+    appliesTo: [1, 2, 3, 4, 5]
     checked: "2026-10-12"
     source:
       label: Västernorrlands ungdomsmatris 2026/27, sida 1

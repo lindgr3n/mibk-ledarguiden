@@ -1,0 +1,26 @@
+---
+// Originalkälla: länk till själva dokumentet (PDF) plus var det finns på förbundets webbplats.
+// Sidan där dokumentet ligger slås upp ur Regler och dokument (en enda källa), via dokumentets adress.
+import { getCollection } from 'astro:content';
+import ExternalLink from './ExternalLink.astro';
+
+interface Props {
+	source: { label: string; url: string; detail?: string };
+}
+
+const { source } = Astro.props;
+const withoutFragment = (u: string) => u.split('#')[0];
+const documents = (await getCollection('reglerochdokument')).flatMap((c) => c.data.documents);
+const foundAt = documents.find((d) => withoutFragment(d.url) === withoutFragment(source.url))?.foundAt;
+---
+
+<ExternalLink href={source.url}>Originalkälla: {source.label}</ExternalLink>
+{
+	foundAt && (
+		<>
+			{' '}
+			· Finns på <ExternalLink href={foundAt.url}>{foundAt.label}</ExternalLink>
+		</>
+	)
+}
+{source.detail && <span class="source-detail">{source.detail}</span>}

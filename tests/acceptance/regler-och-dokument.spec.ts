@@ -19,7 +19,7 @@ test('originaldokumenten länkas med kontrolldatum', async ({ page }) => {
 	await page.goto('/regler/');
 	const section = page.getByRole('region', { name: 'Originaldokument' });
 	for (const [name, href] of dokument) {
-		const link = section.getByRole('link', { name, exact: true });
+		const link = section.getByRole('link', { name: `${name} (öppnas i ny flik)`, exact: true });
 		await expect(link).toHaveAttribute('href', href);
 		await expect(link.locator('xpath=ancestor::li[1]').getByText('Kontrollerad 2026-10-12')).toBeVisible();
 	}

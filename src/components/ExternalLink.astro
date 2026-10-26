@@ -1,0 +1,12 @@
+---
+// Länk till en extern webbplats (förbundets dokument och originalkällor): öppnas i ny flik.
+// Skärmläsare får veta det, och rel hindrar att den öppnade sidan når den här.
+interface Props {
+	href: string;
+	class?: string;
+}
+
+const { href, class: className } = Astro.props;
+---
+
+<a href={href} class={className} target="_blank" rel="noopener noreferrer"><slot /><span class="visually-hidden"> (öppnas i ny flik)</span></a>

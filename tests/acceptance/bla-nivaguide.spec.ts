@@ -13,8 +13,8 @@ test('Blå nivå nås från Nivåer och visar säsong 2026/27 och division 6–7
 
 test('Blå nivå har samma struktur som Röd nivå, matchfakta först', async ({ page }) => {
 	await page.goto('/bla/');
-	await expect(page.getByRole('heading', { level: 2 }).first()).toHaveText('Matchfakta');
-	const facts = page.getByRole('region', { name: 'Matchfakta' });
+	await expect(page.getByRole('heading', { level: 2 }).first()).toHaveText('Snabb översikt');
+	const facts = page.getByRole('region', { name: 'Snabb översikt' });
 	for (const [label, value] of [
 		['Spelform', '4 utespelare + målvakt'],
 		['Plan', '15 × 30 m'],
@@ -33,7 +33,7 @@ test('Blå nivå har samma struktur som Röd nivå, matchfakta först', async ({
 
 test('gemensamma fakta är bara verifierade för division 6 och det framgår', async ({ page }) => {
 	await page.goto('/bla/');
-	const facts = page.getByRole('region', { name: 'Matchfakta' });
+	const facts = page.getByRole('region', { name: 'Snabb översikt' });
 	await expect(facts.getByText(/Division 7 är inte verifierade ännu/)).toBeVisible();
 });
 
@@ -77,7 +77,7 @@ test('gemensam information dupliceras inte i divisionsanpassningarna', async ({ 
 	}
 });
 
-test('det finns inga publika divisionssidor', async ({ request }) => {
+test('divisionssidor finns bara under nivåns adress med divisionsnamn', async ({ request }) => {
 	for (const path of ['/bla/6/', '/bla/7/', '/division-6/', '/division-7/']) {
 		expect((await request.get(path)).status()).toBe(404);
 	}

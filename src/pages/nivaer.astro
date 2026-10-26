@@ -1,14 +1,21 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getLevelOverview } from '../lib/nivaguide';
+import Hero from '../components/Hero.astro';
+import { getActiveSeason, getLevelOverview } from '../lib/nivaguide';
 
 const levels = await getLevelOverview();
+const season = await getActiveSeason();
 ---
 
 <Layout title="Nivåer">
-	<h1>Nivåer</h1>
-	<p>Välj nivå för att se vad som gäller i din division.</p>
-	<ul>
+	<Fragment slot="hero">
+		<Hero variant="detail" labelledby="nivaer-h1">
+			<p class="eyebrow">Moälvens innebandy · Säsong {season.data.label}</p>
+			<h1 id="nivaer-h1"><span class="lvl-word-neutral">Nivåer</span></h1>
+			<p class="hero-lead">Välj nivå för att se vad som gäller i din division.</p>
+		</Hero>
+	</Fragment>
+	<ul class="card nivaer-list">
 		{
 			levels.map((level) => (
 				<li>
@@ -19,3 +26,11 @@ const levels = await getLevelOverview();
 		}
 	</ul>
 </Layout>
+
+<style>
+	.nivaer-list {
+		margin: 1.25rem 0 0;
+		list-style: none;
+		font-size: 1.25rem;
+	}
+</style>

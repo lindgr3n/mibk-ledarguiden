@@ -1,6 +1,17 @@
-# Matchdagen, säsong 2026/27. Källa: docs/matchdagen.md och Västernorrlands ungdomsmatris.
+# Matchdagen, säsong 2026/27. Källa: docs/matchdagen.md; kraven är kontrollerade mot PDF-dokumenten.
 # Skriv aldrig in matchflyttsavgifter eller tidsgränser här – de ändras; länka till aktuell information.
+# detail anger var i dokumentet kravet står, eftersom en länk till hela matrisen annars inte säger vilken del som gäller.
 season: 2026-2027
+
+# Delade källor (ankare). Ignoreras av schemat.
+_kallor:
+  matris: &matris
+    label: Västernorrlands ungdomsmatris 2026/27, sida 1
+    url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+  lokala: &lokala
+    label: Lokala förutsättningar 2026/27, sida 11
+    url: "https://www.innebandy.se/media/sb3hooik/lokala-forutsattningar-vnibf-2026-2027.pdf#page=11"
+
 sections:
   - id: fore-match
     title: Före match
@@ -9,29 +20,39 @@ sections:
         text: Spelarna har licens och skyddsglasögon.
         ruleSource: distriktsanpassning
         checked: "2026-10-12"
-        source: &matris
-          label: Västernorrlands ungdomsmatris 2026/27, sida 1
-          url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+        source:
+          <<: *matris
+          detail: "Inledande text ovanför divisionstabellen: personlig spelarlicens och glasögon i alla serier"
       - id: ibis
         text: Laguppställningen är inlagd i iBIS i god tid.
         ruleSource: distriktsanpassning
         checked: "2026-10-12"
-        source: *matris
+        source:
+          <<: *lokala
+          detail: "Sekretariatets uppgifter före match, punkt b: matchprotokollet ifyllt i iBIS i god tid innan match"
       - id: ledarlicens
         text: Alla i båset har rätt ledarlicens.
-        ruleSource: foreningsvagledning
+        ruleSource: distriktsanpassning
+        checked: "2026-10-12"
+        source:
+          <<: *matris
+          detail: "Inledande text ovanför divisionstabellen: alla ledare i båset ska ha Grundutbildning barn/ungdom och Steg 1 på rätt nivå"
       - id: matchvardar
         text: "Hemmamatch: två matchvärdar med rosa västar är utsedda."
         homeOnly: true
         ruleSource: distriktsanpassning
         checked: "2026-10-12"
-        source: *matris
+        source:
+          <<: *matris
+          detail: "Inledande text ovanför divisionstabellen: två matchvärdar i alla serier (västarnas färg anges inte här)"
       - id: sekretariat
         text: "Hemmamatch: sekretariat/tidtagare är bemannat enligt divisionens matris."
         homeOnly: true
         ruleSource: distriktsanpassning
         checked: "2026-10-12"
-        source: *matris
+        source:
+          <<: *matris
+          detail: "Divisionstabellen, kolumnen Sekretariat"
       - id: mottagande
         text: Domare och gästande lag får ett bra mottagande.
         ruleSource: foreningsvagledning
@@ -40,7 +61,11 @@ sections:
     items:
       - id: tryggt-klimat
         text: Matchvärdarna hjälper till att upprätthålla ett tryggt klimat.
-        ruleSource: foreningsvagledning
+        ruleSource: distriktsanpassning
+        checked: "2026-10-12"
+        source:
+          <<: *matris
+          detail: "Inledande text ovanför divisionstabellen: matchvärdarnas uppgift är att verka för ett gott klimat i hallarna och ta hand om domarna"
       - id: resultat
         text: Resultat och matchuppgifter hanteras enligt aktuell divisions rutin.
         ruleSource: foreningsvagledning

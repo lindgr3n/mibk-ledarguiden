@@ -68,14 +68,35 @@ test('matchflytt länkar till aktuell information utan hårdkodade avgifter elle
 	expect(text).not.toMatch(/\d+\s*dagar/i);
 });
 
-test('föreningsvägledning på Matchdagen anger att den inte ersätter reglerna', async ({ page }) => {
+test('föreningsvägledning förklaras en gång på sidan, inte under varje punkt', async ({ page }) => {
 	await page.goto('/matchdagen/');
 	const items = page.locator('li[data-item]').filter({ hasText: 'Föreningsvägledning' });
-	expect(await items.count()).toBeGreaterThan(0);
-	for (const item of await items.all()) {
-		await expect(item).toContainText('ersätter inte reglerna');
+	expect(await items.count()).toBeGreaterThan(1);
+	// Förklaringen står en enda gång, utanför checklistans punkter.
+	await expect(page.getByText(/ersätter inte reglerna/)).toHaveCount(1);
+	await expect(page.locator('li[data-item]').getByText(/ersätter inte reglerna/)).toHaveCount(0);
+	await expect(page.locator('.rule-note')).toContainText('Moälvens egna råd och rutiner');
+});
+
+test('varje punkt länkar till det dokument och den sida där kravet står', async ({ page }) => {
+	await page.goto('/matchdagen/');
+	const lokala = 'https://www.innebandy.se/media/sb3hooik/lokala-forutsattningar-vnibf-2026-2027.pdf#page=11';
+	// Laguppställningen i iBIS "i god tid" står i Lokala förutsättningar (inte i matrisen).
+	await expect(
+		page.locator('li[data-item="ibis"]').getByRole('link', { name: /Originalkälla: Lokala förutsättningar/ }),
+	).toHaveAttribute('href', lokala);
+	// Licens, ledare i båset, matchvärdar, sekretariat och klimat står på matrisens sida 1.
+	for (const id of ['licens-skyddsglasogon', 'ledarlicens', 'matchvardar', 'sekretariat', 'tryggt-klimat']) {
+		await expect(
+			page.locator(`li[data-item="${id}"]`).getByRole('link', { name: /Originalkälla: Västernorrlands ungdomsmatris/ }),
+		).toHaveAttribute('href', matrisSida1);
 	}
-	await expect(page.locator('li[data-item]').filter({ hasText: 'Distriktsanpassning' }).first()).not.toContainText(
-		'ersätter inte reglerna',
-	);
+});
+
+test('källan anger var i dokumentet kravet står, inte bara vilken PDF', async ({ page }) => {
+	await page.goto('/matchdagen/');
+	await expect(page.locator('li[data-item="sekretariat"]')).toContainText('Divisionstabellen, kolumnen Sekretariat');
+	await expect(page.locator('li[data-item="ledarlicens"]')).toContainText('Grundutbildning barn/ungdom och Steg 1');
+	await expect(page.locator('li[data-item="licens-skyddsglasogon"]')).toContainText('Inledande text');
+	await expect(page.locator('li[data-item="ibis"]')).toContainText('punkt b');
 });

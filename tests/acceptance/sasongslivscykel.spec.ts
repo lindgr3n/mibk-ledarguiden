@@ -1,9 +1,9 @@
 import { expect, test } from '@playwright/test';
 
 // Säsongslivscykel (ADR 0001). Fixturbyggen innehåller bara påhittat testinnehåll:
-//  - port 4322: före aktivering (2026/27 aktiv, 2027/28 dolt utkast)
-//  - port 4323: efter aktivering (2026/27 arkiverad, 2027/28 aktiv)
-// Den publicerade sajten (4321) har en enda säsong och därmed inget arkiv.
+//  - port 4422: före aktivering (2026/27 aktiv, 2027/28 dolt utkast)
+//  - port 4423: efter aktivering (2026/27 arkiverad, 2027/28 aktiv)
+// Den publicerade sajten (4421) har en enda säsong och därmed inget arkiv.
 
 test.describe('den publicerade sajten med en enda säsong', () => {
 	test('har inga arkivadresser', async ({ request }) => {
@@ -14,7 +14,7 @@ test.describe('den publicerade sajten med en enda säsong', () => {
 });
 
 test.describe('före aktivering: nästa säsong är ett dolt utkast', () => {
-	test.use({ baseURL: 'http://localhost:4322' });
+	test.use({ baseURL: 'http://localhost:4422' });
 
 	test('stabila adresser visar den aktiva säsongen utan spår av utkastet', async ({ page }) => {
 		for (const path of ['/rod/', '/bla/']) {
@@ -38,7 +38,7 @@ test.describe('före aktivering: nästa säsong är ett dolt utkast', () => {
 });
 
 test.describe('efter aktivering: föregående säsong är ett arkiv', () => {
-	test.use({ baseURL: 'http://localhost:4323' });
+	test.use({ baseURL: 'http://localhost:4423' });
 
 	test('stabila adresser visar den nya säsongen', async ({ page }) => {
 		for (const path of ['/rod/', '/bla/']) {

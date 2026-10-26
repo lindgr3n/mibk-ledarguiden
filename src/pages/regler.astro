@@ -1,6 +1,8 @@
 ---
+import ExternalLink from '../components/ExternalLink.astro';
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
 import { getActiveSeason } from '../lib/nivaguide';
 
 // Aktiv säsong styr vilket innehåll som visas (ADR 0001).
@@ -11,12 +13,16 @@ const { documents, news, matchEnvironment } = content.data;
 ---
 
 <Layout title="Regler och dokument">
-	<h1>Regler och dokument</h1>
-	<p class="season">Säsong {season.data.label}</p>
-	<p>
-		Här samlas förbundets originaldokument. Ledarguiden är en snabbguide: när den skiljer sig från
-		originaldokumenten är det originalkällan som gäller.
-	</p>
+	<Fragment slot="hero">
+		<Hero variant="detail" labelledby="regler-h1">
+			<p class="eyebrow">Moälvens innebandy · Säsong {season.data.label}</p>
+			<h1 id="regler-h1"><span class="lvl-word-neutral">Regler</span> och dokument</h1>
+			<p class="hero-lead">
+				Här samlas förbundets originaldokument. Ledarguiden är en snabbguide: när den skiljer sig från
+				originaldokumenten är det originalkällan som gäller.
+			</p>
+		</Hero>
+	</Fragment>
 
 	<section aria-labelledby="originaldokument" class="docs-section">
 		<h2 id="originaldokument">Originaldokument</h2>
@@ -24,13 +30,13 @@ const { documents, news, matchEnvironment } = content.data;
 			{
 				documents.map((doc) => (
 					<li data-document={doc.id}>
-						<a href={doc.url}>{doc.title}</a>
+						<ExternalLink href={doc.url}>{doc.title}</ExternalLink>
 						<p>{doc.description}</p>
 						<p class="provenance">
 							Kontrollerad {doc.checked}
 							{doc.foundAt && (
 								<>
-									{' '}· Finns på <a href={doc.foundAt.url}>{doc.foundAt.label}</a>
+									{' '}· Finns på <ExternalLink href={doc.foundAt.url}>{doc.foundAt.label}</ExternalLink>
 								</>
 							)}
 						</p>
@@ -56,7 +62,7 @@ const { documents, news, matchEnvironment } = content.data;
 			{
 				news.links.map((link) => (
 					<li>
-						<a href={link.url}>{link.label}</a> – {link.note}
+						<ExternalLink href={link.url}>{link.label}</ExternalLink> – {link.note}
 					</li>
 				))
 			}
@@ -73,7 +79,7 @@ const { documents, news, matchEnvironment } = content.data;
 			{
 				matchEnvironment.links.map((link) => (
 					<li>
-						<a href={link.url}>{link.label}</a> – {link.note}
+						<ExternalLink href={link.url}>{link.label}</ExternalLink> – {link.note}
 						<p class="provenance">Kontrollerad {link.checked}</p>
 					</li>
 				))

@@ -13,8 +13,8 @@ test('Röd nivå nås från Nivåer och visar säsong 2026/27', async ({ page })
 
 test('de viktigaste matchfakta visas först', async ({ page }) => {
 	await page.goto('/rod/');
-	await expect(page.getByRole('heading', { level: 2 }).first()).toHaveText('Matchfakta');
-	const facts = page.getByRole('region', { name: 'Matchfakta' });
+	await expect(page.getByRole('heading', { level: 2 }).first()).toHaveText('Snabb översikt');
+	const facts = page.getByRole('region', { name: 'Snabb översikt' });
 	for (const [label, value] of [
 		['Spelform', '5 utespelare + målvakt'],
 		['Speltid', '3 × 15 min effektiv tid'],
@@ -41,8 +41,18 @@ test('varje faktagrupp visar kontrolldatum och länk till originalkälla', async
 	}
 });
 
-test('uppgifter som inte är verifierade för alla divisioner framgår tydligt', async ({ page }) => {
+test('alla divisioner 1–5 är verifierade; division 1 avviker bara på tabell och poängliga', async ({ page }) => {
 	await page.goto('/rod/');
-	await expect(page.getByText(/Division 1–4/)).toBeVisible();
-	await expect(page.getByText(/inte verifierade/)).toBeVisible();
+	await expect(page.getByText(/inte verifierade ännu/)).toHaveCount(0);
+	await expect(page.getByText(/verifierat för division 1–5/)).toBeVisible();
+
+	// Nivåguiden äger det gemensamma: tabell / poängliga Ja/Nej gäller division 2–5.
+	const tabell = page.locator('[data-fact-group="tabell-och-poangliga"]');
+	await expect(tabell).toContainText('Gäller division 2–5');
+
+	// Division 1:s avvikelse ligger som divisionsanpassning.
+	const d1 = page.getByRole('region', { name: 'Divisionsanpassningar' }).locator('[data-division="1"]');
+	await expect(d1.getByText('Ja/Ja', { exact: true })).toBeVisible();
+	await expect(d1.getByText('Tabell / poängliga', { exact: true })).toBeVisible();
+	await expect(d1.getByText('Distriktsanpassning', { exact: true })).toBeVisible();
 });

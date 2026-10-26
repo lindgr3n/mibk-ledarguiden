@@ -1,6 +1,6 @@
 # Designriktning
 
-Ledarguiden ska kännas som Moälvens praktiska matchverktyg: tydlig, direkt och förankrad i klubbens orange/svarta identitet. Referensbildens informationshierarki behålls, men gränssnittet ska vara mobilanpassat och undvika generiska, likadana SaaS-kort.
+Ledarguiden ska kännas som Moälvens praktiska matchverktyg: tydlig, direkt och förankrad i klubbens orange/svarta identitet. Referensbilderna i `docs/references` (startsida, nivåsida, divisionssida) följs exakt i layout, rubriker, ikoner och kortstruktur. Undantag: innehållet begränsas till verifierade uppgifter, huvudmenyn har fyra val utan sök, kontakt eller "Bli medlem", och publikbilden från Skyttis är hero tills en egen bild finns i repot.
 
 ## Färger
 
@@ -20,14 +20,14 @@ Nivåfärg används alltid tillsammans med nivåns namn och får aldrig vara den
 
 ## Typografi
 
-- **Rubriker:** Barlow Condensed, kraftig vikt. Den smala, idrottsnära formen bär sidans personlighet utan att efterlikna klubbmärket.
-- **Brödtext och fakta:** Source Sans 3. Den är kompakt men tydlig i små storlekar på mobil och utskrift.
+- **Rubriker:** Source Sans 3 i kraftig vikt. Nivå- och divisionsrubrikerna i hero sätts i Roboto Slab, som i nivå- och divisionsreferensen.
+- **Brödtext och fakta:** Source Sans 3, kompakt men tydlig i små storlekar på mobil och utskrift.
 - Typsnitten lagras lokalt. Rubriker skrivs i meningsfall; versaler används inte som generell dekoration.
 - Brödtext begränsas till ungefär 70 tecken per rad.
 
 ## Layout
 
-Innehållet är vänsterställt. En bred hero med publikbild och mörk toning etablerar klubbkänslan, medan nivåväljaren bryter hero-kanten och blir sidans tydligaste handlingsyta. På mobil staplas nivåerna i en tydlig grön–blå–röd progression.
+Innehållet är vänsterställt. En bred hero med publikbild och mörk toning etablerar klubbkänslan, medan nivåväljaren bryter hero-kanten och blir sidans tydligaste handlingsyta. Nivåerna visas röd, blå, grön som i referensen och staplas i samma ordning på mobil.
 
 ```text
 DESKTOP

@@ -1,0 +1,194 @@
+---
+// Divisionssida (referensbild division5_detail.png): nivåguidens gemensamma fakta för divisionen sammanfogade
+// med divisionens egna anpassningar vid bygge (ADR 0002). Uppgifter som inte är verifierade visas aldrig.
+import ExternalLink from '../../components/ExternalLink.astro';
+import SourceRef from '../../components/SourceRef.astro';
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+import Icon from '../../components/Icon.astro';
+import type { IconName } from '../../components/Icon.astro';
+import RuleHierarchy from '../../components/RuleHierarchy.astro';
+import { divisionNumbers, getActiveGuide, getDivisionView, type Level } from '../../lib/nivaguide';
+import { levelAdjective, splitLevelName } from '../../lib/presentation';
+import { ruleTypes } from '../../lib/regelhierarki';
+
+export async function getStaticPaths() {
+	const paths = [];
+	for (const level of ['rod', 'bla'] as const) {
+		const { guide } = await getActiveGuide(level);
+		for (const n of divisionNumbers(guide.divisions)) {
+			paths.push({ params: { level, division: `division-${n}` }, props: { level, n } });
+		}
+	}
+	return paths;
+}
+
+const { level, n } = Astro.props as { level: Level; n: number };
+const view = await getDivisionView(level, n);
+const { word, rest } = splitLevelName(view.levelName);
+const isUnverified = view.commonFactGroups.length === 0;
+
+// Alla verifierade uppgifter för divisionen: gemensamma fakta plus divisionens anpassningar.
+const facts = new Map<string, { label: string; value: string }>();
+for (const g of view.commonFactGroups) for (const f of g.facts) facts.set(f.key, f);
+for (const a of view.adaptations) for (const f of a.facts) facts.set(f.key, f);
+
+const stripDefs: { key: string; label: string; icon: IconName }[] = [
+	{ key: 'spelform', label: 'Antal spelare', icon: 'users' },
+	{ key: 'matchtid', label: 'Speltid', icon: 'clock' },
+	{ key: 'plan', label: 'Planstorlek', icon: 'court' },
+	{ key: 'byten', label: 'Byten', icon: 'swap' },
+	{ key: 'tabell', label: 'Resultat', icon: 'chart' },
+	{ key: 'sekretariat', label: 'Sekretariat', icon: 'doc' },
+];
+const strip = stripDefs
+	.filter((d) => facts.has(d.key))
+	.map((d) => ({ ...d, label: d.key === 'tabell' ? facts.get(d.key)!.label : d.label, value: facts.get(d.key)!.value }));
+
+const pick = (keys: string[]) => keys.filter((k) => facts.has(k)).map((k) => facts.get(k)!);
+// Serieinformationen visar bara det som inte redan står i Matchfakta-raden ovan.
+const inStrip = new Set(strip.map((x) => x.key));
+const restKeys = (keys: string[]) => keys.filter((k) => !inStrip.has(k));
+const playFacts = pick(restKeys(['spelform', 'matchtid', 'paus', 'tidtagning', 'byten', 'plan', 'mal']));
+const noteFacts = pick(restKeys(['domare', 'sekretariat', 'tabell', 'ledarutbildning']));
+
+const sources = [
+	...view.commonFactGroups.map((g) => ({ id: g.id, title: g.title, checked: g.checked, source: g.source })),
+	...view.adaptations.map((a) => ({ id: a.id, title: a.title, checked: a.checked, source: a.source })),
+];
+const mainSource = sources[0]?.source ?? view.sourceUrl;
+const isPdf = mainSource ? mainSource.url.split('#')[0].toLowerCase().endsWith('.pdf') : false;
+---
+
+<Layout title={`${view.levelName} – division ${n}`}>
+	<Fragment slot="hero">
+		<Hero variant="detail" labelledby="division-title">
+			<a class="hero-back" href={`/${level}/`}><Icon name="back" size={20} />Tillbaka till {view.levelName.toLowerCase()}</a>
+			<h1 id="division-title">
+				<span class={`lvl-word-${level}`}>{word}</span>{' '}{rest}{' '}<span class="lvl-sub">Division {n}</span>
+			</h1>
+			<p class="hero-lead">
+				Division {n} är den {levelAdjective[level]} nivån i Västernorrlands ungdomsserier. Här hittar du de
+				viktigaste matchfakta, spelformerna och praktisk information för ledare.
+			</p>
+		</Hero>
+	</Fragment>
+
+	{
+		isUnverified && (
+			<section class="card" aria-labelledby="ej-verifierad">
+				<h2 id="ej-verifierad">Matchfakta</h2>
+				<p class="notice">
+					Uppgifterna för division {n} är inte verifierade ännu – kontrollera originalkällan.
+				</p>
+				{mainSource && (
+					<p>
+						<ExternalLink class="link-arrow" href={mainSource.url}>
+							Originalkälla: {mainSource.label}
+							<Icon name="external" size={16} />
+						</ExternalLink>
+					</p>
+				)}
+				<p>
+					Gemensamt för hela {view.levelName.toLowerCase()} finns i <a href={`/${level}/`}>nivåguiden</a>.
+				</p>
+			</section>
+		)
+	}
+
+	{
+		view.unverifiedAdaptations.map((u) => (
+			<section class="card" data-unverified-adaptation={u.id} aria-label={`${u.title} – ej verifierat`}>
+				<h2>{u.title} – ej verifierat</h2>
+				<p class="notice">{u.note}</p>
+			</section>
+		))
+	}
+
+	{
+		!isUnverified && (
+			<section class="card" aria-labelledby="matchfakta">
+				<h2 id="matchfakta">Matchfakta</h2>
+				<ul class="matchfakta-strip" style={`--cols:${strip.length}`}>
+					{strip.map((item) => (
+						<li>
+							<Icon name={item.icon} size={38} />
+							<span class="strip-label">{item.label}</span>
+							<strong>{item.value}</strong>
+						</li>
+					))}
+				</ul>
+
+				<div class="series-info">
+					<div>
+						<h2>Serieinformation</h2>
+						<p>
+							Uppgifterna gäller säsong {view.season.label} och är kontrollerade mot originalkällan.
+						</p>
+						<p>Serien spelas enligt Västernorrlands Innebandyförbunds bestämmelser för ungdomsserier.</p>
+						{mainSource && (
+							<div class="doc-card">
+								<Icon name="doc" size={34} />
+								<div>
+									<strong>{mainSource.label}</strong>
+									<small>Originalkälla</small>
+								</div>
+								<ExternalLink href={mainSource.url}>
+									<Icon name="external" size={18} />
+									{isPdf ? 'Öppna PDF' : 'Öppna källa'}
+								</ExternalLink>
+							</div>
+						)}
+					</div>
+					{
+						playFacts.length > 0 && (
+							<div>
+								<h3>Mer om spelet</h3>
+								<ul>
+									{playFacts.map((f) => (
+										<li>
+											<strong>{f.label}:</strong> {f.value}
+										</li>
+									))}
+								</ul>
+							</div>
+						)
+					}
+					{
+						noteFacts.length > 0 && (
+							<div>
+								<h3>Bra att tänka på</h3>
+								<ul>
+									{noteFacts.map((f) => (
+										<li>
+											<strong>{f.label}:</strong> {f.value}
+										</li>
+									))}
+								</ul>
+							</div>
+						)
+					}
+				</div>
+			</section>
+		)
+	}
+
+	{
+		sources.length > 0 && (
+			<section class="card level-more" aria-labelledby="kallor-title">
+				<h2 id="kallor-title">Källor och kontrolldatum</h2>
+				<ul class="sources-list">
+					{sources.map((s) => (
+						<li data-fact-group={s.id}>
+							{s.title} · Kontrollerad {s.checked} · <SourceRef source={s.source} />
+						</li>
+					))}
+				</ul>
+			</section>
+		)
+	}
+
+	<div class="level-more">
+		<RuleHierarchy sections={view.ruleSections} />
+	</div>
+</Layout>
