@@ -76,3 +76,31 @@ ruleSections:
         source:
           label: Västernorrlands ungdomsmatris 2026/27, sida 2
           url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=2"
+  - id: nationell-spelform
+    title: Nationell spelform och distriktets anpassning
+    needsConfirmation: "Distriktets mått för plan och mål skiljer sig från den nationella handboken, och planens exakta mått i meter är inte bekräftade av Västernorrlands IBF. Kontrollera med distriktet vad som gäller för ert sammandrag."
+    statements:
+      - ruleSource: nationell-regel
+        status: overifierad
+        text: "Tre mot tre utan målvakt: spelplanen ska normalt vara 20 × 12 meter och målburarna 90 × 60 cm. Speltiden är rullande, byten sker som intervallbyten som sekretariatet signalerar, och matchen döms av en eller två matchledare."
+        appliesTo: [9]
+        checked: "2026-10-27"
+        source:
+          label: Handbok för nationella spelformer på grön och blå nivå (uppdaterad 2023-10-19)
+          url: "https://www.innebandy.se/media/ta5bn1jz/svensk-innebandys-handbok-fo-r-nationella-spelformer-pa-gro-n-och-bla-niva-upt-20231019.pdf#page=29"
+      - ruleSource: nationell-regel
+        status: overifierad
+        text: "Tre mot tre med målvakt: spelplanen ska normalt vara 20 × 12 meter och målburarna 120 × 90 cm. Speltiden är rullande, byten sker som intervallbyten som sekretariatet signalerar, och matchen döms av en eller två matchledare."
+        appliesTo: [8]
+        checked: "2026-10-27"
+        source:
+          label: Handbok för nationella spelformer på grön och blå nivå (uppdaterad 2023-10-19)
+          url: "https://www.innebandy.se/media/ta5bn1jz/svensk-innebandys-handbok-fo-r-nationella-spelformer-pa-gro-n-och-bla-niva-upt-20231019.pdf#page=35"
+      - ruleSource: distriktsanpassning
+        status: overifierad
+        text: "Västernorrlands matris anger för division 8–9 en mindre plan (3 × 6/7 sargbitar + hörn) och för division 9 små mål (ca 60 × 40 cm). Division 8 har samma mål som den nationella spelformen (120 × 90 cm)."
+        appliesTo: [8, 9]
+        checked: "2026-10-27"
+        source:
+          label: Västernorrlands ungdomsmatris 2026/27, sida 1
+          url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"

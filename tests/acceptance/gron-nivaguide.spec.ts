@@ -59,3 +59,13 @@ test('divisionssidorna för grön nivå visar rätt division', async ({ page }) 
 	await page.goto('/gron/division-8/');
 	await expect(page.getByText('Med målvakt; mål 120 × 90 cm')).toBeVisible();
 });
+
+test('nationell spelform visas bredvid distriktets anpassning och märks Behöver bekräftas', async ({ page }) => {
+	await page.goto('/gron/');
+	const section = page.locator('main').getByText('Nationell spelform och distriktets anpassning').first();
+	await expect(section).toBeVisible();
+	await expect(page.getByText(/spelplanen ska normalt vara 20 × 12 meter/).first()).toBeVisible();
+	await expect(page.getByText(/små mål \(ca 60 × 40 cm\)/).first()).toBeVisible();
+	await expect(page.getByText('Behöver bekräftas').first()).toBeVisible();
+	await expect(page.locator('a[href^="https://www.innebandy.se/media/ta5bn1jz/"]').first()).toBeVisible();
+});
