@@ -4,17 +4,19 @@ Punkter som måste verifieras innan de presenteras som Moälvens IBK:s faststäl
 
 ## Bra matchmiljö
 
-Jämför följande föreslagna ledarprinciper med föreningens befintliga riktlinjer:
+Föreslagna ledarprinciper jämfördes 2026-10-27 med föreningens befintliga riktlinjer (Moälvens spelutvecklingsplan, utkast). Resultat:
 
-- Spelarnas långsiktiga utveckling prioriteras framför största möjliga vinst.
-- Ledare använder ett respektfullt språk även när domaren gör fel.
-- Motståndare och domare får ett bra mottagande.
-- Ledare agerar vid olämpligt beteende från den egna publiken.
-- En ojämn match hanteras aktivt för att behålla en utvecklande matchmiljö.
+| Föreslagen princip | Stöd i föreningens riktlinjer | Status |
+| --- | --- | --- |
+| Spelarnas långsiktiga utveckling prioriteras framför största möjliga vinst | Ja: "Långsiktig utveckling går före dagsresultat", "Lärande går före resultat" | Publicerad som föreningsvägledning |
+| Motståndare och domare får ett bra mottagande | Ja: "Hälsa på motståndare och domare före match, och tacka efteråt" | Publicerad som föreningsvägledning |
+| Ledare använder ett respektfullt språk även när domaren gör fel | Nej | Väntar på föreningens beslut |
+| Ledare agerar vid olämpligt beteende från den egna publiken | Nej (planen ger bara råd till föräldrar: heja på båda lagen, låt tränarna coacha och domarna döma) | Väntar på föreningens beslut |
+| En ojämn match hanteras aktivt för att behålla en utvecklande matchmiljö | Nej | Väntar på föreningens beslut |
 
-Besluta därefter vilka principer som ska ingå i ledarguiden och hur de ska formuleras.
+De tre principer som väntar publiceras inte förrän föreningen har beslutat om dem. Spelutvecklingsplanen är själv ett utkast och avsnittet Moälvens värdegrund är markerat "ATT BESLUTA". De publicerade principerna bör därför ses över när planen fastställs.
 
-Identifiera samtidigt vilka av förbundets dokument om matchmiljö, ledarbeteende, matchvärdar och publik som första versionen ska länka till.
+Förbundets material som guiden länkar till: Barn och ungdom (Västernorrlands IBF), Den goda innebandymiljön (SIU), Matchvärd och Sekretariat och Trygg innebandy.
 
 ## Grön nivå
 

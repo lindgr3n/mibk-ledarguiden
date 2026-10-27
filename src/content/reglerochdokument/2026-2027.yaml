@@ -48,8 +48,29 @@ news:
   caveat: Presentationen gäller regeländringar nationellt. Alla punkter är inte nödvändigtvis tillämpliga på ungdomsnivå utan anpassningar. Se därför alltid ungdomsundantagen och lokala bestämmelser innan en generell regel tillämpas.
 matchEnvironment:
   definition: En trygg, respektfull och utvecklande match där ledarnas agerande sätter tonen för spelare, domare och publik.
+  # Föreningsvägledning: bara det som Moälvens befintliga riktlinjer (Moälvens spelutvecklingsplan, utkast) redan säger.
+  # Tre föreslagna principer saknar stöd där och är medvetet utelämnade tills föreningen har beslutat (docs/open-questions.md).
+  principles:
+    - text: "Långsiktig utveckling går före dagsresultat. Lärande går före resultat."
+      basis: "Moälvens spelutvecklingsplan, Grundprinciper: Långsiktighet"
+      checked: "2026-10-27"
+    - text: "Hälsa på motståndare och domare före match, och tacka efteråt."
+      basis: "Moälvens spelutvecklingsplan, Grundprinciper: Ledarskap"
+      checked: "2026-10-27"
   links:
     - label: "Barn och ungdom (Västernorrlands IBF)"
       note: Manualer och föreskrifter, bland annat om hur en ungdomsmatch arrangeras.
       checked: "2026-10-12"
       url: "https://www.innebandy.se/vasternorrland/tavling/barnungdom"
+    - label: "Den goda innebandymiljön (Svensk Innebandys utvecklingsmodell)"
+      note: Förbundets beskrivning av vad som kännetecknar en trygg och utvecklande innebandymiljö.
+      checked: "2026-10-27"
+      url: "https://www.innebandy.se/utveckling/svensk-innebandys-utvecklingsmodell-siu/den-goda-innebandymiljon"
+    - label: "Matchvärd och Sekretariat (Västernorrlands IBF)"
+      note: Vad som gäller för matchvärdar och sekretariat vid hemmamatcher.
+      checked: "2026-10-27"
+      url: "https://www.innebandy.se/vasternorrland/tavling/matchvard-och-sekretariat"
+    - label: "Trygg innebandy (Västernorrlands IBF)"
+      note: Förbundets material om trygga innebandymiljöer.
+      checked: "2026-10-27"
+      url: "https://www.innebandy.se/vasternorrland/forening/trygg-innebandy"

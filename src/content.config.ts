@@ -211,7 +211,7 @@ const matchdagen = defineCollection({
 
 
 // Regler och dokument: förbundets originaldokument, nyheter för säsongen och bra matchmiljö.
-// Filnamn <säsong>.yaml. Inga föreningsprinciper för ledarbeteende ryms i modellen (open-questions.md).
+// Filnamn <säsong>.yaml. Föreningsprinciper för ledarbeteende tas bara med när föreningens befintliga riktlinjer stödjer dem (open-questions.md).
 const httpsUrl = z.url().refine((u) => u.startsWith('https://'), 'Länken måste vara en https-länk');
 const labelled = { label: z.string().min(1), url: httpsUrl };
 
@@ -241,6 +241,11 @@ const reglerochdokument = defineCollection({
 		}),
 		matchEnvironment: z.object({
 			definition: z.string().min(1),
+			// Föreningsvägledning (ADR 0003): Moälvens egna råd till ledare. Har ingen originalkälla från förbundet utan
+			// anger var i föreningens egna dokument rådet står. Tas bara med om föreningens befintliga riktlinjer stödjer det.
+			principles: z
+				.array(z.object({ text: z.string().min(1), basis: z.string().min(1), checked: isoDate }))
+				.default([]),
 			links: z.array(z.object({ ...labelled, note: z.string().min(1), checked: isoDate })).min(1),
 		}),
 	}),

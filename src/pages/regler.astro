@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import { getActiveSeason } from '../lib/nivaguide';
+import { ruleTypes } from '../lib/regelhierarki';
 
 // Aktiv säsong styr vilket innehåll som visas (ADR 0001).
 const season = await getActiveSeason();
@@ -74,6 +75,24 @@ const { documents, news, matchEnvironment } = content.data;
 	<section aria-labelledby="matchmiljo" class="docs-section">
 		<h2 id="matchmiljo">Bra matchmiljö</h2>
 		<p>{matchEnvironment.definition}</p>
+		{
+			matchEnvironment.principles.length > 0 && (
+				<>
+					<h3>Moälvens vägledning till ledare</h3>
+					<ul class="doc-list" data-principles>
+						{matchEnvironment.principles.map((p) => (
+							<li>
+								{p.text}
+								<p class="provenance">
+									{ruleTypes.foreningsvagledning.label} · {p.basis} · Kontrollerad {p.checked}
+								</p>
+							</li>
+						))}
+					</ul>
+					<p class="provenance">{ruleTypes.foreningsvagledning.description}</p>
+				</>
+			)
+		}
 		<p>Fördjupa dig i förbundets material:</p>
 		<ul class="doc-list">
 			{

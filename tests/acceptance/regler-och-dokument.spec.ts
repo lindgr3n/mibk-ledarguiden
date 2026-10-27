@@ -42,7 +42,7 @@ test('nyheter för 2026/27 visas med länkar till presentation och ändringsmark
 	await expect(section.getByText('Kontrollerad 2026-10-12')).toBeVisible();
 });
 
-test('bra matchmiljö definieras utan obekräftad föreningspolicy', async ({ page }) => {
+test('bra matchmiljö visar bara föreningsvägledning som föreningens riktlinjer stödjer', async ({ page }) => {
 	await page.goto('/regler/');
 	const section = page.getByRole('region', { name: 'Bra matchmiljö' });
 	await expect(section.getByText(/trygg, respektfull och utvecklande match/)).toBeVisible();
@@ -50,8 +50,28 @@ test('bra matchmiljö definieras utan obekräftad föreningspolicy', async ({ pa
 		'href',
 		'https://www.innebandy.se/vasternorrland/tavling/barnungdom',
 	);
+	// Föreningens befintliga riktlinjer stödjer två principer; de visas som föreningsvägledning, inte som regel.
+	const principles = section.locator('[data-principles] li');
+	await expect(principles).toHaveCount(2);
+	await expect(principles.nth(0)).toContainText('Långsiktig utveckling går före dagsresultat');
+	await expect(principles.nth(1)).toContainText('Hälsa på motståndare och domare före match');
+	await expect(principles.nth(0)).toContainText('Föreningsvägledning');
+	await expect(section.getByText(/ersätter inte reglerna/)).toBeVisible();
+	// Principer som saknar stöd i föreningens riktlinjer publiceras inte förrän föreningen har beslutat.
 	const text = await page.locator('main').innerText();
-	expect(text).not.toMatch(/respektfullt språk|ojämn match|långsiktiga utveckling/);
+	expect(text).not.toMatch(/respektfullt språk|ojämn match|olämpligt beteende/);
+});
+
+test('bra matchmiljö länkar till förbundets material om miljö, matchvärdar och trygghet', async ({ page }) => {
+	await page.goto('/regler/');
+	const section = page.getByRole('region', { name: 'Bra matchmiljö' });
+	for (const [name, href] of [
+		[/Den goda innebandymiljön/, 'https://www.innebandy.se/utveckling/svensk-innebandys-utvecklingsmodell-siu/den-goda-innebandymiljon'],
+		[/Matchvärd och Sekretariat/, 'https://www.innebandy.se/vasternorrland/tavling/matchvard-och-sekretariat'],
+		[/Trygg innebandy/, 'https://www.innebandy.se/vasternorrland/forening/trygg-innebandy'],
+	] as const) {
+		await expect(section.getByRole('link', { name })).toHaveAttribute('href', href);
+	}
 });
 
 test('sidan skiljer originalkälla från föreningens vägledning', async ({ page }) => {
