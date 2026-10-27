@@ -78,7 +78,6 @@ ruleSections:
           url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=2"
   - id: nationell-spelform
     title: Nationell spelform och distriktets anpassning
-    needsConfirmation: "Distriktets mått för plan och mål skiljer sig från den nationella handboken, och planens exakta mått i meter är inte bekräftade av Västernorrlands IBF. Kontrollera med distriktet vad som gäller för ert sammandrag."
     statements:
       - ruleSource: nationell-regel
         status: verifierad
