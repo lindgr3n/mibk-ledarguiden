@@ -31,7 +31,7 @@ factGroups:
       label: Västernorrlands ungdomsmatris 2026/27, sida 1
       url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
     facts:
-      - { key: plan, label: Plan, value: "3 × 6/7 sargbitar + hörn" }
+      - { key: plan, label: Plan, value: "3 sargbitar bred och 6 eller 7 sargbitar lång, plus hörn" }
   - id: mal
     title: Mål
     status: verifierad

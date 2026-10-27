@@ -19,7 +19,7 @@ Filerna följer innehållsschemat i `src/content.config.ts`. De har provbyggts t
 
 Kontrollera varje punkt mot matrisen och sätt sedan `status: verifierad` och nytt `checked`-datum.
 
-- [ ] **Plan:** "3 × 6/7 sargbitar + hörn" är skrivet så som cellen lyder. Tolkningen (antal sargbitar per sida, hörn) är inte kontrollerad. Skriv om till begriplig text.
+- [ ] **Plan:** texten är omskriven till "3 sargbitar bred och 6 eller 7 sargbitar lång, plus hörn" (innehållsansvarigs läsning). Bekräfta mot VIBF och lägg gärna till måttet i meter.
 - [ ] **Mål:** matrisen anger "Små (ca 60×40 cm). Med MV: 120 × 90". Utkastet antar att division 8 (med målvakt) använder 120 × 90 och division 9 (utan målvakt) de små målen. Bekräfta.
 - [ ] **Spelform:** "Lokala sammandrag, div 8: 3 mot 3 med MV, div 9 utan MV". Bekräfta att det inte är div 9 som har andra spelregler än målvaktens frånvaro.
 - [ ] **Tutbyte 90 sek** och rullande tid 1 × 15 min.
@@ -40,7 +40,7 @@ Matrisen anger rek. ålder 7–10 och SIBF-mallen 6–9 år. Innehållsansvarigs
 
 ## Fortfarande öppet
 
-- **Plan:** "3 × 6/7 sargbitar + hörn" är oförändrad. Faktagruppen "Plan" är `overifierad` tills texten är begriplig och kontrollerad.
+- **Plan:** matrisen säger "3 × 6/7 sargbitar + hörn". Innehållsansvarig läser det som 3 sargbitar bred och 6 eller 7 lång, där 6 eller 7 troligen beror på hallens storlek (mindre hall 6, större 7). Faktatexten är omskriven efter läsningen, men hallstorleks-förklaringen står inte i matrisen och är inte med i guiden. Sargbitarnas längd i meter är okänd. Faktagruppen "Plan" är kvar som `overifierad` tills VIBF har bekräftat (se kontakt längst ned i matrisen).
 - **Regelboken** och nationella handboken för spelformer är inte kontrollerade.
 - Övriga rader i kontrollistan ovan är inte uttryckligen bekräftade än.
 
