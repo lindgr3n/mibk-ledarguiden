@@ -1,0 +1,70 @@
+# UTKAST – Grön nivå, säsong 2026/27. Byggs inte och publiceras inte (ligger i docs/utkast, inte i src/content).
+# Alla faktagrupper är overifierade. Källa: Västernorrlands ungdomsmatris 2026/27, sida 1, raden för division 8.9
+# (avläst 2026-10-27). Se README.md för kontrollista, avvikelser mellan källor och hur utkastet publiceras.
+# Det som skiljer division 8 och 9 åt (målvakt) ligger i gron-8.yaml och gron-9.yaml (ADR 0002).
+season: 2026-2027
+level: gron
+name: Grön nivå
+divisions:
+  from: 8
+  to: 9
+factGroups:
+  - id: spelform-och-speltid
+    title: Spelform och speltid
+    status: overifierad
+    appliesTo: [8, 9]
+    checked: "2026-10-27"
+    source:
+      label: Västernorrlands ungdomsmatris 2026/27, sida 1
+      url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+    facts:
+      - { key: spelform, label: Spelform, value: "3 mot 3, lokala sammandrag" }
+      - { key: matchtid, label: Speltid, value: "1 × 15 min rullande tid" }
+      - { key: byten, label: Byten, value: "Tutbyte, 90 sek" }
+      - { key: paus, label: Paus och sidbyte, value: "Ingen paus, inget sidbyte" }
+  - id: plan-och-mal
+    title: Plan och mål
+    status: overifierad
+    appliesTo: [8, 9]
+    checked: "2026-10-27"
+    source:
+      label: Västernorrlands ungdomsmatris 2026/27, sida 1
+      url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+    facts:
+      - { key: plan, label: Plan, value: "3 × 6/7 sargbitar + hörn" }
+      - { key: mal, label: Mål, value: "Små mål (ca 60 × 40 cm); med målvakt 120 × 90 cm" }
+  - id: domare-och-sekretariat
+    title: Domare och sekretariat
+    status: overifierad
+    appliesTo: [8, 9]
+    checked: "2026-10-27"
+    source:
+      label: Västernorrlands ungdomsmatris 2026/27, sida 1
+      url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+    facts:
+      - { key: domare, label: Domare, value: "1 föreningsdomare" }
+      - { key: sekretariat, label: Sekretariat, value: "Tidtagare, även för byten" }
+      - { key: tabell, label: Tabell, value: "Ingen tabell" }
+  - id: ledarutbildning
+    title: Ledarutbildning och anmälan
+    status: overifierad
+    appliesTo: [8, 9]
+    checked: "2026-10-27"
+    source:
+      label: Västernorrlands ungdomsmatris 2026/27, sida 1
+      url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+    facts:
+      - { key: ledarutbildning, label: Ledarutbildning, value: "Grundutbildning barn/ungdom + Steg 1 Grön" }
+      - { key: anmalan, label: Anmälan, value: "Löpande, ca två veckor innan respektive sammandrag" }
+ruleSections:
+  - id: lokal-regel
+    title: Lokal regel för division 8–9
+    statements:
+      - ruleSource: distriktsanpassning
+        status: overifierad
+        text: "Inga mål får göras från egen planhalva. Ledare ska stötta föreningsdomarna och uppmana till spel, och att spelare inte står i målgården."
+        appliesTo: [8, 9]
+        checked: "2026-10-27"
+        source:
+          label: Västernorrlands ungdomsmatris 2026/27, sida 2
+          url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=2"
