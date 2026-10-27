@@ -48,15 +48,39 @@ news:
   caveat: Presentationen gäller regeländringar nationellt. Alla punkter är inte nödvändigtvis tillämpliga på ungdomsnivå utan anpassningar. Se därför alltid ungdomsundantagen och lokala bestämmelser innan en generell regel tillämpas.
 matchEnvironment:
   definition: En trygg, respektfull och utvecklande match där ledarnas agerande sätter tonen för spelare, domare och publik.
-  # Föreningsvägledning: bara det som Moälvens befintliga riktlinjer (Moälvens spelutvecklingsplan, utkast) redan säger.
-  # Tre föreslagna principer saknar stöd där och är medvetet utelämnade tills föreningen har beslutat (docs/open-questions.md).
+  # Förbundets vägledning till ledare, hämtad ur Svensk Innebandys handbok för nationella spelformer på grön och blå nivå.
+  # Moälvens egna principer väntar på föreningens beslut (docs/open-questions.md).
   principles:
-    - text: "Långsiktig utveckling går före dagsresultat. Lärande går före resultat."
-      basis: "Moälvens spelutvecklingsplan, Grundprinciper: Långsiktighet"
+    - text: "Långsiktig utveckling och barns lärande går före kortsiktiga resultat. Prestation och ansträngning ska gå före resultatet."
       checked: "2026-10-27"
-    - text: "Hälsa på motståndare och domare före match, och tacka efteråt."
-      basis: "Moälvens spelutvecklingsplan, Grundprinciper: Ledarskap"
+      source:
+        label: "Handbok för nationella spelformer på grön och blå nivå (uppdaterad 2023-10-19)"
+        url: "https://www.innebandy.se/media/ta5bn1jz/svensk-innebandys-handbok-fo-r-nationella-spelformer-pa-gro-n-och-bla-niva-upt-20231019.pdf#page=15"
+        detail: "Sida 15"
+    - text: "Respektera domarnas domslut och kommentera inte negativt. Spelarna gör som ledaren gör: kommenterar du domslut kommer de också att göra det. Spara frågor om bedömningar till efter matchen och använd en positiv, uppmuntrande ton."
       checked: "2026-10-27"
+      source:
+        label: "Handbok för nationella spelformer på grön och blå nivå (uppdaterad 2023-10-19)"
+        url: "https://www.innebandy.se/media/ta5bn1jz/svensk-innebandys-handbok-fo-r-nationella-spelformer-pa-gro-n-och-bla-niva-upt-20231019.pdf#page=16"
+        detail: "Sida 16"
+    - text: "Hälsa på motståndarlaget, domarna och funktionärerna före matchen, och tacka motståndarna, domarna och publiken efteråt. Peppa båda lagens spelare."
+      checked: "2026-10-27"
+      source:
+        label: "Handbok för nationella spelformer på grön och blå nivå (uppdaterad 2023-10-19)"
+        url: "https://www.innebandy.se/media/ta5bn1jz/svensk-innebandys-handbok-fo-r-nationella-spelformer-pa-gro-n-och-bla-niva-upt-20231019.pdf#page=16"
+        detail: "Sida 16"
+    - text: "Som vuxen har du ansvar för att alla unga får en positiv bild av idrotten, även i motståndarlaget och bland domarna. Om en annan vuxen agerar på ett sätt som inte är okej ska du agera och stötta domarna."
+      checked: "2026-10-27"
+      source:
+        label: "Handbok för nationella spelformer på grön och blå nivå (uppdaterad 2023-10-19)"
+        url: "https://www.innebandy.se/media/ta5bn1jz/svensk-innebandys-handbok-fo-r-nationella-spelformer-pa-gro-n-och-bla-niva-upt-20231019.pdf#page=23"
+        detail: "Sida 23"
+    - text: "Spelmässigt jämna matcher bör eftersträvas, eftersom det gynnar lärandet och glädjen i idrotten."
+      checked: "2026-10-27"
+      source:
+        label: "Handbok för nationella spelformer på grön och blå nivå (uppdaterad 2023-10-19)"
+        url: "https://www.innebandy.se/media/ta5bn1jz/svensk-innebandys-handbok-fo-r-nationella-spelformer-pa-gro-n-och-bla-niva-upt-20231019.pdf#page=15"
+        detail: "Sida 15"
   links:
     - label: "Barn och ungdom (Västernorrlands IBF)"
       note: Manualer och föreskrifter, bland annat om hur en ungdomsmatch arrangeras.

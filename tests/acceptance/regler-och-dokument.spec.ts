@@ -42,7 +42,7 @@ test('nyheter för 2026/27 visas med länkar till presentation och ändringsmark
 	await expect(section.getByText('Kontrollerad 2026-10-12')).toBeVisible();
 });
 
-test('bra matchmiljö visar bara föreningsvägledning som föreningens riktlinjer stödjer', async ({ page }) => {
+test('bra matchmiljö visar förbundets vägledning med källa, inte föreningens egna principer', async ({ page }) => {
 	await page.goto('/regler/');
 	const section = page.getByRole('region', { name: 'Bra matchmiljö' });
 	await expect(section.getByText(/trygg, respektfull och utvecklande match/)).toBeVisible();
@@ -50,16 +50,24 @@ test('bra matchmiljö visar bara föreningsvägledning som föreningens riktlinj
 		'href',
 		'https://www.innebandy.se/vasternorrland/tavling/barnungdom',
 	);
-	// Föreningens befintliga riktlinjer stödjer två principer; de visas som föreningsvägledning, inte som regel.
 	const principles = section.locator('[data-principles] li');
-	await expect(principles).toHaveCount(2);
-	await expect(principles.nth(0)).toContainText('Långsiktig utveckling går före dagsresultat');
-	await expect(principles.nth(1)).toContainText('Hälsa på motståndare och domare före match');
-	await expect(principles.nth(0)).toContainText('Föreningsvägledning');
-	await expect(section.getByText(/ersätter inte reglerna/)).toBeVisible();
-	// Principer som saknar stöd i föreningens riktlinjer publiceras inte förrän föreningen har beslutat.
+	await expect(principles).toHaveCount(5);
+	await expect(principles.nth(0)).toContainText('går före kortsiktiga resultat');
+	await expect(principles.nth(1)).toContainText('Respektera domarnas domslut och kommentera inte negativt');
+	await expect(principles.nth(2)).toContainText('Hälsa på motståndarlaget, domarna och funktionärerna');
+	await expect(principles.nth(3)).toContainText('agera och stötta domarna');
+	await expect(principles.nth(4)).toContainText('jämna matcher bör eftersträvas');
+	for (const [i, page_] of [15, 16, 16, 23, 15].entries()) {
+		await expect(principles.nth(i)).toContainText('Förbundets vägledning');
+		await expect(principles.nth(i).getByRole('link', { name: /Originalkälla/ })).toHaveAttribute(
+			'href',
+			new RegExp(`ta5bn1jz/.*#page=${page_}$`),
+		);
+	}
+	await expect(section.getByText(/inte Moälvens egna regler och inte bindande regeltext/)).toBeVisible();
+	// Moälvens egna ledarprinciper publiceras inte förrän föreningen har fastställt dem.
 	const text = await page.locator('main').innerText();
-	expect(text).not.toMatch(/respektfullt språk|ojämn match|olämpligt beteende/);
+	expect(text).not.toMatch(/Moälvens vägledning till ledare|Föreningsvägledning/);
 });
 
 test('bra matchmiljö länkar till förbundets material om miljö, matchvärdar och trygghet', async ({ page }) => {

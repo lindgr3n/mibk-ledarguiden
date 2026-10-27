@@ -241,11 +241,10 @@ const reglerochdokument = defineCollection({
 		}),
 		matchEnvironment: z.object({
 			definition: z.string().min(1),
-			// Föreningsvägledning (ADR 0003): Moälvens egna råd till ledare. Har ingen originalkälla från förbundet utan
-			// anger var i föreningens egna dokument rådet står. Tas bara med om föreningens befintliga riktlinjer stödjer det.
-			principles: z
-				.array(z.object({ text: z.string().min(1), basis: z.string().min(1), checked: isoDate }))
-				.default([]),
+			// Förbundets vägledning till ledare: det förbundet själv skriver om ledarbeteende på barn- och ungdomsnivå.
+			// Varje princip kräver originalkälla och kontrolldatum. Moälvens egna principer (föreningsvägledning, ADR 0003)
+			// tas inte med förrän föreningen har fastställt dem (docs/open-questions.md).
+			principles: z.array(z.object({ text: z.string().min(1), source: originalkalla, checked: isoDate })).default([]),
 			links: z.array(z.object({ ...labelled, note: z.string().min(1), checked: isoDate })).min(1),
 		}),
 	}),

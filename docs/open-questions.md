@@ -4,17 +4,21 @@ Punkter som måste verifieras innan de presenteras som Moälvens IBK:s faststäl
 
 ## Bra matchmiljö
 
-Föreslagna ledarprinciper jämfördes 2026-10-27 med föreningens befintliga riktlinjer (Moälvens spelutvecklingsplan, utkast). Resultat:
+Guiden visar förbundets egen vägledning till ledare, hämtad ur Svensk Innebandys Handbok för nationella spelformer på grön och blå nivå (uppdaterad 2023-10-19), med sidhänvisning och kontrolldatum 2026-10-27. Det är en universell utgångspunkt, inte Moälvens egna principer.
 
-| Föreslagen princip | Stöd i föreningens riktlinjer | Status |
+| Föreslagen princip | Vad förbundet skriver | Handbokens sida |
 | --- | --- | --- |
-| Spelarnas långsiktiga utveckling prioriteras framför största möjliga vinst | Ja: "Långsiktig utveckling går före dagsresultat", "Lärande går före resultat" | Publicerad som föreningsvägledning |
-| Motståndare och domare får ett bra mottagande | Ja: "Hälsa på motståndare och domare före match, och tacka efteråt" | Publicerad som föreningsvägledning |
-| Ledare använder ett respektfullt språk även när domaren gör fel | Nej | Väntar på föreningens beslut |
-| Ledare agerar vid olämpligt beteende från den egna publiken | Nej (planen ger bara råd till föräldrar: heja på båda lagen, låt tränarna coacha och domarna döma) | Väntar på föreningens beslut |
-| En ojämn match hanteras aktivt för att behålla en utvecklande matchmiljö | Nej | Väntar på föreningens beslut |
+| Långsiktig utveckling före största möjliga vinst | Långsiktig utveckling och lärande går före kortsiktiga resultat | 15 |
+| Respektfullt språk även när domaren gör fel | "Respektera domarnas domslut och kommentera inte negativt"; spara frågor till efter matchen, positiv ton | 16 |
+| Motståndare och domare får ett bra mottagande | Hälsa före match, tacka efteråt, peppa båda lagens spelare | 16 |
+| Ledare agerar vid olämpligt beteende från den egna publiken | "Om någon annan vuxen agerar på ett sätt som inte är okej ska du agera och stötta domarna" | 23 |
+| En ojämn match hanteras aktivt | Förbundet säger bara att spelmässigt jämna matcher bör eftersträvas. Hur en ojämn match ska hanteras anges inte | 15 |
 
-De tre principer som väntar publiceras inte förrän föreningen har beslutat om dem. Spelutvecklingsplanen är själv ett utkast och avsnittet Moälvens värdegrund är markerat "ATT BESLUTA". De publicerade principerna bör därför ses över när planen fastställs.
+Återstår:
+
+- Moälvens egna ledarprinciper (föreningsvägledning) publiceras inte förrän föreningen har fastställt dem. Föreningens spelutvecklingsplan är ett utkast och värdegrunden är markerad "ATT BESLUTA". Den stödjer redan två av principerna (långsiktighet och bemötande av motståndare och domare).
+- Förbundet beskriver inte hur en ojämn match ska hanteras. Vill föreningen ha en egen princip där är det ett föreningsbeslut.
+- Handboken är daterad 2023-10-19. Kontrollera om en nyare version finns.
 
 Förbundets material som guiden länkar till: Barn och ungdom (Västernorrlands IBF), Den goda innebandymiljön (SIU), Matchvärd och Sekretariat och Trygg innebandy.
 
