@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 
-const pages = ['/', '/nivaer/', '/rod/', '/bla/', '/matchdagen/', '/regler/'];
+const pages = ['/', '/nivaer/', '/rod/', '/bla/', '/gron/', '/matchdagen/', '/regler/'];
 
 async function scrollOverflow(page: Page) {
 	return page.evaluate(() => ({
@@ -139,7 +139,7 @@ test('tryckytor i meny och nivåväljare är minst 44 px höga', async ({ page }
 test('nivåväljaren anger nivå och status med text, inte bara färg', async ({ page }) => {
 	await page.goto('/');
 	for (const [name, state] of [
-		['Grön nivå', 'Kommer senare'],
+		['Grön nivå', 'Gå till grön nivå'],
 		['Blå nivå', 'Gå till blå nivå'],
 		['Röd nivå', 'Gå till röd nivå'],
 	]) {

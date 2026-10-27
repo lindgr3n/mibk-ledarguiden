@@ -5,10 +5,13 @@ const pages = [
 	'/nivaer/',
 	'/rod/',
 	'/bla/',
+	'/gron/',
 	'/rod/division-1/',
 	'/rod/division-5/',
 	'/bla/division-6/',
 	'/bla/division-7/',
+	'/gron/division-8/',
+	'/gron/division-9/',
 	'/matchdagen/',
 	'/regler/',
 ];

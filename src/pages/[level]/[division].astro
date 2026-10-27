@@ -14,7 +14,7 @@ import { ruleTypes } from '../../lib/regelhierarki';
 
 export async function getStaticPaths() {
 	const paths = [];
-	for (const level of ['rod', 'bla'] as const) {
+	for (const level of ['rod', 'bla', 'gron'] as const) {
 		const { guide } = await getActiveGuide(level);
 		for (const n of divisionNumbers(guide.divisions)) {
 			paths.push({ params: { level, division: `division-${n}` }, props: { level, n } });
@@ -49,7 +49,7 @@ const pick = (keys: string[]) => keys.filter((k) => facts.has(k)).map((k) => fac
 // Serieinformationen visar bara det som inte redan står i Matchfakta-raden ovan.
 const inStrip = new Set(strip.map((x) => x.key));
 const restKeys = (keys: string[]) => keys.filter((k) => !inStrip.has(k));
-const playFacts = pick(restKeys(['spelform', 'matchtid', 'paus', 'tidtagning', 'byten', 'plan', 'mal']));
+const playFacts = pick(restKeys(['spelform', 'matchtid', 'paus', 'tidtagning', 'byten', 'plan', 'mal', 'malvakt']));
 const noteFacts = pick(restKeys(['domare', 'sekretariat', 'tabell', 'ledarutbildning']));
 
 const sources = [

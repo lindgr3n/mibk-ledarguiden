@@ -1,8 +1,7 @@
-# UTKAST – Grön nivå, säsong 2026/27. Byggs inte och publiceras inte (ligger i docs/utkast, inte i src/content).
-# Alla faktagrupper är overifierade. Källa: Västernorrlands ungdomsmatris 2026/27, sida 1, raden för division 8.9
-# (avläst 2026-10-27). Se README.md för kontrollista, avvikelser mellan källor och hur utkastet publiceras.
-# Det som skiljer division 8 och 9 åt (målvakt) ligger i gron-8.yaml och gron-9.yaml (ADR 0002).
-season: 2026-2027
+# Grön nivå, säsong 2026/27. Källa: Västernorrlands ungdomsmatris 2026/27 (sida 1, raden för division 8.9, och sida 2 för den lokala regeln).
+# Kontrollerat av innehållsansvarig 2026-10-27. Det som skiljer division 8 och 9 åt (målvakt) ligger i
+# src/content/divisionsanpassningar och upprepas inte här (ADR 0002).
+season: 2027-2028
 level: gron
 name: Grön nivå
 divisions:
@@ -11,7 +10,7 @@ divisions:
 factGroups:
   - id: spelform-och-speltid
     title: Spelform och speltid
-    status: overifierad
+    status: verifierad
     appliesTo: [8, 9]
     checked: "2026-10-27"
     source:
@@ -24,7 +23,7 @@ factGroups:
       - { key: paus, label: Paus och sidbyte, value: "Ingen paus, inget sidbyte" }
   - id: plan
     title: Plan
-    status: overifierad
+    status: verifierad
     appliesTo: [8, 9]
     checked: "2026-10-27"
     source:
@@ -44,7 +43,7 @@ factGroups:
       - { key: mal, label: Mål, value: "Små mål (ca 60 × 40 cm); med målvakt 120 × 90 cm" }
   - id: domare-och-sekretariat
     title: Domare och sekretariat
-    status: overifierad
+    status: verifierad
     appliesTo: [8, 9]
     checked: "2026-10-27"
     source:
@@ -56,7 +55,7 @@ factGroups:
       - { key: tabell, label: Tabell, value: "Ingen tabell och ingen resultattavla" }
   - id: ledarutbildning
     title: Ledarutbildning och anmälan
-    status: overifierad
+    status: verifierad
     appliesTo: [8, 9]
     checked: "2026-10-27"
     source:
@@ -70,7 +69,7 @@ ruleSections:
     title: Lokal regel för division 8–9
     statements:
       - ruleSource: distriktsanpassning
-        status: overifierad
+        status: verifierad
         text: "Inga mål får göras från egen planhalva. Ledare ska stötta föreningsdomarna och uppmana till spel, och att spelare inte står i målgården."
         appliesTo: [8, 9]
         checked: "2026-10-27"

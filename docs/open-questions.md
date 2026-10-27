@@ -18,10 +18,8 @@ Identifiera samtidigt vilka av förbundets dokument om matchmiljö, ledarbeteend
 
 ## Grön nivå
 
-Grön nivå ingår inte i den första innehållsleveransen. När nivån tas upp:
+Grön nivå (division 8–9) är publicerad för säsongen 2026/27, med uppgifter från Västernorrlands ungdomsmatris 2026/27 som kontrollerats av innehållsansvarig 2026-10-27. Följande återstår:
 
-- använd föregående säsongs material som arbetsunderlag,
-- kontrollera innehållet mot aktuell regelbok,
-- verifiera innehållet mot årets särskilda material innan publicering.
-
-
+- kontrollera innehållet mot aktuell regelbok och den nationella handboken för spelformer,
+- få planens mått bekräftade av VIBF ("3 sargbitar bred och 6 eller 7 lång" är innehållsansvarigs läsning av matrisen; sargbitarnas längd i meter är okänd),
+- rekommenderad ålder anges inte i guiden, eftersom matrisen (7–10 år) och SIBF:s mall (6–9 år) skiljer sig åt och ingen källa bekräftar hur åldrarna fördelas mellan division 8 och 9.

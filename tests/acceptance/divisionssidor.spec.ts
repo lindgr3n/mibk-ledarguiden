@@ -71,8 +71,8 @@ test('blå nivå: division 6 visar effektiv tid, division 7 visar bara en ej ver
 	await expect(page.getByText('4 utespelare + målvakt')).toHaveCount(0);
 });
 
-test('det finns ingen sida för grön nivå eller dess divisioner', async ({ request }) => {
-	for (const path of ['/gron/', '/gron/division-8/', '/rod/division-6/', '/bla/division-5/']) {
+test('det finns ingen sida för en division som inte hör till nivån', async ({ request }) => {
+	for (const path of ['/gron/division-7/', '/rod/division-6/', '/bla/division-5/']) {
 		expect((await request.get(path)).status()).toBe(404);
 	}
 });

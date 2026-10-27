@@ -157,16 +157,11 @@ export function describeDivisionRange({ from, to }: { from: number; to: number }
 	return describeDivisions(Array.from({ length: to - from + 1 }, (_, i) => from + i));
 }
 
-// Grön nivå har ingen nivåguide ännu, så dess divisioner kan inte hämtas från innehållet.
-// Enda platsen där de anges; startsidan och Nivåer delar den (specen, issue #2).
-export const GRON_PLACEHOLDER = { name: 'Grön nivå', divisions: { from: 8, to: 9 }, state: 'Kommer senare' };
-
-// Nivåerna i visningsordning (röd, blå, grön – som i referensbilderna) för den aktiva säsongen. Divisionerna för blå och röd
-// kommer från innehållet; en nivå utan guide (grön) har ingen href.
+// Nivåerna i visningsordning (röd, blå, grön – som i referensbilderna) för den aktiva säsongen. Divisionerna kommer från innehållet.
 export async function getLevelOverview() {
 	const season = await getActiveSeason();
 	const guides = (await getCollection('nivaguider')).filter((g) => g.data.season.id === season.id);
-	const fromGuide = (level: 'bla' | 'rod') => {
+	const fromGuide = (level: Level) => {
 		const guide = guides.find((g) => g.data.level === level);
 		if (!guide) throw new Error(`Nivåguide saknas för ${level} i säsong ${season.data.label}`);
 		return {
@@ -180,13 +175,7 @@ export async function getLevelOverview() {
 	return [
 		fromGuide('rod'),
 		fromGuide('bla'),
-		{
-			key: 'gron' as const,
-			name: GRON_PLACEHOLDER.name,
-			divisions: describeDivisionRange(GRON_PLACEHOLDER.divisions),
-			href: undefined,
-			state: GRON_PLACEHOLDER.state,
-		},
+		fromGuide('gron'),
 	];
 }
 

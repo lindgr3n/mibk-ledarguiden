@@ -23,11 +23,12 @@ test('nivåväljaren leder från startsidan till röd och blå guide', async ({ 
 	await expect(page).toHaveURL('/bla/');
 });
 
-test('grön nivå visas som kommande och är ingen länk', async ({ page }) => {
+test('nivåväljaren leder till grön guide', async ({ page }) => {
 	await page.goto('/');
-	await expect(picker(page).getByRole('link')).toHaveCount(2);
-	await expect(picker(page).getByRole('heading', { name: 'Grön nivå' })).toBeVisible();
-	await expect(picker(page).getByText('Kommer senare')).toBeVisible();
+	await expect(picker(page).getByRole('link')).toHaveCount(3);
+	await picker(page).getByRole('link', { name: /Gå till grön nivå/ }).click();
+	await expect(page).toHaveURL('/gron/');
+	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Grön nivå');
 });
 
 test('nivåerna visas i ordningen röd, blå, grön med divisioner (som i referensbilden)', async ({ page }) => {
@@ -95,12 +96,11 @@ test('säsongsetiketten följer den aktiva säsongen i rubrik, titel och sidfot'
 	await expect(page.locator('footer')).toContainText('Ledarguide 2026/27');
 });
 
-test('grön nivå har samma ord och divisioner på startsidan och på Nivåer', async ({ page }) => {
+test('grön nivå har samma namn, divisioner och länk på startsidan och på Nivåer', async ({ page }) => {
 	await page.goto('/nivaer/');
 	const gron = page.getByRole('listitem').filter({ hasText: 'Grön nivå' });
-	await expect(gron).toContainText('Kommer senare');
 	await expect(gron).toContainText('Division 8–9');
-	await expect(gron.getByRole('link')).toHaveCount(0);
+	await expect(gron.getByRole('link', { name: 'Grön nivå' })).toHaveAttribute('href', '/gron/');
 	await expect(page.getByRole('listitem').filter({ hasText: 'Blå nivå' })).toContainText('Division 6–7');
 	await expect(page.getByRole('listitem').filter({ hasText: 'Röd nivå' })).toContainText('Division 1–5');
 });
