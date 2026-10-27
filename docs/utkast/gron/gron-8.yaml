@@ -1,16 +1,15 @@
-# UTKAST – Division 8, säsong 2026/27: bara avvikelser från Grön nivå (ADR 0002). Overifierad, byggs inte.
-# Division 8 spelar 3 mot 3 med målvakt. OBS: tolkningen av målstorlek per division är inte kontrollerad.
+# UTKAST – Division 8, säsong 2026/27: bara avvikelser från Grön nivå (ADR 0002). Byggs inte.
+# Division 8 är andra året på grön nivå och spelar 3 mot 3 med målvakt (mål 120 × 90 cm). Bekräftat av innehållsansvarig 2026-10-27.
 guide: 2026-2027/gron
 division: 8
 adaptations:
   - id: malvakt
     title: Målvakt
-    status: overifierad
+    status: verifierad
     ruleSource: distriktsanpassning
     checked: "2026-10-27"
     source:
       label: Västernorrlands ungdomsmatris 2026/27, sida 1
       url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
-    unverifiedNote: "Utkast avläst ur matrisens rad 8.9 (division 8 med målvakt, division 9 utan). Inte kontrollerat av en människa."
     facts:
       - { key: malvakt, label: Målvakt, value: "Med målvakt; mål 120 × 90 cm" }

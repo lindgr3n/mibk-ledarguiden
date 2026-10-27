@@ -1,16 +1,15 @@
-# UTKAST – Division 9, säsong 2026/27: bara avvikelser från Grön nivå (ADR 0002). Overifierad, byggs inte.
-# Division 9 spelar 3 mot 3 utan målvakt.
+# UTKAST – Division 9, säsong 2026/27: bara avvikelser från Grön nivå (ADR 0002). Byggs inte.
+# Division 9 är första året på grön nivå och spelar 3 mot 3 utan målvakt (små mål, ca 60 × 40 cm). Bekräftat av innehållsansvarig 2026-10-27.
 guide: 2026-2027/gron
 division: 9
 adaptations:
   - id: malvakt
     title: Målvakt
-    status: overifierad
+    status: verifierad
     ruleSource: distriktsanpassning
     checked: "2026-10-27"
     source:
       label: Västernorrlands ungdomsmatris 2026/27, sida 1
       url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
-    unverifiedNote: "Utkast avläst ur matrisens rad 8.9 (division 8 med målvakt, division 9 utan). Inte kontrollerat av en människa."
     facts:
       - { key: malvakt, label: Målvakt, value: "Utan målvakt; små mål (ca 60 × 40 cm)" }

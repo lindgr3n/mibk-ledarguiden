@@ -28,15 +28,21 @@ Kontrollera varje punkt mot matrisen och sätt sedan `status: verifierad` och ny
 - [ ] **Lokal regel** (sida 2): "Inga mål får göras från egen planhalva/halva plan." Meningen om att ledare ska stötta föreningsdomarna är omskriven. Kontrollera ordalydelsen.
 - [ ] Kontrollera mot regelboken och den nationella handboken för spelformer ("Nationell handbok för spelformer och regler tillämpas"), enligt `docs/open-questions.md`.
 
-## Avvikelser mellan källorna (måste avgöras)
+## Avklarat (bekräftat av innehållsansvarig 2026-10-27)
 
-| Fråga | Matrisen (distriktet) | SIBF-mallen 2025 |
-| --- | --- | --- |
-| Ålder | Rek. ålder 7–10 | 6–9 år |
-| Målvakt | Division 8 med målvakt, division 9 utan | "Inga fasta målvakter på grön nivå" |
-| Matchformat | 1 × 15 min, sammandrag | Poolspel, högst 1 match i veckan, inga cuper |
+- **Mål och målvakt:** division 9 är första året (3 mot 3 utan målvakt, små mål ca 60 × 40 cm), division 8 andra året (3 mot 3 med målvakt, mål 120 × 90 cm). Faktagruppen "Mål" och divisionsanpassningarna är satta till `verifierad`.
+- **SIBF:s "inga fasta målvakter"** betyder att målvakterna roteras i laget. Det motsäger inte matrisen.
+- **Tabell:** ingen tabell och ingen resultattavla.
 
-Per regelhierarkin (ADR 0003) gäller distriktets matris före SIBF-mallen. Där de skiljer sig bör avsnittet märkas "Behöver bekräftas" (`needsConfirmation`) tills VIBF har klargjort.
+## Åldern: inte med i utkastet
+
+Matrisen anger rek. ålder 7–10 och SIBF-mallen 6–9 år. Innehållsansvarigs förståelse är division 9 ≈ 6–7 år, division 8 ≈ 7–8 år, och det kan också vara 9 år eftersom säsongen går över nyår. Det är inte belagt i en källa och står därför inte i guiden. Lägg till först om en källa bekräftar det.
+
+## Fortfarande öppet
+
+- **Plan:** "3 × 6/7 sargbitar + hörn" är oförändrad. Faktagruppen "Plan" är `overifierad` tills texten är begriplig och kontrollerad.
+- **Regelboken** och nationella handboken för spelformer är inte kontrollerade.
+- Övriga rader i kontrollistan ovan är inte uttryckligen bekräftade än.
 
 ## Medvetet utelämnat
 
