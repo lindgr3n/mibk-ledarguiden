@@ -311,6 +311,8 @@
 
 .panel .link-arrow {
 	grid-column: 2;
+	justify-self: end;
+	text-align: right;
 }
 
 .archive-teaser {
@@ -810,17 +812,6 @@
 	grid-template-columns: 2.9rem 1fr;
 }
 
-@media (min-width: 48rem) {
-	.panel {
-		grid-template-columns: auto 1fr auto;
-		align-items: center;
-	}
-
-	.panel .link-arrow {
-		grid-column: auto;
-		white-space: nowrap;
-	}
-}
 
 
 /* ---- Matchdagen ---- */
