@@ -58,17 +58,25 @@ test('division 1 avviker från 2–5 bara på tabell och poängliga', async ({ p
 	}
 });
 
-test('blå nivå: division 6 visar effektiv tid, division 7 visar bara en ej verifierad notis', async ({ page }) => {
+test('blå nivå: division 6 visar effektiv tid, division 7 rullande tid', async ({ page }) => {
 	await page.goto('/bla/division-6/');
 	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Blå nivå Division 6');
 	await expect(page.getByText('Effektiv tid').first()).toBeVisible();
 	await expect(page.getByText('4 utespelare + målvakt').first()).toBeVisible();
+	await expect(page.getByText('Rullande tid')).toHaveCount(0);
+	await expect(page.locator('.series-info').getByText('Domare tillsätts av:')).toBeVisible();
 
 	await page.goto('/bla/division-7/');
-	await expect(page.getByText(/Uppgifterna för division 7 är inte verifierade ännu/)).toBeVisible();
-	await expect(page.getByText(/ej verifierat/).first()).toBeVisible();
-	await expect(page.getByText('Rullande tid', { exact: true })).toHaveCount(0);
-	await expect(page.getByText('4 utespelare + målvakt')).toHaveCount(0);
+	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Blå nivå Division 7');
+	const info = page.locator('.series-info');
+	await expect(info.getByText('Tidtagning:')).toBeVisible();
+	await expect(info.getByText('Rullande tid')).toBeVisible();
+	await expect(page.getByText('Hösttermin: tutbyte, 90 sek. Vårtermin: flygande', { exact: true })).toBeVisible();
+	await expect(info.getByText('Föreningarna (föreningsdomare)')).toBeVisible();
+	await expect(page.getByText('4 utespelare + målvakt').first()).toBeVisible();
+	await expect(page.getByText('Effektiv tid', { exact: true })).toHaveCount(0);
+	await expect(page.getByText(/inte verifierade ännu/)).toHaveCount(0);
+	await expect(page.getByText(/ej verifierat/)).toHaveCount(0);
 });
 
 test('det finns ingen sida för en division som inte hör till nivån', async ({ request }) => {

@@ -50,7 +50,7 @@ const pick = (keys: string[]) => keys.filter((k) => facts.has(k)).map((k) => fac
 const inStrip = new Set(strip.map((x) => x.key));
 const restKeys = (keys: string[]) => keys.filter((k) => !inStrip.has(k));
 const playFacts = pick(restKeys(['spelform', 'matchtid', 'paus', 'tidtagning', 'byten', 'plan', 'mal', 'malvakt']));
-const noteFacts = pick(restKeys(['domare', 'sekretariat', 'tabell', 'ledarutbildning']));
+const noteFacts = pick(restKeys(['domare', 'domartillsattning', 'sekretariat', 'tabell', 'ledarutbildning']));
 
 const sources = [
 	...view.commonFactGroups.map((g) => ({ id: g.id, title: g.title, checked: g.checked, source: g.source })),

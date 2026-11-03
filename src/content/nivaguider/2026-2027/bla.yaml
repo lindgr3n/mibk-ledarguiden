@@ -1,7 +1,6 @@
-# Blå nivå, säsong 2026/27. Källa: docs/quick-look/division-6.md (Västernorrlands ungdomsmatris).
-# De gemensamma uppgifterna är hittills bara verifierade för division 6. Lägg till division 7 i appliesTo
-# först när de kontrollerats mot originalkällan. Det som skiljer division 6 och 7 åt (tidtagning, byten)
-# ligger i src/content/divisionsanpassningar och upprepas inte här.
+# Blå nivå, säsong 2026/27. Källa: Västernorrlands ungdomsmatris 2026/27, sida 1 (raderna för division 6 och 7).
+# Division 6 och 7 kontrollerades mot matrisen 2026-11-01. Det som skiljer division 6 och 7 åt (tidtagning,
+# byten, vem som tillsätter domarna) ligger i src/content/divisionsanpassningar och upprepas inte här.
 season: 2026-2027
 level: bla
 name: Blå nivå
@@ -12,8 +11,8 @@ factGroups:
   - id: spelform-och-speltid
     title: Spelform och speltid
     status: verifierad
-    appliesTo: [6]
-    checked: "2026-10-12"
+    appliesTo: [6, 7]
+    checked: "2026-11-01"
     source:
       label: Västernorrlands ungdomsmatris 2026/27, sida 1
       url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
@@ -24,8 +23,8 @@ factGroups:
   - id: plan-och-mal
     title: Plan och mål
     status: verifierad
-    appliesTo: [6]
-    checked: "2026-10-12"
+    appliesTo: [6, 7]
+    checked: "2026-11-01"
     source:
       label: Västernorrlands ungdomsmatris 2026/27, sida 1
       url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
@@ -35,20 +34,20 @@ factGroups:
   - id: domare-och-sekretariat
     title: Domare och sekretariat
     status: verifierad
-    appliesTo: [6]
-    checked: "2026-10-12"
+    appliesTo: [6, 7]
+    checked: "2026-11-01"
     source:
       label: Västernorrlands ungdomsmatris 2026/27, sida 1
       url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
     facts:
-      - { key: domare, label: Domare, value: "2, tillsatta av VIBF" }
+      - { key: domare, label: Domare, value: "2 domare" }
       - { key: sekretariat, label: Sekretariat, value: "Tidtagare + matchklocka; ingen resultattavla" }
       - { key: tabell, label: Tabell, value: "Ingen offentlig tabell" }
   - id: ledarutbildning
     title: Ledarutbildning
     status: verifierad
-    appliesTo: [6]
-    checked: "2026-10-12"
+    appliesTo: [6, 7]
+    checked: "2026-11-01"
     source:
       label: Västernorrlands ungdomsmatris 2026/27, sida 1
       url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
