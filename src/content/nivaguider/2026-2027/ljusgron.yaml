@@ -11,8 +11,6 @@ spelformKort: Lek och rörelse
 documents:
   - label: Att vara med i Moälvens IBK (för föräldrar och nya spelare)
     spelutbildning: /att-vara-med/
-  - label: Uppstart av nya lag och mentorrutin
-    spelutbildning: /nya-lag/
   - label: Anmälan och kontakt, moalvensibk.se
     url: "https://moalvensibk.se"
   - label: "Svensk Innebandy: Lek och rörelse (ljusgrön nivå)"

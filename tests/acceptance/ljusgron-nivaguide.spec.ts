@@ -15,7 +15,8 @@ test('Ljusgrön nivå nås från startsidan och visar bladet utan divisioner', a
 	await expect(page.getByRole('heading', { name: 'Viktiga dokument' })).toBeVisible();
 	await expect(page.getByRole('heading', { name: 'Uppstart' })).toBeVisible();
 	await expect(page.locator('.start-card').getByRole('link', { name: /Öppna uppstart/ })).toHaveAttribute('href', /\/nya-lag\/$/);
-	await expect(page.locator('.doc-links').getByRole('link', { name: /Uppstart av nya lag/ })).toHaveAttribute('href', /\/nya-lag\/$/);
+	// Uppstart står i sitt eget kort och upprepas inte bland dokumenten.
+	await expect(page.locator('.doc-links').getByRole('link', { name: /Uppstart/ })).toHaveCount(0);
 	await expect(page.getByRole('region', { name: 'Källor och kontrolldatum' })).toBeVisible();
 });
 

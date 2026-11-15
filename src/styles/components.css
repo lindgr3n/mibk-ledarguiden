@@ -1259,3 +1259,15 @@
 	width: fit-content;
 	margin-left: auto;
 }
+
+/* Korten bredvid varandra (Viktiga dokument + Matchdagen/Uppstart): länken står längst ned till höger */
+.level-extras > .card {
+	display: flex;
+	flex-direction: column;
+}
+
+.level-extras > .card .link-end {
+	align-self: flex-end;
+	margin-top: auto;
+	padding-top: 0.75rem;
+}
