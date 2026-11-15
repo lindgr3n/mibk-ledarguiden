@@ -163,25 +163,6 @@
 	text-decoration: none;
 }
 
-.btn-outline {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.5rem;
-	min-height: 2.75rem;
-	padding: 0.4rem 1.25rem;
-	border: 2px solid var(--orange);
-	border-radius: 999px;
-	color: var(--orange-ink);
-	font-weight: 700;
-	text-decoration: none;
-	background: #fff;
-}
-
-.btn-outline:hover {
-	background: var(--orange);
-	color: var(--black);
-}
-
 .link-arrow {
 	display: inline-flex;
 	align-items: center;
@@ -1238,16 +1219,6 @@
 	--lvl-line: color-mix(in srgb, var(--lvl) 28%, #fff);
 }
 
-.lvl-theme .btn-outline {
-	border-color: var(--lvl);
-	color: var(--lvl);
-}
-
-.lvl-theme .btn-outline:hover {
-	background: var(--lvl);
-	color: #fff;
-}
-
 .lvl-theme .link-arrow,
 .lvl-theme .division-tile .icon-chevron,
 .lvl-theme .division-tile .icon-trophy,
@@ -1281,17 +1252,11 @@
 	border-left-color: var(--lvl);
 }
 
-/* "Läs mer" i Nytt för-kortet: liten knapp, högerställd på bred skärm */
-.news-wide .btn-outline {
-	justify-self: start;
+/* Textlänk med pil, högerställd (Läs mer i Nytt för, Öppna matchdagens checklista) */
+.link-end {
+	justify-self: end;
 	align-self: center;
-	min-height: 2.25rem;
-	padding: 0.2rem 1rem;
-	font-size: 0.9375rem;
-}
-
-@media (min-width: 48rem) {
-	.news-wide .btn-outline {
-		justify-self: end;
-	}
+	display: flex;
+	width: fit-content;
+	margin-left: auto;
 }
