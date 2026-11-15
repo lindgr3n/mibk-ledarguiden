@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import LevelCard from '../components/LevelCard.astro';
 import { getActiveSeason, getLevelOverview } from '../lib/nivaguide';
 
 const levels = await getLevelOverview();
@@ -15,22 +16,19 @@ const season = await getActiveSeason();
 			<p class="hero-lead">Välj nivå för att se vad som gäller i din division.</p>
 		</Hero>
 	</Fragment>
-	<ul class="card nivaer-list">
+	<ul class={`level-cards${levels.length > 3 ? ' level-cards-4' : ''}`}>
 		{
 			levels.map((level) => (
-				<li>
-					{level.href ? <a href={level.href}>{level.name}</a> : level.name} – {level.divisions}
-					{!level.href && <> · {level.state}</>}
-				</li>
+				<LevelCard
+					niva={level.key}
+					titel={level.name}
+					href={level.href}
+					knapp={level.href ? `Gå till ${level.name.toLowerCase()}` : level.state}
+					rubrik="h2"
+				>
+					{level.divisions}
+				</LevelCard>
 			))
 		}
 	</ul>
 </Layout>
-
-<style>
-	.nivaer-list {
-		margin: 1.25rem 0 0;
-		list-style: none;
-		font-size: 1.25rem;
-	}
-</style>

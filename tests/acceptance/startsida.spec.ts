@@ -100,7 +100,7 @@ test('grön nivå har samma namn, divisioner och länk på startsidan och på Ni
 	await page.goto('/nivaer/');
 	const gron = page.getByRole('listitem').filter({ hasText: /^\s*Grön nivå/ });
 	await expect(gron).toContainText('Division 8–9');
-	await expect(gron.getByRole('link', { name: 'Grön nivå' })).toHaveAttribute('href', '/gron/');
+	await expect(gron.getByRole('link', { name: 'Gå till grön nivå' })).toHaveAttribute('href', '/gron/');
 	await expect(page.getByRole('listitem').filter({ hasText: 'Blå nivå' })).toContainText('Division 6–7');
 	await expect(page.getByRole('listitem').filter({ hasText: 'Röd nivå' })).toContainText('Division 1–5');
 });

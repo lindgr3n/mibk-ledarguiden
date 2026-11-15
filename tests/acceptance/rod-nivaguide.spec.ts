@@ -4,7 +4,7 @@ const matrisSida1 = /matris-ungdom-2026-27-med-arvoden\.pdf#page=[12]$/;
 
 test('Röd nivå nås från Nivåer och visar säsong 2026/27', async ({ page }) => {
 	await page.goto('/nivaer/');
-	await page.getByRole('link', { name: /Röd nivå/ }).click();
+	await page.getByRole('link', { name: /Gå till röd nivå/ }).click();
 	await expect(page).toHaveURL('/rod/');
 	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Röd nivå');
 	await expect(page.getByText('Säsong 2026/27')).toBeVisible();

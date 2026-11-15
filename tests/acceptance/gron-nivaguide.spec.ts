@@ -5,7 +5,7 @@ const matrisSida2 = 'https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-
 
 test('Grön nivå nås från Nivåer och visar säsong 2026/27 och division 8–9', async ({ page }) => {
 	await page.goto('/nivaer/');
-	await page.getByRole('link', { name: /Grön nivå/ }).click();
+	await page.getByRole('link', { name: /Gå till grön nivå/ }).click();
 	await expect(page).toHaveURL('/gron/');
 	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Grön nivå');
 	await expect(page.getByText('Säsong 2026/27')).toBeVisible();
