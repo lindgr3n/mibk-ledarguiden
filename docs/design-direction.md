@@ -72,6 +72,7 @@ MOBIL
 - Kontrolldatum och originalkälla är synliga där fakta används, inte gömda i sidfoten.
 - Animation används endast när den förklarar en användarhandling. Tangentbordsfokus och reducerad rörelse stöds.
 - Matchdagen och nivåguiderna har enkel utskriftslayout utan separat PDF.
+- Nivåsidan är ett blad (ADR 0005): färgband med spelform och logga, ikonrader i två kolumner, "Nytt för" direkt under divisionerna, och dokument och matchdagens checklista under bladet. Det avviker från referensbilden `rod_detail.png`, som därför bara är historisk för nivåsidans layout. Startsidan och divisionssidan följer fortfarande sina referensbilder tills divisionssidan görs om.
 
 ## Självgranskning
 

@@ -13,7 +13,7 @@ test('Blå nivå nås från Nivåer och visar säsong 2026/27 och division 6–7
 
 test('Blå nivå har samma struktur som Röd nivå, matchfakta först', async ({ page }) => {
 	await page.goto('/bla/');
-	await expect(page.getByRole('heading', { level: 2 }).first()).toHaveText('Snabb översikt');
+	await expect(page.getByRole('heading', { level: 2, name: 'Snabb översikt' })).toBeVisible();
 	const facts = page.getByRole('region', { name: 'Snabb översikt' });
 	for (const [label, value] of [
 		['Spelform', '4 utespelare + målvakt'],
@@ -26,7 +26,7 @@ test('Blå nivå har samma struktur som Röd nivå, matchfakta först', async ({
 		await expect(facts.getByText(value, { exact: true })).toBeVisible();
 	}
 	for (const group of await page.locator('[data-fact-group]').all()) {
-		await expect(group.getByText('Kontrollerad 2026-11-01')).toBeVisible();
+		await expect(group.getByText(/Kontrollerad \d{4}-\d{2}-\d{2}/)).toBeVisible();
 		await expect(group.getByRole('link', { name: /Originalkälla/ })).toHaveAttribute('href', matrisSida1);
 	}
 });
@@ -60,7 +60,7 @@ test('divisionsanpassningar visas separat: division 6 effektiv tid, division 7 r
 
 	// Varje anpassning har kontrolldatum och originalkälla.
 	for (const group of await adaptations.locator('[data-adaptation]').all()) {
-		await expect(group.getByText('Kontrollerad 2026-11-01')).toBeVisible();
+		await expect(group.getByText(/Kontrollerad \d{4}-\d{2}-\d{2}/)).toBeVisible();
 		await expect(group.getByRole('link', { name: /Originalkälla/ })).toHaveAttribute('href', matrisSida1);
 	}
 });

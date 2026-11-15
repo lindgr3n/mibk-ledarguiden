@@ -5,8 +5,12 @@ Begrepp som används i Moälvens IBK:s ledarguide för att hjälpa ledare hitta 
 ## Language
 
 **Nivå**:
-En färgkategori som samlar närliggande divisioner: grön, blå eller röd.
+En färgkategori som samlar närliggande divisioner: grön, blå eller röd. Ljusgrön är en nivå utan divisioner och utan matcher (lek och rörelse).
 _Avoid_: Spelform, färgklass
+
+**Nivåblad**:
+Nivåsidans översikt: ett färgband med spelform och logga och ikonrader med det ledaren behöver veta, utskrivbart på en A4.
+_Avoid_: Spelformsblad, A4-blad
 
 **Nivåguide**:
 En sammanställning av det som är gemensamt för en nivå, med hänvisningar till divisionernas eventuella anpassningar.

@@ -4,6 +4,9 @@
 season: 2026-2027
 level: bla
 name: Blå nivå
+undertitel: Jag, du och bollen
+alder: 9–12 år
+spelformKort: 4 mot 4
 divisions:
   from: 6
   to: 7
@@ -53,3 +56,18 @@ factGroups:
       url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
     facts:
       - { key: ledarutbildning, label: Ledarutbildning, value: "Grundutbildning barn/ungdom + Steg 1 Blå (eller högre nivå)" }
+  - id: administration
+    title: Licens, anmälan och matchvärdar
+    status: verifierad
+    appliesTo: [6, 7]
+    checked: "2026-11-15"
+    ruleSource: distriktsanpassning
+    source:
+      label: Västernorrlands ungdomsmatris 2026/27, sida 1
+      url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+      detail: "Inledande text ovanför divisionstabellen"
+    facts:
+      - { key: licens, label: Licens, value: "Personlig spelarlicens för alla spelare" }
+      - { key: matchvardar, label: Matchvärdar, value: "Två matchvärdar i alla serier" }
+      - { key: anmalan, label: Anmälan, value: "Sista anmälan för seriespel är 15 maj" }
+      - { key: resultatrapport, label: Resultatrapportering, value: "Resultat rapporteras i iBIS, för att kunna lotta jämna matcher" }

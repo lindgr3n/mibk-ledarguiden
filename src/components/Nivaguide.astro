@@ -11,6 +11,7 @@ import Icon from './Icon.astro';
 import RuleHierarchy from './RuleHierarchy.astro';
 import UpdateNotices from './UpdateNotices.astro';
 import FactList from './FactList.astro';
+import { SPELUTBILDNING_URL } from '../lib/lankar';
 import {
 	describeDivisionRange,
 	describeDivisions,
@@ -36,11 +37,17 @@ const { guide, season, factGroups, ruleSections, unverifiedDivisions, divisionAd
 const archived = season.status === 'arkiverad';
 
 const { word, rest: restOfName } = splitLevelName(guide.name);
+const hasDivisions = Boolean(guide.divisions);
 const levelDivisions = divisionNumbers(guide.divisions);
-const verifiedText = describeDivisions([...new Set(factGroups.flatMap((g) => g.appliesTo))]).toLowerCase();
+const verifiedText = hasDivisions
+	? describeDivisions([...new Set(factGroups.flatMap((g) => g.appliesTo))]).toLowerCase()
+	: '';
+const bandTitle = guide.spelformKort ?? guide.name;
+const bandMeta = [guide.name, guide.undertitel, guide.alder].filter(Boolean).join(' · ');
 
 // Sidokolumnen (nytt, dokument, Matchdagen) hör till den aktiva säsongen och visas inte i arkivet.
-const activeSeason = archived ? undefined : (await getCollection('sasonger')).find((s) => s.data.label === season.label);
+const activeSeason =
+	archived || !hasDivisions ? undefined : (await getCollection('sasonger')).find((s) => s.data.label === season.label);
 const rules = activeSeason
 	? (await getCollection('reglerochdokument')).find((c) => c.data.season.id === activeSeason.id)?.data
 	: undefined;
@@ -54,10 +61,13 @@ const matchday = activeSeason
 		<Hero variant="detail" labelledby="level-title">
 			<p class="eyebrow">Moälvens innebandy · Säsong {season.label}</p>
 			<h1 id="level-title"><span class={`lvl-word-${level}`}>{word}</span> {restOfName}</h1>
-			<p class="hero-sub">{describeDivisionRange(guide.divisions)}</p>
+			<p class="hero-sub">{guide.divisions ? describeDivisionRange(guide.divisions) : guide.alder}</p>
 			<p class="hero-lead">
-				{guide.name} omfattar {describeDivisionRange(guide.divisions).toLowerCase()} i Västernorrlands
-				ungdomsserier. Här hittar du de viktigaste matchfakta, spelformerna och praktisk information för ledare.
+				{
+					guide.divisions
+						? `${guide.name} omfattar ${describeDivisionRange(guide.divisions).toLowerCase()} i Västernorrlands ungdomsserier. Här hittar du de viktigaste matchfakta, spelformerna och praktisk information för ledare.`
+						: `${guide.name} är Moälvens lek- och rörelsegrupp, utan matcher och utan divisioner. Här hittar du hur starten går till och vad barnet behöver.`
+				}
 			</p>
 		</Hero>
 	</Fragment>
@@ -75,7 +85,7 @@ const matchday = activeSeason
 	}
 
 	{
-		!archived && (
+		!archived && hasDivisions && (
 			<ul class="division-tiles" aria-label={`Divisioner i ${guide.name.toLowerCase()}`}>
 				{levelDivisions.map((n) => (
 					<li>
@@ -93,13 +103,40 @@ const matchday = activeSeason
 		)
 	}
 
-	<div class="level-layout">
-		<section class="card overview" aria-labelledby="matchfakta" id="snabb-oversikt">
+	{
+		rules && (
+			<section class="card news-card news-wide" aria-labelledby="nytt-title">
+				<div class="side-head">
+					<Icon name="megaphone" size={44} />
+					<h2 id="nytt-title">{rules.news.title}</h2>
+				</div>
+				<p>{rules.news.summary} Här hittar du en sammanfattning av de viktigaste förändringarna.</p>
+				<a class="btn-outline" href="/regler/#nyheter">
+					Läs mer <Icon name="chevron" size={16} />
+				</a>
+			</section>
+		)
+	}
+
+	<section class={`card overview sheet sheet-${level}`} aria-labelledby="matchfakta" id="snabb-oversikt">
+		<header class="sheet-band">
+			<div class="sheet-band-text">
+				<p class="sheet-format">{bandTitle}</p>
+				<p class="sheet-meta">{bandMeta}</p>
+			</div>
+			<img class="sheet-logo" src="/images/brand/moalvens-ibk-logo.png" alt="Moälvens IBK" width="112" height="112" />
+		</header>
+		<div class="sheet-body">
 			<div class="overview-head">
-				<Icon name="doc" size={40} />
 				<div>
 					<h2 id="matchfakta">Snabb översikt</h2>
-					<p class="card-sub">Detta gäller på {guide.name.toLowerCase()} – verifierat för {verifiedText}</p>
+					<p class="card-sub">
+						{
+							hasDivisions
+								? `Detta gäller på ${guide.name.toLowerCase()} – verifierat för ${verifiedText}`
+								: `Så fungerar ${guide.name.toLowerCase()} i Moälvens IBK`
+						}
+					</p>
 				</div>
 			</div>
 			{
@@ -110,7 +147,7 @@ const matchday = activeSeason
 					</p>
 				)
 			}
-			<ul class="fact-rows">
+			<ul class="fact-rows fact-rows-2">
 				{
 					factGroups.flatMap((group) =>
 						group.facts.map((fact) => (
@@ -127,79 +164,76 @@ const matchday = activeSeason
 					)
 				}
 			</ul>
-		</section>
+		</div>
+	</section>
 
-		{
-			rules && matchday && (
-				<div class="level-side">
-					<section class="card news-card" aria-labelledby="nytt-title">
-						<div class="side-head">
-							<Icon name="megaphone" size={44} />
-							<h2 id="nytt-title">{rules.news.title}</h2>
+	{
+		rules && matchday && (
+			<div class="side-pair level-extras">
+				<section class="card no-print" aria-labelledby="dokument-title">
+					<div class="side-head">
+						<Icon name="doc" size={40} />
+						<div>
+							<h3 id="dokument-title">Viktiga dokument</h3>
+							<p class="card-sub">Regler, bestämmelser och information</p>
 						</div>
-						<p>{rules.news.summary} Här hittar du en sammanfattning av de viktigaste förändringarna.</p>
-						<a class="btn-outline" href="/regler/#nyheter">
-							Läs mer <Icon name="chevron" size={16} />
-						</a>
-					</section>
+					</div>
+					<ul class="doc-links">
+						{rules.documents.map((doc) => (
+							<li>
+								<ExternalLink href={doc.url}>
+									{doc.title}
+									<Icon name="external" size={16} />
+								</ExternalLink>
+							</li>
+						))}
+					</ul>
+				</section>
 
-					<div class="side-pair">
-						<section class="card" aria-labelledby="dokument-title">
-							<div class="side-head">
-								<Icon name="doc" size={40} />
-								<div>
-									<h3 id="dokument-title">Viktiga dokument</h3>
-									<p class="card-sub">Regler, bestämmelser och information</p>
-								</div>
-							</div>
-							<ul class="doc-links">
-								{rules.documents.map((doc) => (
-									<li>
-										<ExternalLink href={doc.url}>
-											{doc.title}
-											<Icon name="external" size={16} />
-										</ExternalLink>
-									</li>
+				<section class="card matchday-card" aria-labelledby="matchdagen-side-title">
+					<div class="side-head">
+						<Icon name="calendar" size={40} />
+						<div>
+							<h3 id="matchdagen-side-title">Matchdagen</h3>
+							<p class="card-sub">Checklista för ledare</p>
+						</div>
+					</div>
+					{matchday.sections.map((sec, i) => (
+						<div class="check-section">
+							<h4>
+								<span class="step-no">{i + 1}</span> {sec.title}
+							</h4>
+							<ul class="check-items">
+								{sec.items.map((item) => (
+									<li>{item.text}</li>
 								))}
 							</ul>
-						</section>
+						</div>
+					))}
+					<a class="link-arrow no-print" href="/matchdagen/#matchflytt">
+						{matchday.relocation.title} <Icon name="arrow" size={18} />
+					</a>
+				</section>
+			</div>
+		)
+	}
 
-						<section class="card" aria-labelledby="matchdagen-side-title">
-							<div class="side-head">
-								<Icon name="calendar" size={40} />
-								<div>
-									<h3 id="matchdagen-side-title">Matchdagen</h3>
-									<p class="card-sub">Checklista för ledare</p>
-								</div>
-							</div>
-							<ol class="steps">
-								{matchday.sections.map((sec, i) => (
-									<li>
-										<a href={`/matchdagen/#${sec.id}`}>
-											<span class="step-no">{i + 1}</span>
-											<span>
-												<strong>{sec.title}</strong>
-												<small>{sec.items.length} punkter</small>
-											</span>
-										</a>
-									</li>
-								))}
-								<li>
-									<a href="/matchdagen/#matchflytt">
-										<span class="step-no">{matchday.sections.length + 1}</span>
-										<span>
-											<strong>{matchday.relocation.title}</strong>
-											<small>Länk till aktuell information</small>
-										</span>
-									</a>
-								</li>
-							</ol>
-						</section>
+	{
+		!archived && (
+			<section class="card train-card no-print" aria-labelledby="trana-title">
+				<div class="side-head">
+					<Icon name="book" size={40} />
+					<div>
+						<h3 id="trana-title">Så tränar vi</h3>
+						<p class="card-sub">Spelidé, principer, övningar och träningspass för {guide.name.toLowerCase()}</p>
 					</div>
 				</div>
-			)
-		}
-	</div>
+				<ExternalLink class="link-arrow" href={`${SPELUTBILDNING_URL}/nivaer/${level}/`}>
+					Till spelutbildningen <Icon name="external" size={16} />
+				</ExternalLink>
+			</section>
+		)
+	}
 
 	<section class="card level-more" aria-labelledby="kallor-title">
 		<h2 id="kallor-title">Källor och kontrolldatum</h2>
@@ -213,7 +247,8 @@ const matchday = activeSeason
 								<span class="rule-label">{ruleTypes[group.ruleSource].label}</span> ·{' '}
 							</>
 						)}
-						Gäller {describeDivisions(group.appliesTo).toLowerCase()} · Kontrollerad {group.checked} ·{' '}
+						Gäller {group.appliesTo.length > 0 ? describeDivisions(group.appliesTo).toLowerCase() : 'hela nivån'} · Kontrollerad{' '}
+						{group.checked} ·{' '}
 						<SourceRef source={group.source} />
 					</li>
 				))

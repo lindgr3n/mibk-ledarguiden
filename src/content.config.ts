@@ -38,8 +38,8 @@ const faktagrupp = z.object({
 	id: z.string().min(1),
 	title: z.string().min(1),
 	status: z.enum(['verifierad', 'overifierad']),
-	// Vilka divisioner uppgifterna är verifierade för.
-	appliesTo: z.array(z.number().int().min(1)).min(1),
+	// Vilka divisioner uppgifterna är verifierade för. Tom lista för en nivå utan divisioner (ljusgrön).
+	appliesTo: z.array(z.number().int().min(1)).default([]),
 	checked: isoDate,
 	source: originalkalla,
 	// Regelkälla (nationell regel / distriktsanpassning / föreningsvägledning, ADR 0003); visas som etikett.
@@ -96,11 +96,17 @@ const nivaguider = defineCollection({
 	schema: z
 		.object({
 			season: reference('sasonger'),
-			level: z.enum(['gron', 'bla', 'rod']),
+			level: z.enum(['ljusgron', 'gron', 'bla', 'rod']),
 			name: z.string().min(1),
+			// Visas i färgbandet på nivåbladet: undertitel ("Jag och bollen"), åldersspann och spelformen kort ("3 mot 3").
+			undertitel: z.string().min(1).optional(),
+			alder: z.string().min(1).optional(),
+			spelformKort: z.string().min(1).optional(),
+			// Ljusgrön har inga divisioner (inga matcher) och utelämnar fältet.
 			divisions: z
 				.object({ from: z.number().int().min(1), to: z.number().int().min(1) })
-				.refine((d) => d.from <= d.to, 'from måste vara <= to'),
+				.refine((d) => d.from <= d.to, 'from måste vara <= to')
+				.optional(),
 			factGroups: z.array(faktagrupp).min(1),
 			updateNotices: z.array(uppdateringsnotis).default([]),
 			ruleSections: z.array(regelavsnitt).default([]),
@@ -109,6 +115,12 @@ const nivaguider = defineCollection({
 			const ids = guide.factGroups.map((g) => g.id);
 			if (new Set(ids).size !== ids.length) {
 				ctx.addIssue({ code: 'custom', message: 'Faktagrupper måste ha unika id' });
+			}
+			if (guide.divisions && guide.factGroups.some((g) => g.appliesTo.length === 0)) {
+				ctx.addIssue({ code: 'custom', message: 'Faktagrupper på en nivå med divisioner måste ange appliesTo' });
+			}
+			if (!guide.divisions && guide.ruleSections.length > 0) {
+				ctx.addIssue({ code: 'custom', message: 'En nivå utan divisioner kan inte ha regelavsnitt (regeluttalanden gäller divisioner)' });
 			}
 			const ruleIds = guide.ruleSections.map((r) => r.id);
 			if (new Set(ruleIds).size !== ruleIds.length) {

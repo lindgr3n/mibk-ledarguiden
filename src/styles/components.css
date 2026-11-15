@@ -945,3 +945,193 @@
 	text-align: right;
 	white-space: nowrap;
 }
+
+/* ---- Nivåbladet: färgband med spelform och logga, ikonrader i två kolumner ---- */
+.lvl-word-ljusgron {
+	color: #b9e58a;
+}
+
+.level-card-ljusgron {
+	--bg-pos: 20% 80%;
+	background-image: linear-gradient(135deg, rgb(86 138 20 / 0.92), rgb(58 104 12 / 0.95)), url('/images/brand/moalvens-hero.webp');
+}
+
+.level-card-ljusgron .btn-white {
+	color: #3a6a0c;
+}
+
+.sheet {
+	margin-top: 1rem;
+	padding: 0;
+	overflow: hidden;
+}
+
+.sheet-band {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1.1rem 1.5rem;
+	background: var(--sheet-bg);
+	color: var(--sheet-ink);
+}
+
+.sheet-format {
+	margin: 0;
+	font-family: var(--font-slab);
+	font-size: clamp(2rem, 6vw, 2.75rem);
+	font-weight: 700;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+.sheet-meta {
+	margin: 0.3rem 0 0;
+	font-weight: 600;
+}
+
+.sheet-logo {
+	flex: none;
+	width: auto;
+	height: 4rem;
+}
+
+.sheet-body {
+	padding: 1.25rem 1.5rem 1rem;
+}
+
+.sheet-ljusgron {
+	--sheet-bg: linear-gradient(135deg, #d6efb4, #b9df85);
+	--sheet-ink: #1d3a0b;
+}
+
+.sheet-gron {
+	--sheet-bg: linear-gradient(135deg, rgb(10 120 62), rgb(6 80 42));
+	--sheet-ink: #fff;
+}
+
+.sheet-bla {
+	--sheet-bg: linear-gradient(135deg, rgb(10 80 175), rgb(6 50 125));
+	--sheet-ink: #fff;
+}
+
+.sheet-rod {
+	--sheet-bg: linear-gradient(135deg, rgb(160 14 24), rgb(110 8 18));
+	--sheet-ink: #fff;
+}
+
+.fact-rows-2 {
+	display: grid;
+	column-gap: 2rem;
+}
+
+.news-wide {
+	margin-top: 1rem;
+}
+
+.level-extras,
+.train-card {
+	margin-top: 1rem;
+}
+
+.train-card {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem 1.5rem;
+}
+
+.check-section h4 {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	margin: 1rem 0 0.35rem;
+	font-size: 1.0625rem;
+}
+
+.check-section .step-no {
+	flex: none;
+	width: 1.9rem;
+	height: 1.9rem;
+	font-size: 0.9375rem;
+}
+
+.check-items {
+	margin: 0;
+	padding-left: 1.25rem;
+}
+
+.check-items li + li {
+	margin-top: 0.3rem;
+}
+
+@media (min-width: 40rem) {
+	.level-cards-4 {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (min-width: 48rem) {
+	.fact-rows-2 {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.news-wide {
+		grid-template-columns: auto 1fr auto;
+		align-items: center;
+	}
+}
+
+@media (min-width: 72rem) {
+	.level-cards-4 {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+
+@media print {
+	.no-print,
+	.news-card {
+		display: none !important;
+	}
+
+	.sheet {
+		break-inside: avoid;
+	}
+
+	.sheet-band,
+	.sheet .fact-icon {
+		print-color-adjust: exact;
+		-webkit-print-color-adjust: exact;
+	}
+
+	.sheet .fact-icon {
+		display: grid;
+		width: 2.4rem;
+		height: 2.4rem;
+	}
+
+	.sheet .fact-icon .icon {
+		display: block;
+	}
+
+	.sheet-body {
+		padding: 0.5rem 0 0;
+	}
+
+	.fact-rows-2 {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		column-gap: 1.2rem;
+	}
+
+	.fact-rows-2 .fact-row {
+		grid-template-columns: 2.4rem 1fr;
+		padding-block: 0.3rem;
+	}
+
+	.level-extras {
+		display: block;
+		break-before: page;
+	}
+}

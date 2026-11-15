@@ -1,0 +1,24 @@
+# Ljusgrön nivå, säsong 2026/27. Moälvens egen föreningsvägledning: förbundets ljusgröna nivå är Lek och rörelse
+# (0–6 år) utan matcher, och inga serier eller divisioner finns. Det här är därför inte regelfakta från distriktet.
+# Beslutet om att barnet får prova på tre gånger togs 2026-10-24.
+season: 2027-2028
+level: ljusgron
+name: Ljusgrön nivå
+undertitel: Lek och rörelse
+alder: 0–6 år
+spelformKort: Lek och rörelse
+factGroups:
+  - id: ljusgron-uppstart
+    title: Ljusgrön nivå i Moälvens IBK
+    status: verifierad
+    checked: "2026-11-15"
+    ruleSource: foreningsvagledning
+    source:
+      label: Moälvens IBK, uppstart av nya lag och att vara med (föreningsvägledning)
+      url: "https://moalvensibk.se"
+    facts:
+      - { key: matcher, label: Matcher, value: "Inga matcher första året. Inga resultat och inga tabeller." }
+      - { key: lagstart, label: Lagstart, value: "De yngsta startar i Moälven Kidz, ca 5–7 år. Barnet får prova på tre gånger innan man bestämmer sig för att gå med." }
+      - { key: traning, label: Träning, value: "Tiderna varierar mellan åren, oftast på helgen. Aktuella tider finns på moalvensibk.se." }
+      - { key: ledare, label: Ledare, value: "En enklare uppsättning än på grön nivå. Förra årets ledare stöttar som mentorer." }
+      - { key: utrustning, label: Utrustning, value: "Inneskor, vattenflaska, klubba och skyddsglasögon. Klubba och skyddsglasögon går att låna i början." }

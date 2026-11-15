@@ -31,7 +31,7 @@ const { news } = content.data;
 
 	<section id="valj-niva" aria-labelledby="valj-niva-title">
 		<h2 id="valj-niva-title" class="visually-hidden">Välj nivå</h2>
-		<ul class="level-cards">
+		<ul class={`level-cards${levels.length > 3 ? ' level-cards-4' : ''}`}>
 			{
 				levels.map((level) => (
 					<li class={`level-card level-card-${level.key}`}>

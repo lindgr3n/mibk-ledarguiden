@@ -14,6 +14,14 @@ const factIcons: Record<string, IconName> = {
 	domare: 'users',
 	sekretariat: 'doc',
 	ledarutbildning: 'doc',
+	matcher: 'trophy',
+	lagstart: 'users',
+	traning: 'calendar',
+	ledare: 'megaphone',
+	utrustning: 'goal',
+	anmalan: 'calendar',
+	licens: 'doc',
+	matchvardar: 'megaphone',
 };
 
 export function factIcon(key: string): IconName {
@@ -21,7 +29,7 @@ export function factIcon(key: string): IconName {
 }
 
 // "Division 5 är den röda nivån" kräver böjd form.
-export const levelAdjective: Record<Level, string> = { rod: 'röda', bla: 'blå', gron: 'gröna' };
+export const levelAdjective: Record<Level, string> = { rod: 'röda', bla: 'blå', gron: 'gröna', ljusgron: 'ljusgröna' };
 
 // Nivåns första ord ("Röd") får nivåfärg i rubriken; resten av namnet ("nivå") står i vitt.
 export function splitLevelName(name: string): { word: string; rest: string } {

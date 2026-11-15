@@ -14,7 +14,7 @@ test('Grön nivå nås från Nivåer och visar säsong 2026/27 och division 8–
 
 test('Grön nivå visar matchfakta först, med källa och kontrolldatum', async ({ page }) => {
 	await page.goto('/gron/');
-	await expect(page.getByRole('heading', { level: 2 }).first()).toHaveText('Snabb översikt');
+	await expect(page.getByRole('heading', { level: 2, name: 'Snabb översikt' })).toBeVisible();
 	const facts = page.getByRole('region', { name: 'Snabb översikt' });
 	for (const [label, value] of [
 		['Spelform', '3 mot 3, lokala sammandrag'],
@@ -31,7 +31,7 @@ test('Grön nivå visar matchfakta först, med källa och kontrolldatum', async 
 	const groups = page.locator('[data-fact-group]');
 	await expect(groups.first()).toBeVisible();
 	for (const group of await groups.all()) {
-		await expect(group.getByText('Kontrollerad 2026-10-27')).toBeVisible();
+		await expect(group.getByText(/Kontrollerad \d{4}-\d{2}-\d{2}/)).toBeVisible();
 		await expect(group.getByRole('link', { name: /Originalkälla/ })).toHaveAttribute('href', matrisSida1);
 	}
 });

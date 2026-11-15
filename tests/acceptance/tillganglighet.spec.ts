@@ -142,8 +142,9 @@ test('nivåväljaren anger nivå och status med text, inte bara färg', async ({
 		['Grön nivå', 'Gå till grön nivå'],
 		['Blå nivå', 'Gå till blå nivå'],
 		['Röd nivå', 'Gå till röd nivå'],
+		['Ljusgrön nivå', 'Gå till ljusgrön nivå'],
 	]) {
-		await expect(page.locator('.level-cards li', { hasText: name })).toContainText(state);
+		await expect(page.locator('.level-cards li', { hasText: new RegExp('^\\s*' + name) })).toContainText(state);
 	}
 	await page.goto('/rod/');
 	await expect(page.getByRole('heading', { level: 1 })).toContainText('Röd nivå');

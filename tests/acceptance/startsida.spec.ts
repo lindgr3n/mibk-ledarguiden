@@ -25,22 +25,24 @@ test('nivåväljaren leder från startsidan till röd och blå guide', async ({ 
 
 test('nivåväljaren leder till grön guide', async ({ page }) => {
 	await page.goto('/');
-	await expect(picker(page).getByRole('link')).toHaveCount(3);
+	await expect(picker(page).getByRole('link')).toHaveCount(4);
 	await picker(page).getByRole('link', { name: /Gå till grön nivå/ }).click();
 	await expect(page).toHaveURL('/gron/');
 	await expect(page.getByRole('heading', { level: 1 })).toHaveText('Grön nivå');
 });
 
-test('nivåerna visas i ordningen röd, blå, grön med divisioner (som i referensbilden)', async ({ page }) => {
+test('nivåerna visas i ordningen röd, blå, grön och ljusgrön, med divisioner (som i referensbilden)', async ({ page }) => {
 	await page.goto('/');
 	const items = picker(page).getByRole('listitem');
-	await expect(items).toHaveCount(3);
+	await expect(items).toHaveCount(4);
 	await expect(items.nth(0)).toContainText('Röd nivå');
 	await expect(items.nth(0)).toContainText('Division 1–5');
 	await expect(items.nth(1)).toContainText('Blå nivå');
 	await expect(items.nth(1)).toContainText('Division 6–7');
 	await expect(items.nth(2)).toContainText('Grön nivå');
 	await expect(items.nth(2)).toContainText('Division 8–9');
+	await expect(items.nth(3)).toContainText('Ljusgrön nivå');
+	await expect(items.nth(3)).toContainText('Inga matcher');
 });
 
 test('Matchdagen och Regler och dokument nås från startsidan', async ({ page }) => {
@@ -98,7 +100,7 @@ test('säsongsetiketten följer den aktiva säsongen i rubrik, titel och sidfot'
 
 test('grön nivå har samma namn, divisioner och länk på startsidan och på Nivåer', async ({ page }) => {
 	await page.goto('/nivaer/');
-	const gron = page.getByRole('listitem').filter({ hasText: 'Grön nivå' });
+	const gron = page.getByRole('listitem').filter({ hasText: /^\s*Grön nivå/ });
 	await expect(gron).toContainText('Division 8–9');
 	await expect(gron.getByRole('link', { name: 'Grön nivå' })).toHaveAttribute('href', '/gron/');
 	await expect(page.getByRole('listitem').filter({ hasText: 'Blå nivå' })).toContainText('Division 6–7');

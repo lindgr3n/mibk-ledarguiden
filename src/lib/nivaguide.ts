@@ -1,10 +1,13 @@
 import { getCollection } from 'astro:content';
 
-export type Level = 'gron' | 'bla' | 'rod';
+export type Level = 'ljusgron' | 'gron' | 'bla' | 'rod';
 
 // Fakta som varje publicerad nivåguide måste ha (verifierade) för att bygget ska lyckas.
 // Kontrolleras bara för aktiv och arkiverad säsong; ett utkast får ha overifierade fakta.
 const REQUIRED_FACT_KEYS = ['spelform', 'matchtid', 'plan', 'mal', 'domare', 'sekretariat'];
+// Ljusgrön spelar inga matcher och har därför egna obligatoriska fakta.
+const REQUIRED_FACT_KEYS_LJUSGRON = ['matcher', 'lagstart', 'traning', 'ledare', 'utrustning'];
+const requiredFactKeys = (level: Level) => (level === 'ljusgron' ? REQUIRED_FACT_KEYS_LJUSGRON : REQUIRED_FACT_KEYS);
 
 // Den enda aktiva säsongen (ADR 0001). Bygget misslyckas om det inte finns exakt en.
 export async function getActiveSeason() {
@@ -49,7 +52,7 @@ export async function getSeasonGuide(
 	const verifiedKeys = guide.data.factGroups
 		.filter((g) => g.status === 'verifierad')
 		.flatMap((g) => g.facts.map((f) => f.key));
-	for (const key of REQUIRED_FACT_KEYS) {
+	for (const key of requiredFactKeys(level)) {
 		if (!verifiedKeys.includes(key)) {
 			throw new Error(
 				`${guide.data.name} ${season.data.label}: obligatoriskt faktum saknas bland verifierade faktagrupper: ${key}`,
@@ -60,10 +63,10 @@ export async function getSeasonGuide(
 	// Endast verifierade faktagrupper publiceras.
 	const published = guide.data.factGroups.filter((g) => g.status === 'verifierad');
 	const covered = new Set(published.flatMap((g) => g.appliesTo));
-	const { from, to } = guide.data.divisions;
-	const unverifiedDivisions = Array.from({ length: to - from + 1 }, (_, i) => from + i).filter(
-		(d) => !covered.has(d),
-	);
+	const divisions = guide.data.divisions;
+	const unverifiedDivisions = divisions
+		? Array.from({ length: divisions.to - divisions.from + 1 }, (_, i) => divisions.from + i).filter((d) => !covered.has(d))
+		: [];
 
 	// Divisionsanpassningar (ADR 0002): bara avvikelser, aldrig gemensamma fakta. Bygget misslyckas
 	// om en division ligger utanför nivån eller om en anpassning upprepar en faktanyckel som nivåguiden äger
@@ -77,8 +80,8 @@ export async function getSeasonGuide(
 	const divisionAdaptations = (await getCollection('divisionsanpassningar'))
 		.filter((d) => d.data.guide.id === guide.id)
 		.map((d) => {
-			if (d.data.division < from || d.data.division > to) {
-				throw new Error(`Division ${d.data.division} ligger utanför ${guide.data.name} (${from}–${to})`);
+			if (!divisions || d.data.division < divisions.from || d.data.division > divisions.to) {
+				throw new Error(`Division ${d.data.division} ligger utanför ${guide.data.name}`);
 			}
 			const commonKeys = commonKeysFor(d.data.division);
 			for (const key of d.data.adaptations.flatMap((a) => a.facts.map((f) => f.key))) {
@@ -122,7 +125,7 @@ export async function getSeasonGuide(
 export async function getDivisionView(level: Level, division: number) {
 	const { guide, season, factGroups, ruleSections, divisionAdaptations, unverifiedDivisions } =
 		await getActiveGuide(level);
-	if (division < guide.divisions.from || division > guide.divisions.to) {
+	if (!guide.divisions || division < guide.divisions.from || division > guide.divisions.to) {
 		throw new Error(`Division ${division} ingår inte i ${guide.name}`);
 	}
 	return {
@@ -149,8 +152,9 @@ export function describeDivisions(divisions: number[]): string {
 	return `Division ${sorted.slice(0, -1).join(', ')} och ${sorted[sorted.length - 1]}`;
 }
 
-export function divisionNumbers({ from, to }: { from: number; to: number }): number[] {
-	return Array.from({ length: to - from + 1 }, (_, i) => from + i);
+export function divisionNumbers(divisions?: { from: number; to: number }): number[] {
+	if (!divisions) return [];
+	return Array.from({ length: divisions.to - divisions.from + 1 }, (_, i) => divisions.from + i);
 }
 
 export function describeDivisionRange({ from, to }: { from: number; to: number }): string {
@@ -167,16 +171,15 @@ export async function getLevelOverview() {
 		return {
 			key: level,
 			name: guide.data.name,
-			divisions: describeDivisionRange(guide.data.divisions),
+			divisions: guide.data.divisions ? describeDivisionRange(guide.data.divisions) : 'Inga matcher',
 			href: `/${level}/`,
 			state: 'Öppna guiden',
 		};
 	};
-	return [
-		fromGuide('rod'),
-		fromGuide('bla'),
-		fromGuide('gron'),
-	];
+	// Ljusgrön visas sist och bara om säsongen har en ljusgrön guide (äldre säsonger och testfixturer saknar den).
+	const levels = [fromGuide('rod'), fromGuide('bla'), fromGuide('gron')];
+	if (guides.some((g) => g.data.level === 'ljusgron')) levels.push(fromGuide('ljusgron'));
+	return levels;
 }
 
 // Alla arkivsidor som ska genereras: en per arkiverad säsong och nivåguide.

@@ -4,6 +4,9 @@
 season: 2026-2027
 level: gron
 name: Grön nivå
+undertitel: Jag och bollen
+alder: 6–9 år
+spelformKort: 3 mot 3
 divisions:
   from: 8
   to: 9
@@ -64,6 +67,19 @@ factGroups:
     facts:
       - { key: ledarutbildning, label: Ledarutbildning, value: "Grundutbildning barn/ungdom + Steg 1 Grön" }
       - { key: anmalan, label: Anmälan, value: "Löpande, ca två veckor innan respektive sammandrag" }
+  - id: administration
+    title: Licens, anmälan och matchvärdar
+    status: verifierad
+    appliesTo: [8, 9]
+    checked: "2026-11-15"
+    ruleSource: distriktsanpassning
+    source:
+      label: Västernorrlands ungdomsmatris 2026/27, sida 1
+      url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
+      detail: "Inledande text ovanför divisionstabellen"
+    facts:
+      - { key: licens, label: Licens, value: "Personlig spelarlicens för alla spelare" }
+      - { key: matchvardar, label: Matchvärdar, value: "Två matchvärdar i alla serier" }
 ruleSections:
   - id: lokal-regel
     title: Lokal regel för division 8–9
