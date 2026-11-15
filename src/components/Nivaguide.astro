@@ -57,7 +57,7 @@ const matchday = activeSeason
 const matchdayPoints = matchday ? matchday.sections.reduce((n, sec) => n + sec.items.length, 0) : 0;
 ---
 
-<Layout seasonLabel={season.label} title={archived ? `${guide.name} – arkiv ${season.label}` : guide.name}>
+<Layout seasonLabel={season.label} title={archived ? `${guide.name} – arkiv ${season.label}` : guide.name} tema={level}>
 	<Fragment slot="hero">
 		<Hero variant="detail" labelledby="level-title">
 			<p class="eyebrow">Moälvens innebandy · Säsong {season.label}</p>

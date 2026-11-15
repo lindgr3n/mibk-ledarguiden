@@ -1216,3 +1216,84 @@
 .matchdag-page .shortcuts ul {
 	margin: 0;
 }
+
+/* ---- Nivåtema: nivåsidor och matchdagssidor i nivåns färg i stället för Moälvenorange ---- */
+.lvl-theme.lvl-ljusgron {
+	--lvl: var(--level-lightgreen);
+}
+
+.lvl-theme.lvl-gron {
+	--lvl: var(--level-green);
+}
+
+.lvl-theme.lvl-bla {
+	--lvl: var(--level-blue);
+}
+
+.lvl-theme.lvl-rod {
+	--lvl: var(--level-red);
+}
+
+.lvl-theme {
+	--lvl-tint: color-mix(in srgb, var(--lvl) 12%, #fff);
+	--lvl-tint-soft: color-mix(in srgb, var(--lvl) 7%, #fff);
+	--lvl-line: color-mix(in srgb, var(--lvl) 28%, #fff);
+}
+
+.lvl-theme .btn-outline {
+	border-color: var(--lvl);
+	color: var(--lvl);
+}
+
+.lvl-theme .btn-outline:hover {
+	background: var(--lvl);
+	color: #fff;
+}
+
+.lvl-theme .link-arrow,
+.lvl-theme .division-tile .icon-chevron,
+.lvl-theme .division-tile .icon-trophy,
+.lvl-theme .side-head > .icon,
+.lvl-theme .doc-links .icon-external {
+	color: var(--lvl);
+}
+
+.lvl-theme .division-tile:hover,
+.lvl-theme .shortcuts a:hover {
+	border-color: var(--lvl);
+}
+
+.lvl-theme .news-card {
+	background: var(--lvl-tint-soft);
+	border-color: var(--lvl-line);
+}
+
+.lvl-theme .fact-icon,
+.lvl-theme .step-no {
+	background: var(--lvl-tint);
+	color: var(--lvl);
+}
+
+.lvl-theme .division-cards .division:target {
+	border-color: var(--lvl);
+	box-shadow: 0 0 0 2px var(--lvl);
+}
+
+.lvl-theme .level-more .update-notices {
+	border-left-color: var(--lvl);
+}
+
+/* "Läs mer" i Nytt för-kortet: liten knapp, högerställd på bred skärm */
+.news-wide .btn-outline {
+	justify-self: start;
+	align-self: center;
+	min-height: 2.25rem;
+	padding: 0.2rem 1rem;
+	font-size: 0.9375rem;
+}
+
+@media (min-width: 48rem) {
+	.news-wide .btn-outline {
+		justify-self: end;
+	}
+}

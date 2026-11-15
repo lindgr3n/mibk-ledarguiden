@@ -14,9 +14,11 @@ interface Props {
 	seasonLabel?: string;
 	// Startsidan har det höga huvudet med ordmärke (referensbilden landingpage.png).
 	variant?: 'home';
+	// Nivåsidor och matchdagssidor färgas i nivåns färg i stället för Moälvenorange (ADR 0005).
+	tema?: 'ljusgron' | 'gron' | 'bla' | 'rod';
 }
 
-const { title, seasonLabel = (await getActiveSeason()).data.label, variant } = Astro.props;
+const { title, seasonLabel = (await getActiveSeason()).data.label, variant, tema } = Astro.props;
 const fullTitle = Astro.url.pathname === '/' ? title : `${title} – Moälvens ledarguide`;
 
 // Huvudmenyn: exakt dessa tre val, i den här ordningen. Matchdagen nås via varje nivå.
@@ -74,7 +76,7 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWi
 		</header>
 		<main id="innehall" tabindex="-1">
 			<slot name="hero" />
-			<div class="wrap content">
+			<div class:list={['wrap content', tema && `lvl-theme lvl-${tema}`]}>
 				<slot />
 			</div>
 		</main>

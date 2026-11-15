@@ -25,7 +25,7 @@ const sections = entry.data.sections
 const { word } = splitLevelName(guide.name);
 ---
 
-<Layout title={`Matchdagen – ${guide.name}`}>
+<Layout title={`Matchdagen – ${guide.name}`} tema={level}>
 	<Fragment slot="hero">
 		<Hero variant="detail" labelledby="matchdagen-h1">
 			<a class="hero-back" href={`/${level}/`}><Icon name="back" size={20} />Tillbaka till {guide.name.toLowerCase()}</a>
