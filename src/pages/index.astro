@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import Icon from '../components/Icon.astro';
+import LevelCard from '../components/LevelCard.astro';
 import { getActiveSeason, getArchivedSeasons, getLevelOverview } from '../lib/nivaguide';
 
 // Startsidan visar den aktiva säsongen (ADR 0001).
@@ -34,19 +35,14 @@ const { news } = content.data;
 		<ul class={`level-cards${levels.length > 3 ? ' level-cards-4' : ''}`}>
 			{
 				levels.map((level) => (
-					<li class={`level-card level-card-${level.key}`}>
-						<Icon name="users" size={44} />
-						<h3>{level.name}</h3>
-						<p>{level.divisions}</p>
-						{level.href ? (
-							<a class="btn-white" href={level.href}>
-								Gå till {level.name.toLowerCase()}
-								<Icon name="arrow" size={20} />
-							</a>
-						) : (
-							<span class="btn-white is-disabled">{level.state}</span>
-						)}
-					</li>
+					<LevelCard
+						niva={level.key}
+						titel={level.name}
+						href={level.href}
+						knapp={level.href ? `Gå till ${level.name.toLowerCase()}` : level.state}
+					>
+						{level.divisions}
+					</LevelCard>
 				))
 			}
 		</ul>

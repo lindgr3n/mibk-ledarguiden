@@ -1,0 +1,34 @@
+---
+// Nivåkortet med nivåfärgad bakgrund. Samma komponent finns i spelutbildningen och ledarguiden:
+// håll de två filerna lika (src/components/LevelCard.astro). Texten under rubriken skickas in som innehåll.
+import Icon from './Icon.astro';
+import type { IconName } from './Icon.astro';
+
+interface Props {
+	niva: 'ljusgron' | 'gron' | 'bla' | 'rod';
+	titel: string;
+	// Knappens text. Utan href visas knappen avstängd (till exempel "Kommer senare").
+	knapp: string;
+	href?: string;
+	ikon?: IconName;
+	rubrik?: 'h2' | 'h3';
+}
+
+const { niva, titel, knapp, href, ikon = 'users', rubrik: Rubrik = 'h3' } = Astro.props;
+---
+
+<li class={`level-card level-card-${niva}`}>
+	<Icon name={ikon} size={44} />
+	<Rubrik class="level-card-title">{titel}</Rubrik>
+	<p><slot /></p>
+	{
+		href ? (
+			<a class="btn-white" href={href}>
+				{knapp}
+				<Icon name="arrow" size={20} />
+			</a>
+		) : (
+			<span class="btn-white is-disabled">{knapp}</span>
+		)
+	}
+</li>
