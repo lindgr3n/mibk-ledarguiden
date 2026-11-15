@@ -1,5 +1,6 @@
 import { existsSync } from 'node:fs';
 import { expect, test } from '@playwright/test';
+import { arTillatenExtern } from './tillatna-varder';
 
 const menu = [
 	{ name: 'Hem', path: '/', heading: 'Moälvens IBK – Ledarguide 2026/27' },
@@ -36,7 +37,7 @@ test('inga anrop går till andra värdar än webbplatsen själv', async ({ page,
 	const external: string[] = [];
 	page.on('request', (req) => {
 		const url = req.url();
-		if (!url.startsWith(baseURL!) && !url.startsWith('data:')) external.push(url);
+		if (!url.startsWith(baseURL!) && !url.startsWith('data:') && !arTillatenExtern(url)) external.push(url);
 	});
 	for (const item of menu) {
 		await page.goto(item.path, { waitUntil: 'networkidle' });

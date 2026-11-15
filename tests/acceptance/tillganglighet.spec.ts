@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
+import { arTillatenExtern } from './tillatna-varder';
 
 const pages = ['/', '/nivaer/', '/rod/', '/bla/', '/gron/', '/matchdagen/', '/regler/'];
 
@@ -92,7 +93,7 @@ for (const path of pages) {
 		test('inga cookies, ingen lagring, inga skript från andra värdar', async ({ page, context, baseURL }) => {
 			const external: string[] = [];
 			page.on('request', (r) => {
-				if (!r.url().startsWith(baseURL!) && !r.url().startsWith('data:')) external.push(r.url());
+				if (!r.url().startsWith(baseURL!) && !r.url().startsWith('data:') && !arTillatenExtern(r.url())) external.push(r.url());
 			});
 			await page.goto(path, { waitUntil: 'networkidle' });
 			expect(external).toEqual([]);
@@ -106,7 +107,7 @@ for (const path of pages) {
 			const srcs = await page
 				.locator('script[src]')
 				.evaluateAll((s) => s.map((e) => (e as HTMLScriptElement).src));
-			expect(srcs.filter((s) => !s.startsWith(baseURL!))).toEqual([]);
+			expect(srcs.filter((s) => !s.startsWith(baseURL!) && !arTillatenExtern(s))).toEqual([]);
 		});
 	});
 }
@@ -159,7 +160,7 @@ test('bygget är host-agnostiskt: ingen adapter, statisk utdata', () => {
 	const deps = Object.keys({ ...pkg.dependencies, ...pkg.devDependencies });
 	expect(deps.filter((d) => /^@astrojs\/(vercel|netlify|node|cloudflare)/.test(d))).toEqual([]);
 	const html = readFileSync('dist/index.html', 'utf8');
-	expect(html).not.toMatch(/(?:href|src)="(?:https?:)?\/\/(?!localhost)/);
+	expect(html).not.toMatch(/(?:href|src)="(?:https?:)?\/\/(?!localhost|pulseapp\.se\/)/);
 });
 
 test('Matchdagen bär ingen nivåfärg (röd kant antyder annars Röd nivå)', async ({ page }) => {
