@@ -230,27 +230,6 @@ const matchdayPoints = matchday
 		)
 	}
 
-	<section class="card level-more" aria-labelledby="kallor-title">
-		<h2 id="kallor-title">Källor och kontrolldatum</h2>
-		<ul class="sources-list">
-			{
-				factGroups.map((group) => (
-					<li data-fact-group={group.id}>
-						<strong>{group.title}</strong> ·{' '}
-						{group.ruleSource && (
-							<>
-								<span class="rule-label">{ruleTypes[group.ruleSource].label}</span> ·{' '}
-							</>
-						)}
-						Gäller {group.appliesTo.length > 0 ? describeDivisions(group.appliesTo).toLowerCase() : 'hela nivån'} · Kontrollerad{' '}
-						{group.checked} ·{' '}
-						<SourceRef source={group.source} />
-					</li>
-				))
-			}
-		</ul>
-	</section>
-
 	<div class="level-more">
 		{
 			hasDivisions && (
@@ -310,4 +289,25 @@ const matchdayPoints = matchday
 
 		<UpdateNotices notices={guide.updateNotices} />
 	</div>
+
+	<section class="card level-more" aria-labelledby="kallor-title">
+		<h2 id="kallor-title">Källor och kontrolldatum</h2>
+		<ul class="sources-list">
+			{
+				factGroups.map((group) => (
+					<li data-fact-group={group.id}>
+						<strong>{group.title}</strong> ·{' '}
+						{group.ruleSource && (
+							<>
+								<span class="rule-label">{ruleTypes[group.ruleSource].label}</span> ·{' '}
+							</>
+						)}
+						Gäller {group.appliesTo.length > 0 ? describeDivisions(group.appliesTo).toLowerCase() : 'hela nivån'} · Kontrollerad{' '}
+						{group.checked} ·{' '}
+						<SourceRef source={group.source} />
+					</li>
+				))
+			}
+		</ul>
+	</section>
 </Layout>
