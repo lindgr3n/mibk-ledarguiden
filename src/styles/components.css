@@ -1207,3 +1207,12 @@
 		word-break: break-all;
 	}
 }
+
+/* Lika mycket luft över som under genvägsknapparna på matchdagssidan */
+.matchdag-page .shortcuts {
+	margin: 1rem 0 0;
+}
+
+.matchdag-page .shortcuts ul {
+	margin: 0;
+}
