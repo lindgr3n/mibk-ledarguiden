@@ -32,6 +32,9 @@ test('Ljusgrön visar färgband, ikonrader och källa med kontrolldatum', async 
 	const sources = page.getByRole('region', { name: 'Källor och kontrolldatum' });
 	await expect(sources.getByText(/Kontrollerad \d{4}-\d{2}-\d{2}/)).toBeVisible();
 	await expect(sources.getByText(/undefined/)).toHaveCount(0);
+	// Föreningsvägledning har ingen originalkälla: ingen länk till en sida som inte styrker uppgifterna.
+	await expect(sources.getByRole('link', { name: /Originalkälla/ })).toHaveCount(0);
+	await expect(sources.getByText(/Föreningsvägledning/)).toBeVisible();
 });
 
 test('nivåsidorna länkar till spelutbildningen', async ({ page }) => {

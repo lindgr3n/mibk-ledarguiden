@@ -41,12 +41,16 @@ const faktagrupp = z.object({
 	// Vilka divisioner uppgifterna är verifierade för. Tom lista för en nivå utan divisioner (ljusgrön).
 	appliesTo: z.array(z.number().int().min(1)).default([]),
 	checked: isoDate,
-	source: originalkalla,
+	// Originalkälla. Föreningsvägledning är Moälvens egna råd och beslut och har ingen originalkälla (ADR 0003).
+	source: originalkalla.optional(),
 	// Regelkälla (nationell regel / distriktsanpassning / föreningsvägledning, ADR 0003); visas som etikett.
 	ruleSource: z.enum(['nationell-regel', 'distriktsanpassning', 'foreningsvagledning']).optional(),
 	facts: z
 		.array(z.object({ key: z.string().min(1), label: z.string().min(1), value: z.string().min(1) }))
 		.min(1),
+}).refine((g) => g.ruleSource === 'foreningsvagledning' || g.source, {
+	message: 'Faktagrupper som inte är föreningsvägledning kräver originalkälla (source)',
+	path: ['source'],
 });
 
 // Uppdateringsnotis: en kort notis när en faktagrupp ändras under säsongen (valfri på nivåguiden).

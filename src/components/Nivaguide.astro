@@ -343,8 +343,12 @@ const matchdayPoints = matchday
 							</>
 						)}
 						Gäller {group.appliesTo.length > 0 ? describeDivisions(group.appliesTo).toLowerCase() : 'hela nivån'} · Kontrollerad{' '}
-						{group.checked} ·{' '}
-						<SourceRef source={group.source} />
+						{group.checked}
+						{group.source && (
+							<>
+								{' '}· <SourceRef source={group.source} />
+							</>
+						)}
 					</li>
 				))
 			}
