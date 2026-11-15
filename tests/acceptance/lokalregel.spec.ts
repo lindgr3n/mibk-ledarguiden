@@ -17,7 +17,7 @@ test('Lokal regel står som en rad i översikten på varje nivå', async ({ page
 test('källan för lokala regler är matrisens sida 2', async ({ page }) => {
 	await page.goto('/gron/');
 	const grupp = page.locator('[data-fact-group="lokala-regler"]');
-	await expect(grupp.getByRole('link', { name: /Originalkälla/ })).toHaveAttribute('href', /matris-ungdom.*\.pdf#page=2$/);
+	await expect(grupp.getByRole('link', { name: /^sida 2/ })).toHaveAttribute('href', /matris-ungdom.*\.pdf#page=2$/);
 });
 
 test('matchdagskortet räknar bara nivåns egna punkter', async ({ page }) => {

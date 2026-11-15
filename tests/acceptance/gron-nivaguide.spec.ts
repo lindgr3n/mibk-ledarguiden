@@ -32,7 +32,7 @@ test('Grön nivå visar matchfakta först, med källa och kontrolldatum', async 
 	await expect(groups.first()).toBeVisible();
 	for (const group of await groups.all()) {
 		await expect(group.getByText(/Kontrollerad \d{4}-\d{2}-\d{2}/)).toBeVisible();
-		await expect(group.getByRole('link', { name: /Originalkälla/ })).toHaveAttribute('href', matrisSida1);
+		await expect(group.getByRole('link', { name: /^sida \d/ })).toHaveAttribute('href', matrisSida1);
 	}
 });
 

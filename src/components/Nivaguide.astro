@@ -4,6 +4,7 @@
 // Sidorna anger bara vilken nivå som ska visas.
 import ExternalLink from './ExternalLink.astro';
 import SourceRef from './SourceRef.astro';
+import SourceGroups from './SourceGroups.astro';
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import Hero from './Hero.astro';
@@ -332,26 +333,6 @@ const matchdayPoints = matchday
 
 	<section class="card level-more" aria-labelledby="kallor-title">
 		<h2 id="kallor-title">Källor och kontrolldatum</h2>
-		<ul class="sources-list">
-			{
-				factGroups.map((group) => (
-					<li data-fact-group={group.id}>
-						<strong>{group.title}</strong> ·{' '}
-						{group.ruleSource && (
-							<>
-								<span class="rule-label">{ruleTypes[group.ruleSource].label}</span> ·{' '}
-							</>
-						)}
-						Gäller {group.appliesTo.length > 0 ? describeDivisions(group.appliesTo).toLowerCase() : 'hela nivån'} · Kontrollerad{' '}
-						{group.checked}
-						{group.source && (
-							<>
-								{' '}· <SourceRef source={group.source} />
-							</>
-						)}
-					</li>
-				))
-			}
-		</ul>
+		<SourceGroups groups={factGroups} />
 	</section>
 </Layout>

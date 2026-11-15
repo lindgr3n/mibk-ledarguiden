@@ -1,0 +1,117 @@
+---
+// Källor och kontrolldatum för en nivåguide: faktagrupperna ordnade under det dokument de bygger på, så att samma
+// dokument bara står en gång. Varje faktagrupp visar vad den gäller, sida i dokumentet och kontrolldatum.
+// Föreningsvägledning (Moälvens egna uppgifter) saknar dokument och står för sig.
+import { getCollection } from 'astro:content';
+import ExternalLink from './ExternalLink.astro';
+import Icon from './Icon.astro';
+import { describeDivisions } from '../lib/nivaguide';
+import { ruleTypes } from '../lib/regelhierarki';
+
+interface Group {
+	id: string;
+	title: string;
+	appliesTo: number[];
+	checked: string;
+	ruleSource?: keyof typeof ruleTypes;
+	source?: { label: string; url: string; detail?: string };
+}
+
+interface Props {
+	groups: Group[];
+}
+
+const { groups } = Astro.props;
+
+const withoutFragment = (u: string) => u.split('#')[0];
+const pageOf = (u: string) => /#page=(\d+)$/.exec(u)?.[1];
+// Dokumentets namn utan sidhänvisningen ("…ungdomsmatris 2026/27, sida 1" -> "…ungdomsmatris 2026/27")
+const docLabel = (l: string) => l.replace(/,\s*sida\s*\d+\s*$/i, '');
+
+const documents = (await getCollection('reglerochdokument')).flatMap((c) => c.data.documents);
+const foundAtFor = (url: string) => documents.find((d) => withoutFragment(d.url) === withoutFragment(url))?.foundAt;
+
+const docs = new Map<string, { url: string; label: string; groups: Group[] }>();
+const own: Group[] = [];
+for (const g of groups) {
+	if (!g.source) {
+		own.push(g);
+		continue;
+	}
+	const key = withoutFragment(g.source.url);
+	const doc = docs.get(key) ?? { url: key, label: docLabel(g.source.label), groups: [] };
+	doc.groups.push(g);
+	docs.set(key, doc);
+}
+
+const giltighet = (g: Group) => (g.appliesTo.length > 0 ? describeDivisions(g.appliesTo) : 'Hela nivån');
+---
+
+<ul class="source-docs">
+	{
+		[...docs.values()].map((doc) => {
+			const foundAt = foundAtFor(doc.url);
+			return (
+				<li class="source-doc">
+					<div class="source-doc-head">
+						<Icon name="doc" size={22} />
+						<div>
+							<ExternalLink href={doc.url}>Originalkälla: {doc.label}</ExternalLink>
+							{foundAt && (
+								<span class="source-found">
+									Finns på <ExternalLink href={foundAt.url}>{foundAt.label}</ExternalLink>
+								</span>
+							)}
+						</div>
+					</div>
+					<ul class="source-groups">
+						{doc.groups.map((g) => {
+							const page = g.source ? pageOf(g.source.url) : undefined;
+							return (
+								<li data-fact-group={g.id}>
+									<strong class="source-group-title">{g.title}</strong>
+									<span class="source-meta">
+										{g.ruleSource && <span class="rule-label">{ruleTypes[g.ruleSource].label}</span>}
+										<span>{giltighet(g)}</span>
+										{page && g.source && (
+											<span>
+												<ExternalLink href={g.source.url}>sida {page}</ExternalLink>
+											</span>
+										)}
+										<span>Kontrollerad {g.checked}</span>
+									</span>
+									{g.source?.detail && <span class="source-detail">{g.source.detail}</span>}
+								</li>
+							);
+						})}
+					</ul>
+				</li>
+			);
+		})
+	}
+	{
+		own.length > 0 && (
+			<li class="source-doc">
+				<div class="source-doc-head">
+					<Icon name="users" size={22} />
+					<div>
+						<strong>Moälvens egna uppgifter</strong>
+						<span class="source-found">Ingen originalkälla: de bygger på Moälvens egna beslut och rutiner.</span>
+					</div>
+				</div>
+				<ul class="source-groups">
+					{own.map((g) => (
+						<li data-fact-group={g.id}>
+							<strong class="source-group-title">{g.title}</strong>
+							<span class="source-meta">
+								{g.ruleSource && <span class="rule-label">{ruleTypes[g.ruleSource].label}</span>}
+								<span>{giltighet(g)}</span>
+								<span>Kontrollerad {g.checked}</span>
+							</span>
+						</li>
+					))}
+				</ul>
+			</li>
+		)
+	}
+</ul>

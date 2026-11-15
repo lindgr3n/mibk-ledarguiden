@@ -1271,3 +1271,86 @@
 	margin-top: auto;
 	padding-top: 0.75rem;
 }
+
+/* ---- Källor och kontrolldatum: faktagrupperna ordnade under dokumentet de bygger på ---- */
+.source-docs {
+	margin: 0.75rem 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.source-doc {
+	padding: 1rem 0;
+	border-top: 1px solid var(--card-line);
+}
+
+.source-doc:first-child {
+	border-top: 0;
+	padding-top: 0.25rem;
+}
+
+.source-doc-head {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.75rem;
+}
+
+.source-doc-head > .icon {
+	flex: none;
+	margin-top: 0.1rem;
+	color: var(--lvl, var(--orange-ink));
+}
+
+.source-doc-head a {
+	font-weight: 700;
+}
+
+.source-found {
+	display: block;
+	color: var(--muted);
+	font-size: 0.9375rem;
+}
+
+.source-groups {
+	margin: 0.6rem 0 0 2.2rem;
+	padding: 0;
+	list-style: none;
+	display: grid;
+	gap: 0.35rem;
+}
+
+.source-groups li {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.1rem 0.75rem;
+	font-size: 0.9375rem;
+}
+
+.source-group-title {
+	min-width: 12rem;
+}
+
+.source-meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0 0.5rem;
+	color: var(--muted);
+}
+
+.source-meta > * + *::before {
+	content: '·';
+	margin-right: 0.5rem;
+}
+
+.source-groups .source-detail {
+	flex-basis: 100%;
+	color: var(--muted);
+}
+
+@media (max-width: 39.99rem) {
+	.source-groups {
+		margin-left: 0;
+	}
+}

@@ -34,10 +34,7 @@ test('varje faktagrupp visar kontrolldatum och länk till originalkälla', async
 	expect(await groups.count()).toBeGreaterThan(0);
 	for (const group of await groups.all()) {
 		await expect(group.getByText(/Kontrollerad \d{4}-\d{2}-\d{2}/)).toBeVisible();
-		await expect(group.getByRole('link', { name: /Originalkälla/ })).toHaveAttribute(
-			'href',
-			matrisSida1,
-		);
+		await expect(group.getByRole('link', { name: /^sida \d/ })).toHaveAttribute('href', matrisSida1);
 	}
 });
 
@@ -48,7 +45,7 @@ test('alla divisioner 1–5 är verifierade; division 1 avviker bara på tabell 
 
 	// Nivåguiden äger det gemensamma: tabell / poängliga Ja/Nej gäller division 2–5.
 	const tabell = page.locator('[data-fact-group="tabell-och-poangliga"]');
-	await expect(tabell).toContainText('Gäller division 2–5');
+	await expect(tabell).toContainText('Division 2–5');
 
 	// Division 1:s avvikelse ligger som divisionsanpassning.
 	const d1 = page.getByRole('region', { name: 'Divisionsanpassningar' }).locator('[data-division="1"]');

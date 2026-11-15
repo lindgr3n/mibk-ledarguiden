@@ -40,6 +40,6 @@ test('originalkällor visar var dokumentet finns på förbundets webbplats, med 
 	const matris = 'https://www.innebandy.se/vasternorrland/tavling/matris-serieoversikt';
 
 	await page.goto('/rod/');
-	const group = page.locator('[data-fact-group]').first();
+	const group = page.locator('.source-doc').first();
 	await expect(group.getByRole('link', { name: /Matris – Serieöversikt/ })).toHaveAttribute('href', matris);
 });
