@@ -35,7 +35,7 @@ test('nivåsidorna länkar till spelutbildningen', async ({ page }) => {
 	}
 });
 
-test('Grön nivå: "Nytt för" kommer direkt under divisionerna, före bladet, och checklistan efter', async ({ page }) => {
+test('Grön nivå: "Nytt för" kommer direkt under divisionerna, före bladet, och matchdagskortet efter', async ({ page }) => {
 	await page.goto('/gron/');
 	const order = await page.locator('main h2, main h3').allTextContents();
 	const idx = (t: string) => order.findIndex((x) => x.includes(t));
@@ -43,7 +43,8 @@ test('Grön nivå: "Nytt för" kommer direkt under divisionerna, före bladet, o
 	expect(idx('Nytt för')).toBeLessThan(idx('Snabb översikt'));
 	expect(idx('Snabb översikt')).toBeLessThan(idx('Matchdagen'));
 	await expect(page.locator('.sheet-format')).toHaveText('3 mot 3');
-	await expect(page.locator('.matchday-card')).toContainText('Spelarna har licens');
+	await expect(page.locator('.matchday-card')).toContainText('punkter på en egen sida');
+	await expect(page.locator('.matchday-card').getByRole('link', { name: /matchdagens checklista/ })).toHaveAttribute('href', '/matchdagen/');
 });
 
 test('Ljusgrön skrivs ut utan navigation med bladet synligt', async ({ page }) => {
@@ -54,10 +55,10 @@ test('Ljusgrön skrivs ut utan navigation med bladet synligt', async ({ page }) 
 	await expect(page.getByRole('link', { name: /Till spelutbildningen/ })).toBeHidden();
 });
 
-test('Grön nivå: matchdagens checklista är skrivbar och dokumentlänkarna döljs vid utskrift', async ({ page }) => {
+test('Grön nivå: bara bladet skrivs ut, dokumentlänkar och matchdagskort döljs', async ({ page }) => {
 	await page.emulateMedia({ media: 'print' });
 	await page.goto('/gron/');
-	await expect(page.locator('.matchday-card')).toBeVisible();
+	await expect(page.locator('.matchday-card')).toBeHidden();
 	await expect(page.getByRole('heading', { name: 'Viktiga dokument' })).toBeHidden();
 	await expect(page.locator('.sheet-band')).toBeVisible();
 });

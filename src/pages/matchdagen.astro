@@ -25,7 +25,17 @@ const usesGuidance = sections.some((sec) => sec.items.some((i) => i.ruleSource =
 			<p class="hero-lead">Checklista för ledare: inför, under och efter match.</p>
 		</Hero>
 	</Fragment>
-	<div class="card-page">
+	<div class="card-page sheet-matchdag">
+		<section class="card sheet sheet-matchdag" aria-label="Matchdagen">
+			<header class="sheet-band">
+				<div class="sheet-band-text">
+					<p class="sheet-format">Matchdagen</p>
+					<p class="sheet-meta">Checklista för ledare: inför, under och efter match</p>
+				</div>
+				<img class="sheet-logo" src="/images/brand/moalvens-ibk-logo.png" alt="Moälvens IBK" width="112" height="112" />
+			</header>
+		</section>
+
 		<nav aria-label="Genvägar på sidan" class="shortcuts">
 			<ul>
 				{sections.map((s) => <li><a href={`#${s.id}`}>{s.title}</a></li>)}

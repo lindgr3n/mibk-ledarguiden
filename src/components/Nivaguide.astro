@@ -54,6 +54,7 @@ const rules = activeSeason
 const matchday = activeSeason
 	? (await getCollection('matchdagen')).find((m) => m.data.season.id === activeSeason.id)?.data
 	: undefined;
+const matchdayPoints = matchday ? matchday.sections.reduce((n, sec) => n + sec.items.length, 0) : 0;
 ---
 
 <Layout seasonLabel={season.label} title={archived ? `${guide.name} – arkiv ${season.label}` : guide.name}>
@@ -190,7 +191,7 @@ const matchday = activeSeason
 					</ul>
 				</section>
 
-				<section class="card matchday-card" aria-labelledby="matchdagen-side-title">
+				<section class="card matchday-card no-print" aria-labelledby="matchdagen-side-title">
 					<div class="side-head">
 						<Icon name="calendar" size={40} />
 						<div>
@@ -198,20 +199,12 @@ const matchday = activeSeason
 							<p class="card-sub">Checklista för ledare</p>
 						</div>
 					</div>
-					{matchday.sections.map((sec, i) => (
-						<div class="check-section">
-							<h4>
-								<span class="step-no">{i + 1}</span> {sec.title}
-							</h4>
-							<ul class="check-items">
-								{sec.items.map((item) => (
-									<li>{item.text}</li>
-								))}
-							</ul>
-						</div>
-					))}
-					<a class="link-arrow no-print" href="/matchdagen/#matchflytt">
-						{matchday.relocation.title} <Icon name="arrow" size={18} />
+					<p>
+						Inför, under och efter match: licens, laguppställning, matchvärdar, sekretariat och vad du gör om matchen
+						behöver flyttas. {matchdayPoints} punkter på en egen sida.
+					</p>
+					<a class="btn-outline" href="/matchdagen/">
+						Öppna matchdagens checklista <Icon name="chevron" size={16} />
 					</a>
 				</section>
 			</div>

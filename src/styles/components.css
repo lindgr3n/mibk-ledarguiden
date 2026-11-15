@@ -1032,8 +1032,7 @@
 	}
 
 	.level-extras {
-		display: block;
-		break-before: page;
+		display: none;
 	}
 }
 
@@ -1119,5 +1118,81 @@
 @media (min-width: 48rem) {
 	.fact-rows-2.fact-rows-sheet .fact-row:nth-child(2) {
 		border-top: 0;
+	}
+}
+
+/* ---- Matchdagen i bladets stil: band, checkrutor och accent i klubbens orange ---- */
+.sheet-matchdag {
+	--sheet-bg: linear-gradient(135deg, #202326, #090a0a);
+	--sheet-ink: #fff;
+	--sheet-accent: var(--orange-ink);
+}
+
+.card-page.sheet-matchdag {
+	display: block;
+}
+
+.card-page.sheet-matchdag .sheet {
+	margin-top: 0;
+}
+
+.sheet-matchdag .checklist-section h2 {
+	padding-bottom: 0.3rem;
+	border-bottom: 3px solid var(--sheet-accent);
+	color: var(--sheet-accent);
+}
+
+.checklist li {
+	grid-template-columns: 2.5rem 1fr auto;
+	gap: 0.15rem 0.75rem;
+}
+
+.checklist li::before {
+	content: '✓' / '';
+	grid-column: 1;
+	grid-row: 1 / span 2;
+	display: grid;
+	place-items: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	border-radius: 8px;
+	background: color-mix(in srgb, var(--orange-ink) 12%, #fff);
+	color: var(--orange-ink);
+	font-weight: 700;
+}
+
+.checklist li > .item-text {
+	grid-column: 2;
+	grid-row: 1;
+}
+
+.checklist li > .rule-tag {
+	grid-column: 3;
+}
+
+.checklist li > .provenance {
+	grid-column: 2 / -1;
+}
+
+@media (max-width: 39.99rem) {
+	.checklist li {
+		grid-template-columns: 2.5rem 1fr;
+	}
+
+	.checklist li > .rule-tag {
+		grid-column: 2;
+		grid-row: 2;
+	}
+
+	.checklist li > .provenance {
+		grid-column: 2;
+		grid-row: 3;
+	}
+}
+
+@media print {
+	.checklist li::before {
+		print-color-adjust: exact;
+		-webkit-print-color-adjust: exact;
 	}
 }
