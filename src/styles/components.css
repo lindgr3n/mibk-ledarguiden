@@ -947,6 +947,21 @@
 }
 
 /* ---- Nivåbladet: färgband med spelform och logga, ikonrader i två kolumner ---- */
+/* Rubriken är fet och värdet står under som vanlig text (som på spelformsbladet). */
+.fact-rows-2 .fact-row {
+	align-items: start;
+	padding-block: 0.7rem;
+}
+
+.fact-rows-2 .fact-row strong {
+	font-size: 1.0625rem;
+}
+
+.fact-rows-2 .fact-row .fact-value {
+	color: var(--ink);
+	font-size: 1rem;
+}
+
 .lvl-word-ljusgron {
 	color: #b9e58a;
 }
