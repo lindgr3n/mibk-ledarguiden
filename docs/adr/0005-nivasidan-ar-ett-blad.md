@@ -7,6 +7,6 @@ Nivåsidan (`/gron/`, `/bla/`, `/rod/`, `/ljusgron/`) är ledarens enda uppslags
 - **Utskrift:** bladet på sida 1, matchdagens checklista på sida 2. Dokumentlänkar, "Nytt för" och spelutbildningslänken skrivs inte ut. Kontrolldatum och originalkällor skrivs fortfarande ut (kravet från utskriftstesterna).
 - **Ljusgrön är en nivå utan divisioner.** Den har en egen nivåguide (`ljusgron.yaml`) utan `divisions`, med egna obligatoriska fakta (matcher, lagstart, träning, ledare, utrustning), och visar varken divisionsrutor, "Nytt för", dokument eller matchdag. Uppgifterna är Moälvens egen föreningsvägledning och har ingen distriktskälla.
 - **Nivåguiden får tre nya fält** som visas i färgbandet: `undertitel`, `alder` och `spelformKort`. De är valfria så att äldre säsonger och testfixturer fortsätter bygga.
-- **Divisionssidorna** (ADR 0004) ska bli mycket sparsamma och bara visa det som skiljer en division från nivåsidan, eftersom nivåsidan nu bär nästan all information. Det görs som ett separat steg; ADR 0004 gäller tills dess.
+- **Divisionerna** är kort på nivåsidan i stället för egna sidor (ADR 0006).
 
 Spelidé, principer, övningar och träningspass finns inte här utan i spelutbildningen. Nivåsidan länkar dit (`src/lib/lankar.ts`).

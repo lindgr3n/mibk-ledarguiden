@@ -6,12 +6,6 @@ const pages = [
 	'/rod/',
 	'/bla/',
 	'/gron/',
-	'/rod/division-1/',
-	'/rod/division-5/',
-	'/bla/division-6/',
-	'/bla/division-7/',
-	'/gron/division-8/',
-	'/gron/division-9/',
 	'/matchdagen/',
 	'/regler/',
 ];
@@ -56,6 +50,4 @@ test('originalkällor visar var dokumentet finns på förbundets webbplats, med 
 	await page.goto('/rod/');
 	const group = page.locator('[data-fact-group]').first();
 	await expect(group.getByRole('link', { name: /Matris – Serieöversikt/ })).toHaveAttribute('href', matris);
-	await page.goto('/rod/division-5/');
-	await expect(page.getByRole('link', { name: /Matris – Serieöversikt/ }).first()).toHaveAttribute('href', matris);
 });

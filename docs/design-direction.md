@@ -1,6 +1,6 @@
 # Designriktning
 
-Ledarguiden ska kännas som Moälvens praktiska matchverktyg: tydlig, direkt och förankrad i klubbens orange/svarta identitet. Referensbilderna i `docs/references` (startsida, nivåsida, divisionssida) följs exakt i layout, rubriker, ikoner och kortstruktur. Undantag: innehållet begränsas till verifierade uppgifter, huvudmenyn har fyra val utan sök, kontakt eller "Bli medlem", och publikbilden från Skyttis är hero tills en egen bild finns i repot.
+Ledarguiden ska kännas som Moälvens praktiska matchverktyg: tydlig, direkt och förankrad i klubbens orange/svarta identitet. Referensbilderna i `docs/references` (startsida; nivåsidan och divisionssidan är ersatta, se ADR 0005 och 0006) följer vi i layout, rubriker, ikoner och kortstruktur. Undantag: innehållet begränsas till verifierade uppgifter, huvudmenyn har fyra val utan sök, kontakt eller "Bli medlem", och publikbilden från Skyttis är hero tills en egen bild finns i repot.
 
 ## Färger
 
@@ -72,7 +72,7 @@ MOBIL
 - Kontrolldatum och originalkälla är synliga där fakta används, inte gömda i sidfoten.
 - Animation används endast när den förklarar en användarhandling. Tangentbordsfokus och reducerad rörelse stöds.
 - Matchdagen och nivåguiderna har enkel utskriftslayout utan separat PDF.
-- Nivåsidan är ett blad (ADR 0005): färgband med spelform och logga, ikonrader i två kolumner, "Nytt för" direkt under divisionerna, och dokument och matchdagens checklista under bladet. Det avviker från referensbilden `rod_detail.png`, som därför bara är historisk för nivåsidans layout. Startsidan och divisionssidan följer fortfarande sina referensbilder tills divisionssidan görs om.
+- Nivåsidan är ett blad (ADR 0005): färgband med spelform och logga, ikonrader i två kolumner, "Nytt för" direkt under divisionerna, och dokument och matchdagens checklista under bladet. Det avviker från referensbilden `rod_detail.png`, som därför bara är historisk för nivåsidans layout. Divisionerna är kort längre ned på nivåsidan (ADR 0006), så divisionsreferensbilden `division5_detail.png` gäller inte längre. Startsidan följer fortfarande sin referensbild.
 
 ## Självgranskning
 

@@ -89,7 +89,7 @@ const matchday = activeSeason
 			<ul class="division-tiles" aria-label={`Divisioner i ${guide.name.toLowerCase()}`}>
 				{levelDivisions.map((n) => (
 					<li>
-						<a class="division-tile" href={`/${level}/division-${n}/`}>
+						<a class="division-tile" href={`#division-${n}`}>
 							<Icon name="trophy" size={34} />
 							<span class="tile-text">
 								<strong>Division {n}</strong>
@@ -258,39 +258,45 @@ const matchday = activeSeason
 
 	<div class="level-more">
 		{
-			divisionAdaptations.length > 0 && (
+			hasDivisions && (
 				<section aria-labelledby="divisionsanpassningar" class="division-adaptations">
 					<h2 id="divisionsanpassningar">Divisionsanpassningar</h2>
 					<p>
 						Det som skiljer divisionerna åt. Allt annat gäller {guide.name.toLowerCase()} i sin helhet enligt
 						översikten ovan.
 					</p>
-					{divisionAdaptations.map((d) => (
-						<section class="division" data-division={d.division} aria-labelledby={`d-${d.division}`}>
-							<h3 id={`d-${d.division}`}>Division {d.division}</h3>
-							{d.adaptations.map((a) => (
-								<div class="fact-group" data-adaptation={a.id}>
-									<h4>{a.title}</h4>
-									<FactList facts={a.facts} />
-									<p class="provenance">
-										{a.ruleSource && (
-											<>
-												<span class="rule-label">{ruleTypes[a.ruleSource].label}</span> ·{' '}
-											</>
-										)}
-										Gäller division {d.division} · Kontrollerad {a.checked} ·{' '}
-										<SourceRef source={a.source} />
-									</p>
-								</div>
-							))}
-							{d.unverified.map((u) => (
-								<div class="fact-group unverified" data-unverified-adaptation={u.id}>
-									<h4>{u.title} – ej verifierat</h4>
-									<p class="notice">{u.note}</p>
-								</div>
-							))}
-						</section>
-					))}
+					<div class="division-cards">
+						{levelDivisions.map((n) => {
+							const d = divisionAdaptations.find((x) => x.division === n);
+							const differs = d && (d.adaptations.length > 0 || d.unverified.length > 0);
+							return (
+								<section class="division card" id={`division-${n}`} data-division={n} aria-labelledby={`d-${n}`}>
+									<h3 id={`d-${n}`}>Division {n}</h3>
+									{!differs && <p class="no-diff">Inga avvikelser från {guide.name.toLowerCase()}.</p>}
+									{d?.adaptations.map((a) => (
+										<div class="fact-group" data-adaptation={a.id}>
+											<h4>{a.title}</h4>
+											<FactList facts={a.facts} />
+											<p class="provenance">
+												{a.ruleSource && (
+													<>
+														<span class="rule-label">{ruleTypes[a.ruleSource].label}</span> ·{' '}
+													</>
+												)}
+												Gäller division {n} · Kontrollerad {a.checked} · <SourceRef source={a.source} />
+											</p>
+										</div>
+									))}
+									{d?.unverified.map((u) => (
+										<div class="fact-group unverified" data-unverified-adaptation={u.id}>
+											<h4>{u.title} – ej verifierat</h4>
+											<p class="notice">{u.note}</p>
+										</div>
+									))}
+								</section>
+							);
+						})}
+					</div>
 				</section>
 			)
 		}

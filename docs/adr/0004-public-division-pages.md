@@ -1,5 +1,7 @@
 # Publika divisionssidor följer referensbilderna
 
+> **Ersatt av ADR 0006:** divisionerna är kort på nivåsidan i stället för egna sidor.
+
 Referensbilderna i `docs/references` (startsida, nivåsida och divisionssida) visar en sida per division, och beslutet är att de följs. Det ersätter första leveransens avgränsning "inga publika divisionssidor" (ADR 0002 förberedde modellen för just detta).
 
 - Varje division i röd och blå nivå får en sida under nivåns adress, till exempel `/rod/division-5/`. Grön nivå får ingen sida förrän materialet är verifierat.

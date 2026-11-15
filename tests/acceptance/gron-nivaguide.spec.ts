@@ -52,12 +52,10 @@ test('lokal regel för division 8–9 visas som distriktsanpassning med källa',
 		.or(rules.locator(`a[href="${matrisSida2}"]`)).first()).toBeVisible();
 });
 
-test('divisionssidorna för grön nivå visar rätt division', async ({ page }) => {
-	await page.goto('/gron/division-9/');
-	await expect(page.getByRole('heading', { level: 1 })).toContainText('Division 9');
-	await expect(page.getByText('Utan målvakt; små mål (ca 60 × 40 cm)')).toBeVisible();
-	await page.goto('/gron/division-8/');
-	await expect(page.getByText('Med målvakt; mål 120 × 90 cm')).toBeVisible();
+test('divisionskorten för grön nivå visar rätt division', async ({ page }) => {
+	await page.goto('/gron/');
+	await expect(page.locator('#division-9')).toContainText('Utan målvakt; små mål (ca 60 × 40 cm)');
+	await expect(page.locator('#division-8')).toContainText('Med målvakt; mål 120 × 90 cm');
 });
 
 test('nationell spelform visas bredvid distriktets anpassning, utan Behöver bekräftas', async ({ page }) => {

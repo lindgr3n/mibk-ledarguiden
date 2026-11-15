@@ -120,29 +120,6 @@ export async function getSeasonGuide(
 	};
 }
 
-// Framtida divisionsvy (ingen publik sida ännu): nivåguidens gemensamma fakta sammanfogade med
-// divisionens egna anpassningar vid bygge. Inget dupliceras – gemensamma fakta kommer bara från nivåguiden.
-export async function getDivisionView(level: Level, division: number) {
-	const { guide, season, factGroups, ruleSections, divisionAdaptations, unverifiedDivisions } =
-		await getActiveGuide(level);
-	if (!guide.divisions || division < guide.divisions.from || division > guide.divisions.to) {
-		throw new Error(`Division ${division} ingår inte i ${guide.name}`);
-	}
-	return {
-		season,
-		division,
-		levelName: guide.name,
-		commonFactGroups: factGroups.filter((g) => g.appliesTo.includes(division)),
-		adaptations: divisionAdaptations.find((d) => d.division === division)?.adaptations ?? [],
-		unverifiedAdaptations: divisionAdaptations.find((d) => d.division === division)?.unverified ?? [],
-		sourceUrl: factGroups[0]?.source,
-		unverifiedDivisions,
-		ruleSections: ruleSections
-			.map((r) => ({ ...r, statements: r.statements.filter((s) => s.appliesTo.includes(division)) }))
-			.filter((r) => r.statements.length > 0),
-	};
-}
-
 // "Division 1–4" / "Division 3" / "Division 1, 3 och 5" för en lista divisioner.
 export function describeDivisions(divisions: number[]): string {
 	const sorted = [...divisions].sort((a, b) => a - b);
