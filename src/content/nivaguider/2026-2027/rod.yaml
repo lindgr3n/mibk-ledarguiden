@@ -34,7 +34,8 @@ factGroups:
       label: Västernorrlands ungdomsmatris 2026/27, sida 1
       url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
     facts:
-      - { key: plan, label: Plan, value: "18 × 36 m" }
+      # Antalet sargbitar saknas i matrisen. "ca 7 × 16" är beräknat från 2 m-bitar och ska mätas upp och bekräftas.
+      - { key: plan, label: Plan, value: "18 × 36 m (ca 7 sargbitar bred och 16 lång, plus hörn, ej mätt)" }
       - { key: mal, label: Mål, value: "160 × 115 cm" }
   - id: domare-och-sekretariat
     title: Domare och sekretariat

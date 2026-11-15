@@ -20,7 +20,7 @@ test('Grön nivå visar matchfakta först, med källa och kontrolldatum', async 
 		['Spelform', '3 mot 3, lokala sammandrag'],
 		['Speltid', '1 × 15 min rullande tid'],
 		['Byten', 'Tutbyte, 90 sek'],
-		['Plan', '3 sargbitar bred och 6 eller 7 sargbitar lång, plus hörn'],
+		['Plan', '3 sargbitar bred och 6 eller 7 sargbitar lång, plus hörn (ca 20 × 12 m, ej mätt)'],
 		['Domare', '1 föreningsdomare'],
 		['Sekretariat', 'Tidtagare, även för byten'],
 		['Tabell', 'Ingen tabell och ingen resultattavla'],

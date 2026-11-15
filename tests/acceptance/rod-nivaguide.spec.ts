@@ -18,7 +18,7 @@ test('de viktigaste matchfakta visas först', async ({ page }) => {
 	for (const [label, value] of [
 		['Spelform', '5 utespelare + målvakt'],
 		['Speltid', '3 × 15 min effektiv tid'],
-		['Plan', '18 × 36 m'],
+		['Plan', '18 × 36 m (ca 7 sargbitar bred och 16 lång, plus hörn, ej mätt)'],
 		['Mål', '160 × 115 cm'],
 		['Domare', '2, tillsatta av VIBF'],
 		['Sekretariat', 'iBIS Online; resultattavla'],
