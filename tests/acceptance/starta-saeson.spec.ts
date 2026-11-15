@@ -8,20 +8,6 @@ import { join } from 'node:path';
 function setup() {
 	const root = mkdtempSync(join(tmpdir(), 'ledarguide-'));
 	cpSync('tests/fixtures/content', root, { recursive: true });
-	writeFileSync(
-		join(root, 'nivaguider/2026-2027/rod.yaml'),
-		readFileSync(join(root, 'nivaguider/2026-2027/rod.yaml'), 'utf8') +
-			`ruleSections:
-  - id: testregel
-    title: Testregel
-    statements:
-      - ruleSource: nationell-regel
-        text: "Testtext"
-        appliesTo: [1]
-        checked: "2031-01-01"
-        source: { label: Testkälla, url: "https://example.com/testkalla" }
-`,
-	);
 	return root;
 }
 const run = (root: string, ...args: string[]) =>
@@ -41,9 +27,6 @@ test('nästa säsong skapas som utkast med allt tillbakasatt till overifierat', 
 		expect(text).not.toContain('updateNotices');
 		expect(text).toContain('status: overifierad');
 	}
-	const rod = readFileSync(join(root, 'nivaguider/2028-2029/rod.yaml'), 'utf8');
-	expect(rod).toMatch(/- ruleSource: nationell-regel\n\s+status: overifierad/);
-
 	const adaptation = readFileSync(join(root, 'divisionsanpassningar/2028-2029/bla-7.yaml'), 'utf8');
 	expect(adaptation).toContain('guide: 2028-2029/bla');
 	expect(adaptation).toContain('status: overifierad');

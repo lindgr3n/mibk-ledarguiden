@@ -14,6 +14,7 @@ const factIcons: Record<string, IconName> = {
 	domare: 'users',
 	sekretariat: 'doc',
 	ledarutbildning: 'doc',
+	lokalregel: 'doc',
 	matcher: 'trophy',
 	lagstart: 'users',
 	traning: 'calendar',

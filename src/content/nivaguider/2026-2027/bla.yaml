@@ -71,3 +71,14 @@ factGroups:
       - { key: matchvardar, label: Matchvärdar, value: "Två matchvärdar i alla serier" }
       - { key: anmalan, label: Anmälan, value: "Sista anmälan för seriespel är 15 maj" }
       - { key: resultatrapport, label: Resultatrapportering, value: "Resultat rapporteras i iBIS, för att kunna lotta jämna matcher" }
+  - id: lokala-regler
+    title: Lokala regler
+    status: verifierad
+    appliesTo: [6, 7]
+    checked: "2026-11-15"
+    ruleSource: distriktsanpassning
+    source:
+      label: Västernorrlands ungdomsmatris 2026/27, sida 2
+      url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=2"
+    facts:
+      - { key: lokalregel, label: Lokal regel, value: "Målvakt får senare delta som utespelare. Lagkapten behöver inte utses. Utvisningar undviks: domaren tillrättavisar, och först vid upprepad eller grov förseelse döms 2 minuter personligt straff. Spelare som saknas i matchprotokollet läggs till utan straff." }

@@ -5,7 +5,7 @@
 //   node scripts/starta-saeson.mjs 2026-2027 2027-2028
 //
 // Skapar sasonger/<ny>.yaml (status: utkast), nivaguider/<ny>/ och divisionsanpassningar/<ny>/.
-// ALLA fakta, divisionsanpassningar och regeluttalanden sätts till "overifierad" och uppdaterings-
+// ALLA fakta och divisionsanpassningar sätts till "overifierad" och uppdaterings-
 // notiser tas bort. Kontrolldatum och originalkällor behålls oförändrade som utgångspunkt: skriptet
 // verifierar ingenting. Matchdagen och Regler och dokument har ingen verifieringsstatus och kopieras
 // inte; de måste skrivas för den nya säsongen innan den kan aktiveras (se docs/saesongslivscykel.md).
@@ -56,8 +56,6 @@ function resetToUnverified(text, { fromId, toId }) {
 		l = l.replace(/^season:\s*\S+/, `season: ${toId}`);
 		l = l.replace(/^guide:\s*\S+/, (m) => m.replace(fromId, toId));
 		out.push(l);
-		const stmt = l.match(/^(\s*)- ruleSource:/);
-		if (stmt) out.push(`${stmt[1]}  status: overifierad`);
 	}
 	return out.join('\n');
 }

@@ -313,55 +313,6 @@ main ul:not(.checklist) > li > a {
 }
 
 /* Regelhierarki (ADR 0003): typ visas med etikett, symbol och kantstil, aldrig bara med färg */
-.rule-hierarchy {
-	margin-top: 2rem;
-}
-
-.rule-legend {
-	display: grid;
-	gap: 0.75rem;
-	margin: 0 0 1.25rem;
-}
-
-.rule-legend dt {
-	margin-bottom: 0.35rem;
-}
-
-.rule-legend dd {
-	margin: 0;
-	color: var(--muted);
-	font-size: 0.9375rem;
-}
-
-.rule-type,
-.rule-statement {
-	padding: 0.9rem 1.1rem;
-	background: #fff;
-	border: 1px solid var(--card-line);
-	border-radius: 10px;
-}
-
-.rule-statement {
-	margin-block: 0.75rem;
-}
-
-.rule-statement p {
-	margin: 0.35rem 0;
-}
-
-.rule-statement .rule-kind {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	gap: 0.5rem;
-	margin-top: 0;
-}
-
-.rule-issuer {
-	color: var(--muted);
-	font-size: 0.9375rem;
-}
-
 .rule-nationell-regel {
 	border-color: #c9ccd0;
 }
@@ -410,39 +361,6 @@ main ul:not(.checklist) > li > a {
 .rule-foreningsvagledning .rule-label {
 	--rule-dot: var(--orange);
 	color: #a24700;
-}
-
-.rule-section {
-	padding-block: 1.25rem 0.25rem;
-	border-top: 1px solid var(--card-line);
-}
-
-.rule-section h3 {
-	margin-bottom: 0.25rem;
-}
-
-.rule-deviation {
-	margin: 0 0 0.25rem;
-	color: var(--orange-ink);
-	font-weight: 600;
-}
-
-.rule-warning {
-	padding: 0.6rem 0.9rem;
-	border: 1px solid #e3b4b6;
-	border-left: 4px solid var(--level-red);
-	border-radius: 8px;
-	background: #fdf1f1;
-}
-
-.rule-warning strong::before {
-	content: '\26A0\00a0';
-}
-
-@media (min-width: 48rem) {
-	.rule-legend {
-		grid-template-columns: repeat(3, 1fr);
-	}
 }
 
 /* Matchdagen */

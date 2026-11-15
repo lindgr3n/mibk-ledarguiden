@@ -111,10 +111,6 @@ export async function getSeasonGuide(
 		guide: guide.data,
 		season: season.data,
 		factGroups: published,
-		// Endast verifierade regeluttalanden publiceras; avsnitt utan sådana utelämnas.
-		ruleSections: guide.data.ruleSections
-			.map((r) => ({ ...r, statements: r.statements.filter((st) => st.status === 'verifierad') }))
-			.filter((r) => r.statements.length > 0),
 		unverifiedDivisions,
 		divisionAdaptations,
 	};

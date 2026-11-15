@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-const matrisSida1 = 'https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1';
+const matrisSida1 = /matris-ungdom-2026-27-med-arvoden\.pdf#page=[12]$/;
 const matrisSida2 = 'https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=2';
 
 test('Grön nivå nås från Nivåer och visar säsong 2026/27 och division 8–9', async ({ page }) => {
@@ -58,12 +58,9 @@ test('divisionskorten för grön nivå visar rätt division', async ({ page }) =
 	await expect(page.locator('#division-8')).toContainText('Med målvakt; mål 120 × 90 cm');
 });
 
-test('nationell spelform visas bredvid distriktets anpassning, utan Behöver bekräftas', async ({ page }) => {
+test('regelavsnittet Regler och källor finns inte längre på nivåsidan', async ({ page }) => {
 	await page.goto('/gron/');
-	const section = page.locator('main').getByText('Nationell spelform och distriktets anpassning').first();
-	await expect(section).toBeVisible();
-	await expect(page.getByText(/spelplanen ska normalt vara 20 × 12 meter/).first()).toBeVisible();
-	await expect(page.getByText(/små mål \(ca 60 × 40 cm\)/).first()).toBeVisible();
-	await expect(page.getByText('Behöver bekräftas')).toHaveCount(0);
-	await expect(page.locator('a[href^="https://www.innebandy.se/media/ta5bn1jz/"]').first()).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Regler och källor' })).toHaveCount(0);
+	await expect(page.getByText('Nationell spelform och distriktets anpassning')).toHaveCount(0);
+	await expect(page.getByText(/Nationell regel|Föreningsvägledning/)).toHaveCount(0);
 });

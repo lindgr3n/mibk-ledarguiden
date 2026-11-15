@@ -557,7 +557,6 @@
 }
 
 /* Befintliga block (regelhierarki, uppdateringsnotiser, divisionsanpassningar) som kort */
-.level-more .rule-hierarchy,
 .level-more .update-notices,
 .level-more .division-adaptations {
 	background: var(--card);
@@ -640,7 +639,6 @@
 	}
 
 	.card,
-	.level-more .rule-hierarchy,
 	.level-more .update-notices,
 	.level-more .division-adaptations {
 		border: 0;

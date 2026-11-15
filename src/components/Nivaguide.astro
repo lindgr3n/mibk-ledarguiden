@@ -8,7 +8,6 @@ import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import Hero from './Hero.astro';
 import Icon from './Icon.astro';
-import RuleHierarchy from './RuleHierarchy.astro';
 import UpdateNotices from './UpdateNotices.astro';
 import FactList from './FactList.astro';
 import { SPELUTBILDNING_URL } from '../lib/lankar';
@@ -31,7 +30,7 @@ interface Props {
 }
 
 const { level, seasonId } = Astro.props;
-const { guide, season, factGroups, ruleSections, unverifiedDivisions, divisionAdaptations } = seasonId
+const { guide, season, factGroups, unverifiedDivisions, divisionAdaptations } = seasonId
 	? await getSeasonGuide(await getSeasonById(seasonId), level)
 	: await getActiveGuide(level);
 const archived = season.status === 'arkiverad';
@@ -54,7 +53,10 @@ const rules = activeSeason
 const matchday = activeSeason
 	? (await getCollection('matchdagen')).find((m) => m.data.season.id === activeSeason.id)?.data
 	: undefined;
-const matchdayPoints = matchday ? matchday.sections.reduce((n, sec) => n + sec.items.length, 0) : 0;
+// Antal punkter på nivåns matchdag (punkter utan `levels` gäller alla nivåer).
+const matchdayPoints = matchday
+	? matchday.sections.reduce((n, sec) => n + sec.items.filter((i) => !i.levels || i.levels.includes(level as 'gron' | 'bla' | 'rod')).length, 0)
+	: 0;
 ---
 
 <Layout seasonLabel={season.label} title={archived ? `${guide.name} – arkiv ${season.label}` : guide.name} tema={level}>
@@ -307,6 +309,5 @@ const matchdayPoints = matchday ? matchday.sections.reduce((n, sec) => n + sec.i
 		}
 
 		<UpdateNotices notices={guide.updateNotices} />
-		<RuleHierarchy sections={ruleSections} />
 	</div>
 </Layout>

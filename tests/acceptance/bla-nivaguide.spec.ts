@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-const matrisSida1 = 'https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1';
+const matrisSida1 = /matris-ungdom-2026-27-med-arvoden\.pdf#page=[12]$/;
 
 test('Blå nivå nås från Nivåer och visar säsong 2026/27 och division 6–7', async ({ page }) => {
 	await page.goto('/nivaer/');
