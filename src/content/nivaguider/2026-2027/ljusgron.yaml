@@ -22,7 +22,7 @@ topTile:
 startCard:
   title: Uppstart
   sub: Starta ett nytt lag
-  text: "Checklistan för att starta ett nytt lag: före start (mål och upptagningsområde, halltider, utrustning, ledare och ledarutbildning), anmälan och medlemskap, de tre första träningarna och stöd under säsongen. Här finns också mentorrutinen, där ledare som varit med stöttar de nya ledarna."
+  text: "Så startar ett nytt lag, från halltider och ledare till anmälan och de tre första träningarna. Här finns också mentorrutinen som stöd för nya ledare."
   linkLabel: Öppna uppstart i spelutbildningen
   spelutbildning: /nya-lag/
 factGroups:
