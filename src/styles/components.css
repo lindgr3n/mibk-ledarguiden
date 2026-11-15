@@ -900,21 +900,25 @@
 .sheet-ljusgron {
 	--sheet-bg: linear-gradient(135deg, #d6efb4, #b9df85);
 	--sheet-ink: #1d3a0b;
+	--sheet-accent: #3f7d1c;
 }
 
 .sheet-gron {
 	--sheet-bg: linear-gradient(135deg, rgb(10 120 62), rgb(6 80 42));
 	--sheet-ink: #fff;
+	--sheet-accent: var(--level-green);
 }
 
 .sheet-bla {
 	--sheet-bg: linear-gradient(135deg, rgb(10 80 175), rgb(6 50 125));
 	--sheet-ink: #fff;
+	--sheet-accent: var(--level-blue);
 }
 
 .sheet-rod {
 	--sheet-bg: linear-gradient(135deg, rgb(160 14 24), rgb(110 8 18));
 	--sheet-ink: #fff;
+	--sheet-accent: var(--level-red);
 }
 
 .fact-rows-2 {
@@ -1058,5 +1062,59 @@
 	.division-cards {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		align-items: start;
+	}
+}
+
+/* ---- Bladets radstil: rubrik i nivåfärg med tjock linje, avrundade ikonrutor i nivåfärgen (som spelformsbladet) ---- */
+.sheet .overview-head {
+	margin-bottom: 0.25rem;
+	padding-bottom: 0.4rem;
+	border-bottom: 3px solid var(--sheet-accent);
+}
+
+.sheet .overview-head h2 {
+	color: var(--sheet-accent);
+}
+
+.fact-rows-sheet .fact-icon {
+	width: 2.5rem;
+	height: 2.5rem;
+	border-radius: 8px;
+	background: color-mix(in srgb, var(--sheet-accent, var(--orange-ink)) 12%, #fff);
+	color: var(--sheet-accent, var(--orange-ink));
+}
+
+.fact-rows-sheet .fact-row {
+	grid-template-columns: 2.5rem 1fr;
+}
+
+.division-adaptations .division h3 {
+	margin: 0 0 0.4rem;
+	padding-bottom: 0.3rem;
+	border-bottom: 3px solid var(--sheet-accent);
+	color: var(--sheet-accent);
+}
+
+.division-adaptations .fact-group h4 {
+	margin: 0.6rem 0 0;
+	font-size: 0.8125rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--muted);
+}
+
+.fact-rows-sheet .fact-row .fact-value {
+	color: var(--ink);
+	font-size: 1rem;
+}
+
+/* Rubrikens tjocka linje räcker som avdelare över första raden */
+.fact-rows-sheet .fact-row:first-child {
+	border-top: 0;
+}
+
+@media (min-width: 48rem) {
+	.fact-rows-2.fact-rows-sheet .fact-row:nth-child(2) {
+		border-top: 0;
 	}
 }

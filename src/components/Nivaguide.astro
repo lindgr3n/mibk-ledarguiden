@@ -147,7 +147,7 @@ const matchday = activeSeason
 					</p>
 				)
 			}
-			<ul class="fact-rows fact-rows-2">
+			<ul class="fact-rows fact-rows-2 fact-rows-sheet">
 				{
 					factGroups.flatMap((group) =>
 						group.facts.map((fact) => (
@@ -259,7 +259,7 @@ const matchday = activeSeason
 	<div class="level-more">
 		{
 			hasDivisions && (
-				<section aria-labelledby="divisionsanpassningar" class="division-adaptations">
+				<section aria-labelledby="divisionsanpassningar" class={`division-adaptations sheet-${level}`}>
 					<h2 id="divisionsanpassningar">Divisionsanpassningar</h2>
 					<p>
 						Det som skiljer divisionerna åt. Allt annat gäller {guide.name.toLowerCase()} i sin helhet enligt
@@ -276,7 +276,19 @@ const matchday = activeSeason
 									{d?.adaptations.map((a) => (
 										<div class="fact-group" data-adaptation={a.id}>
 											<h4>{a.title}</h4>
-											<FactList facts={a.facts} />
+											<ul class="fact-rows fact-rows-sheet">
+												{a.facts.map((f) => (
+													<li class="fact-row" data-fact={f.key}>
+														<span class="fact-icon">
+															<Icon name={factIcon(f.key)} size={26} />
+														</span>
+														<div>
+															<strong>{f.label}</strong>
+															<span class="fact-value">{f.value}</span>
+														</div>
+													</li>
+												))}
+											</ul>
 											<p class="provenance">
 												{a.ruleSource && (
 													<>
