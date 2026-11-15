@@ -6,10 +6,17 @@ test('Ljusgrön nivå nås från startsidan och visar bladet utan divisioner', a
 	await expect(page).toHaveURL('/ljusgron/');
 	await expect(page.getByRole('heading', { level: 1 })).toContainText('Ljusgrön nivå');
 	await expect(page.getByText('Säsong 2026/27')).toBeVisible();
-	// Ingen division, inga matcher: varken divisionsrutor, matchdag eller dokument.
-	await expect(page.locator('.division-tiles')).toHaveCount(0);
+	// Ingen division och inga matcher: inga divisionsrutor, divisionsanpassningar eller matchdag.
+	await expect(page.getByText(/Division \d/)).toHaveCount(0);
+	await expect(page.getByRole('heading', { name: 'Divisionsanpassningar' })).toHaveCount(0);
 	await expect(page.getByRole('heading', { name: 'Matchdagen' })).toHaveCount(0);
-	await expect(page.getByRole('heading', { name: 'Viktiga dokument' })).toHaveCount(0);
+	// I stället: en ruta överst, Viktiga dokument och Uppstart, som länkar till spelutbildningen.
+	await expect(page.locator('.division-tiles').getByRole('link', { name: /Att vara med i Moälvens IBK/ })).toHaveAttribute('href', /\/att-vara-med\/$/);
+	await expect(page.getByRole('heading', { name: 'Viktiga dokument' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Uppstart' })).toBeVisible();
+	await expect(page.locator('.start-card').getByRole('link', { name: /Öppna uppstart/ })).toHaveAttribute('href', /\/nya-lag\/$/);
+	await expect(page.locator('.doc-links').getByRole('link', { name: /Uppstart av nya lag/ })).toHaveAttribute('href', /\/nya-lag\/$/);
+	await expect(page.getByRole('region', { name: 'Källor och kontrolldatum' })).toBeVisible();
 });
 
 test('Ljusgrön visar färgband, ikonrader och källa med kontrolldatum', async ({ page }) => {

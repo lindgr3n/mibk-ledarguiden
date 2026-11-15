@@ -1220,8 +1220,7 @@
 }
 
 .lvl-theme .link-arrow,
-.lvl-theme .division-tile .icon-chevron,
-.lvl-theme .division-tile .icon-trophy,
+.lvl-theme .division-tile > .icon,
 .lvl-theme .side-head > .icon,
 .lvl-theme .doc-links .icon-external {
 	color: var(--lvl);

@@ -59,6 +59,15 @@ const uppdateringsnotis = z.object({
 // Obligatoriska fakta (REQUIRED_FACT_KEYS i src/lib/nivaguide.ts) kontrolleras när en aktiv eller arkiverad
 // säsong publiceras, inte här, så att ett säsongsutkast med overifierade fakta får finnas.
 
+// Länk i en nivåguide: antingen en https-adress eller en sökväg i spelutbildningen (t.ex. /att-vara-med/).
+const nivalank = z
+	.object({
+		label: z.string().min(1),
+		url: z.url().refine((u) => u.startsWith('https://'), 'Länken måste vara https').optional(),
+		spelutbildning: z.string().startsWith('/').optional(),
+	})
+	.refine((l) => Boolean(l.url) !== Boolean(l.spelutbildning), 'Ange antingen url eller spelutbildning');
+
 // Nivåguide: filnamn <säsong>/<nivå>.yaml, t.ex. 2026-2027/rod.yaml
 const nivaguider = defineCollection({
 	loader: glob({ pattern: '*/*.yaml', base: `${contentRoot}/nivaguider` }),
@@ -75,6 +84,18 @@ const nivaguider = defineCollection({
 			divisions: z
 				.object({ from: z.number().int().min(1), to: z.number().int().min(1) })
 				.refine((d) => d.from <= d.to, 'from måste vara <= to')
+				.optional(),
+			// Bara för en nivå utan matcher (ljusgrön): egna dokument, en ruta överst och ett kort i stället för matchdagen.
+			documents: z.array(nivalank).optional(),
+			topTile: z.object({ title: z.string().min(1), sub: z.string().min(1), spelutbildning: z.string().startsWith('/') }).optional(),
+			startCard: z
+				.object({
+					title: z.string().min(1),
+					sub: z.string().min(1),
+					text: z.string().min(1),
+					linkLabel: z.string().min(1),
+					spelutbildning: z.string().startsWith('/'),
+				})
 				.optional(),
 			factGroups: z.array(faktagrupp).min(1),
 			updateNotices: z.array(uppdateringsnotis).default([]),

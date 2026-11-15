@@ -7,6 +7,26 @@ name: Ljusgrön nivå
 undertitel: Lek och rörelse
 alder: 0–6 år
 spelformKort: Lek och rörelse
+# Länkar till spelutbildningen (sökväg) eller externa sidor (url). Visas i Viktiga dokument.
+documents:
+  - label: Att vara med i Moälvens IBK (för föräldrar och nya spelare)
+    spelutbildning: /att-vara-med/
+  - label: Uppstart av nya lag och mentorrutin
+    spelutbildning: /nya-lag/
+  - label: Anmälan och kontakt, moalvensibk.se
+    url: "https://moalvensibk.se"
+  - label: "Svensk Innebandy: Lek och rörelse (ljusgrön nivå)"
+    url: "https://innebandy.se/utveckling/svensk-innebandys-utvecklingsmodell-siu/siu-modellens-olika-nivaer"
+topTile:
+  title: Att vara med i Moälvens IBK
+  sub: Ljusgrön nivå
+  spelutbildning: /att-vara-med/
+startCard:
+  title: Uppstart
+  sub: Starta ett nytt lag
+  text: "Så startar ett nytt lag: lagledare, halltider, första passet och mentorrutin."
+  linkLabel: Öppna uppstart i spelutbildningen
+  spelutbildning: /nya-lag/
 factGroups:
   - id: ljusgron-uppstart
     title: Ljusgrön nivå i Moälvens IBK

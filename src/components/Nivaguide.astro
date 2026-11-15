@@ -42,6 +42,8 @@ const verifiedText = hasDivisions
 	? describeDivisions([...new Set(factGroups.flatMap((g) => g.appliesTo))]).toLowerCase()
 	: '';
 const bandTitle = guide.spelformKort ?? guide.name;
+// Länkar till spelutbildningen lagras som sökväg och får adressen här.
+const lankHref = (l: { url?: string; spelutbildning?: string }) => l.url ?? `${SPELUTBILDNING_URL}${l.spelutbildning}`;
 const bandMeta = [guide.name, guide.undertitel, guide.alder].filter(Boolean).join(' · ');
 
 // Sidokolumnen (nytt, dokument, Matchdagen) hör till den aktiva säsongen och visas inte i arkivet.
@@ -53,6 +55,10 @@ const rules = activeSeason
 const matchday = activeSeason
 	? (await getCollection('matchdagen')).find((m) => m.data.season.id === activeSeason.id)?.data
 	: undefined;
+// Viktiga dokument: säsongens (regelbok, matris, lokala förutsättningar) eller nivåns egna om den saknar matcher.
+const docs = hasDivisions
+	? (rules?.documents ?? []).map((d) => ({ label: d.title, href: d.url }))
+	: (guide.documents ?? []).map((d) => ({ label: d.label, href: lankHref(d) }));
 // Antal punkter på nivåns matchdag (punkter utan `levels` gäller alla nivåer).
 const matchdayPoints = matchday
 	? matchday.sections.reduce((n, sec) => n + sec.items.filter((i) => !i.levels || i.levels.includes(level as 'gron' | 'bla' | 'rod')).length, 0)
@@ -84,6 +90,23 @@ const matchdayPoints = matchday
 					<a href={`/${level}/`}>Gå till aktuell säsong</a>
 				</p>
 			</aside>
+		)
+	}
+
+	{
+		!archived && !hasDivisions && guide.topTile && (
+			<ul class="division-tiles" aria-label={`Genväg för ${guide.name.toLowerCase()}`}>
+				<li>
+					<ExternalLink class="division-tile" href={`${SPELUTBILDNING_URL}${guide.topTile.spelutbildning}`}>
+						<Icon name="users" size={34} />
+						<span class="tile-text">
+							<strong>{guide.topTile.title}</strong>
+							<span>{guide.topTile.sub}</span>
+						</span>
+						<Icon name="external" size={18} />
+					</ExternalLink>
+				</li>
+			</ul>
 		)
 	}
 
@@ -171,7 +194,7 @@ const matchdayPoints = matchday
 	</section>
 
 	{
-		rules && matchday && (
+		!archived && docs.length > 0 && (
 			<div class="side-pair level-extras">
 				<section class="card no-print" aria-labelledby="dokument-title">
 					<div class="side-head">
@@ -182,10 +205,10 @@ const matchdayPoints = matchday
 						</div>
 					</div>
 					<ul class="doc-links">
-						{rules.documents.map((doc) => (
+						{docs.map((doc) => (
 							<li>
-								<ExternalLink href={doc.url}>
-									{doc.title}
+								<ExternalLink href={doc.href}>
+									{doc.label}
 									<Icon name="external" size={16} />
 								</ExternalLink>
 							</li>
@@ -193,6 +216,22 @@ const matchdayPoints = matchday
 					</ul>
 				</section>
 
+				{guide.startCard && (
+					<section class="card start-card no-print" aria-labelledby="uppstart-title">
+						<div class="side-head">
+							<Icon name="users" size={40} />
+							<div>
+								<h3 id="uppstart-title">{guide.startCard.title}</h3>
+								<p class="card-sub">{guide.startCard.sub}</p>
+							</div>
+						</div>
+						<p>{guide.startCard.text}</p>
+						<ExternalLink class="link-arrow link-end" href={`${SPELUTBILDNING_URL}${guide.startCard.spelutbildning}`}>
+							{guide.startCard.linkLabel} <Icon name="external" size={16} />
+						</ExternalLink>
+					</section>
+				)}
+				{matchday && (
 				<section class="card matchday-card no-print" aria-labelledby="matchdagen-side-title">
 					<div class="side-head">
 						<Icon name="calendar" size={40} />
@@ -209,6 +248,7 @@ const matchdayPoints = matchday
 						Öppna matchdagens checklista <Icon name="arrow" size={18} />
 					</a>
 				</section>
+				)}
 			</div>
 		)
 	}
