@@ -44,7 +44,7 @@ factGroups:
       label: Västernorrlands ungdomsmatris 2026/27, sida 1
       url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
     facts:
-      - { key: mal, label: Mål, value: "Små mål (ca 60 × 40 cm); med målvakt 120 × 90 cm" }
+      - { key: mal, label: Mål, value: "Små mål (ca 60 × 40 cm)\nMed målvakt 120 × 90 cm" }
   - id: domare-och-sekretariat
     title: Domare och sekretariat
     status: verifierad

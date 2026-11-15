@@ -1106,6 +1106,9 @@
 .fact-rows-sheet .fact-row .fact-value {
 	color: var(--ink);
 	font-size: 1rem;
+	/* En radbrytning i värdet (
+ i YAML) blir en ny rad, till exempel två mått på varsin rad */
+	white-space: pre-line;
 }
 
 /* Rubrikens tjocka linje räcker som avdelare över första raden */
