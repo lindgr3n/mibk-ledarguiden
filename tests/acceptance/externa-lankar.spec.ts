@@ -6,7 +6,9 @@ const pages = [
 	'/rod/',
 	'/bla/',
 	'/gron/',
-	'/matchdagen/',
+	'/gron/matchdagen/',
+	'/bla/matchdagen/',
+	'/rod/matchdagen/',
 	'/regler/',
 ];
 
@@ -36,16 +38,6 @@ for (const path of pages) {
 
 test('originalkällor visar var dokumentet finns på förbundets webbplats, med länk till både sidan och PDF:en', async ({ page }) => {
 	const matris = 'https://www.innebandy.se/vasternorrland/tavling/matris-serieoversikt';
-	const lokala = 'https://www.innebandy.se/vasternorrland/tavling/lokala-tavlingsbestammelser';
-
-	await page.goto('/matchdagen/');
-	const licens = page.locator('li[data-item="licens-skyddsglasogon"]');
-	await expect(licens).toContainText('Finns på');
-	await expect(licens.getByRole('link', { name: /Matris – Serieöversikt/ })).toHaveAttribute('href', matris);
-	await expect(licens.getByRole('link', { name: /Originalkälla/ })).toHaveAttribute('href', /matris-ungdom.*\.pdf#page=1/);
-	await expect(
-		page.locator('li[data-item="ibis"]').getByRole('link', { name: /Lokala tävlingsbestämmelser/ }),
-	).toHaveAttribute('href', lokala);
 
 	await page.goto('/rod/');
 	const group = page.locator('[data-fact-group]').first();

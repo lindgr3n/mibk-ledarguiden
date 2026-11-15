@@ -1,14 +1,15 @@
 # Testfixtur, påhittat testdata.
 season: 2026-2027
+checked: "2026-10-12"
+sources:
+  - { label: Testkälla, url: "https://example.com/testkalla" }
 sections:
   - id: fore-match
     title: Före match
     items:
-      - { id: testpunkt, text: Testpunkt matchdagen, ruleSource: foreningsvagledning }
+      - { id: testpunkt, text: Testpunkt matchdagen }
 relocation:
   title: Matchflytt
   intro: Testintro.
   reminder: Testpåminnelse.
   link: { label: Testkälla, url: "https://example.com/testkalla" }
-readMore:
-  - { label: Testkälla, url: "https://example.com/testkalla" }

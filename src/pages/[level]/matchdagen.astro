@@ -1,0 +1,90 @@
+---
+// Matchdagen för en nivå (grön, blå eller röd): en checklista i bladets stil. Punkterna filtreras på nivå,
+// källorna står en gång längst ned. Ljusgrön spelar inga matcher och har ingen matchdag.
+import ExternalLink from '../../components/ExternalLink.astro';
+import Hero from '../../components/Hero.astro';
+import Icon from '../../components/Icon.astro';
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { getActiveGuide, getActiveSeason, type Level } from '../../lib/nivaguide';
+import { splitLevelName } from '../../lib/presentation';
+
+export function getStaticPaths() {
+	return (['gron', 'bla', 'rod'] as const).map((level) => ({ params: { level }, props: { level } }));
+}
+
+const { level } = Astro.props as { level: Exclude<Level, 'ljusgron'> };
+const season = await getActiveSeason();
+const { guide } = await getActiveGuide(level);
+const entry = (await getCollection('matchdagen')).find((m) => m.data.season.id === season.id);
+if (!entry) throw new Error(`Ingen Matchdagen för säsong ${season.data.label}`);
+const { relocation, sources, checked, sourceNote } = entry.data;
+const sections = entry.data.sections
+	.map((s) => ({ ...s, items: s.items.filter((i) => !i.levels || i.levels.includes(level)) }))
+	.filter((s) => s.items.length > 0);
+const { word } = splitLevelName(guide.name);
+---
+
+<Layout title={`Matchdagen – ${guide.name}`}>
+	<Fragment slot="hero">
+		<Hero variant="detail" labelledby="matchdagen-h1">
+			<a class="hero-back" href={`/${level}/`}><Icon name="back" size={20} />Tillbaka till {guide.name.toLowerCase()}</a>
+			<p class="eyebrow">Moälvens innebandy · Säsong {season.data.label}</p>
+			<h1 id="matchdagen-h1">
+				<span class="lvl-word-neutral">Matchdagen</span>{' '}<span class="lvl-sub">{guide.name}</span>
+			</h1>
+			<p class="hero-lead">Checklista för ledare på {guide.name.toLowerCase()}: inför, under och efter match.</p>
+		</Hero>
+	</Fragment>
+
+	<div class={`card-page matchdag-page sheet-${level}`}>
+		<section class="card sheet" aria-label={`Matchdagen, ${word.toLowerCase()} nivå`}>
+			<header class="sheet-band">
+				<div class="sheet-band-text">
+					<p class="sheet-format">Matchdagen</p>
+					<p class="sheet-meta">{guide.name} · {guide.spelformKort ?? ''} · checklista för ledare</p>
+				</div>
+				<img class="sheet-logo" src="/images/brand/moalvens-ibk-logo.png" alt="Moälvens IBK" width="112" height="112" />
+			</header>
+		</section>
+
+		<nav aria-label="Genvägar på sidan" class="shortcuts">
+			<ul>
+				{sections.map((s) => <li><a href={`#${s.id}`}>{s.title}</a></li>)}
+				<li><a href="#matchflytt">{relocation.title}</a></li>
+				<li><a href="#kallor">Källor</a></li>
+			</ul>
+		</nav>
+
+		{
+			sections.map((s) => (
+				<section id={s.id} aria-labelledby={`h-${s.id}`} class="checklist-section">
+					<h2 id={`h-${s.id}`}>{s.title}</h2>
+					<ul class="checklist">
+						{s.items.map((item) => (
+							<li data-item={item.id}>
+								<span class="item-text">{item.text}</span>
+								{item.homeOnly && <span class="home-tag">Hemmalag/arrangör</span>}
+							</li>
+						))}
+					</ul>
+				</section>
+			))
+		}
+
+		<section id="matchflytt" aria-labelledby="h-matchflytt" class="checklist-section">
+			<h2 id="h-matchflytt">{relocation.title}</h2>
+			<p>{relocation.intro}</p>
+			<p><ExternalLink href={relocation.link.url}>{relocation.link.label}</ExternalLink></p>
+			<p>{relocation.reminder}</p>
+		</section>
+
+		<section id="kallor" aria-labelledby="h-kallor" class="checklist-section sources-section">
+			<h2 id="h-kallor">Källor</h2>
+			<ul>
+				{sources.map((l) => <li><ExternalLink href={l.url}>{l.label}</ExternalLink></li>)}
+			</ul>
+			<p class="provenance-checked-line">Kontrollerad {checked}. {sourceNote}</p>
+		</section>
+	</div>
+</Layout>

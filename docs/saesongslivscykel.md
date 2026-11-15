@@ -5,7 +5,7 @@ Gäller [ADR 0001](adr/0001-seasoned-content-with-current-aliases.md). En **säs
 | Status | Publiceras? | Adress |
 | --- | --- | --- |
 | `utkast` | Nej, aldrig. Inga sidor genereras och ingenting länkas. | – |
-| `aktiv` | Ja, exakt en säsong. | Stabila adresser: `/rod/`, `/bla/`, `/matchdagen/`, `/regler/` |
+| `aktiv` | Ja, exakt en säsong. | Stabila adresser: `/rod/`, `/bla/`, `/rod/matchdagen/`, `/regler/` |
 | `arkiverad` | Ja, skrivskyddad och markerad "Arkiv – gällde säsong X". | `/sasonger/<säsong>/<nivå>/`, t.ex. `/sasonger/2026-2027/rod/` |
 
 Aktivering är alltid ett manuellt beslut (en ändring av `status`). Inget styrs av datum.

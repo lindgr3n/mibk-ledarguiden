@@ -4,7 +4,6 @@ const pages = [
 	{ path: '/rod/', h1: /Röd/, sections: ['Snabb översikt'] },
 	{ path: '/gron/', h1: /Grön/, sections: ['Snabb översikt'] },
 	{ path: '/bla/', h1: /Blå/, sections: ['Snabb översikt', 'Divisionsanpassningar'] },
-	{ path: '/matchdagen/', h1: /Matchdagen/, sections: ['Före match', 'Under och efter match'] },
 ];
 
 for (const p of pages) {

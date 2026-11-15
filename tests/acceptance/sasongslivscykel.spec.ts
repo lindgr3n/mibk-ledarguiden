@@ -71,7 +71,7 @@ test.describe('efter aktivering: föregående säsong är ett arkiv', () => {
 	test('den aktiva säsongen har ingen arkivadress och Matchdagen har inget arkiv', async ({ request, page }) => {
 		expect((await request.get('/sasonger/2027-2028/rod/')).status()).toBe(404);
 		expect((await request.get('/sasonger/2026-2027/matchdagen/')).status()).toBe(404);
-		await page.goto('/matchdagen/');
+		await page.goto('/gron/matchdagen/');
 		await expect(page.getByText('Säsong 2027/28')).toBeVisible();
 	});
 });

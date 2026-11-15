@@ -19,11 +19,10 @@ interface Props {
 const { title, seasonLabel = (await getActiveSeason()).data.label, variant } = Astro.props;
 const fullTitle = Astro.url.pathname === '/' ? title : `${title} – Moälvens ledarguide`;
 
-// Huvudmenyn: exakt dessa fyra val, i den här ordningen.
+// Huvudmenyn: exakt dessa tre val, i den här ordningen. Matchdagen nås via varje nivå.
 const menu = [
 	{ label: 'Hem', href: '/' },
 	{ label: 'Nivåer', href: '/nivaer/' },
-	{ label: 'Matchdagen', href: '/matchdagen/' },
 	{ label: 'Regler och dokument', href: '/regler/' },
 ];
 

@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 import { arTillatenExtern } from './tillatna-varder';
 
-const pages = ['/', '/nivaer/', '/rod/', '/bla/', '/gron/', '/matchdagen/', '/regler/'];
+const pages = ['/', '/nivaer/', '/rod/', '/bla/', '/gron/', '/gron/matchdagen/', '/bla/matchdagen/', '/rod/matchdagen/', '/regler/'];
 
 async function scrollOverflow(page: Page) {
 	return page.evaluate(() => ({
@@ -124,7 +124,7 @@ test('hoppa-till-innehåll-länk är första tabbstoppet och leder till main', a
 });
 
 test('tryckytor i meny och nivåväljare är minst 44 px höga', async ({ page }) => {
-	for (const path of ['/', '/nivaer/', '/matchdagen/']) {
+	for (const path of ['/', '/nivaer/', '/gron/matchdagen/']) {
 		await page.goto(path);
 		const small = await page
 			.locator('nav a, .cta, .level a, .shortcuts a, .more, main ul:not(.checklist) > li > a')
@@ -163,8 +163,8 @@ test('bygget är host-agnostiskt: ingen adapter, statisk utdata', () => {
 	expect(html).not.toMatch(/(?:href|src)="(?:https?:)?\/\/(?!localhost|pulseapp\.se\/)/);
 });
 
-test('Matchdagen bär ingen nivåfärg (röd kant antyder annars Röd nivå)', async ({ page }) => {
-	await page.goto('/matchdagen/');
+test('Matchdagens rubrik bär ingen nivåfärg (nivån står i undertiteln)', async ({ page }) => {
+	await page.goto('/rod/matchdagen/');
 	const color = await page.locator('.hero h1 span').first().evaluate((e) => getComputedStyle(e).color);
 	// Nivåfärgerna (röd, blå, grön på mörk botten) får inte användas för Matchdagen.
 	expect(color).not.toBe('rgb(255, 91, 80)');

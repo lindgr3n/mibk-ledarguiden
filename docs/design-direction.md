@@ -72,6 +72,7 @@ MOBIL
 - Kontrolldatum och originalkälla är synliga där fakta används, inte gömda i sidfoten.
 - Animation används endast när den förklarar en användarhandling. Tangentbordsfokus och reducerad rörelse stöds.
 - Matchdagen och nivåguiderna har enkel utskriftslayout utan separat PDF.
+- Matchdagen är en checklista per nivå (ADR 0007) i bladets stil, med nivåns färg. Den har inget eget menyval; huvudmenyn har tre val (Hem, Nivåer, Regler och dokument) och matchdagen nås från nivåsidan.
 - Nivåsidan är ett blad (ADR 0005): färgband med spelform och logga, ikonrader i två kolumner, "Nytt för" direkt under divisionerna, och dokument och matchdagens checklista under bladet. Det avviker från referensbilden `rod_detail.png`, som därför bara är historisk för nivåsidans layout. Divisionerna är kort längre ned på nivåsidan (ADR 0006), så divisionsreferensbilden `division5_detail.png` gäller inte längre. Startsidan följer fortfarande sin referensbild.
 
 ## Självgranskning

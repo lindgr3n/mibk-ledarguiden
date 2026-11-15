@@ -63,7 +63,7 @@ Startsidan visar i ordning:
 5. Regler, originalkällor och distriktsanpassningar.
 6. Tidigare säsonger när ett arkiv finns.
 
-Huvudnavigationen innehåller Hem, Nivåer, Matchdagen samt Regler och dokument. Sökning och kontakt utelämnas tills de fyller en definierad funktion.
+Huvudnavigationen innehåller Hem, Nivåer samt Regler och dokument (Matchdagen nås via varje nivå, se ADR 0007). Sökning och kontakt utelämnas tills de fyller en definierad funktion.
 
 På en nivåguide visas de viktigaste matchfakta först. Introduktion, divisionsanpassningar, uppdateringar och källor följer därefter.
 

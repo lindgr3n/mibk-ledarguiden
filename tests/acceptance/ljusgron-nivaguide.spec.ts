@@ -44,7 +44,7 @@ test('Grön nivå: "Nytt för" kommer direkt under divisionerna, före bladet, o
 	expect(idx('Snabb översikt')).toBeLessThan(idx('Matchdagen'));
 	await expect(page.locator('.sheet-format')).toHaveText('3 mot 3');
 	await expect(page.locator('.matchday-card')).toContainText('punkter på en egen sida');
-	await expect(page.locator('.matchday-card').getByRole('link', { name: /matchdagens checklista/ })).toHaveAttribute('href', '/matchdagen/');
+	await expect(page.locator('.matchday-card').getByRole('link', { name: /matchdagens checklista/ })).toHaveAttribute('href', '/gron/matchdagen/');
 });
 
 test('Ljusgrön skrivs ut utan navigation med bladet synligt', async ({ page }) => {

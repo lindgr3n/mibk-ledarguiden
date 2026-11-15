@@ -7,6 +7,8 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
 	outDir: process.env.LEDARGUIDE_OUT_DIR ?? './dist',
 	redirects: {
+		// Matchdagen finns bara per nivå (/gron/matchdagen/ m.fl.); den gamla gemensamma sidan går till nivåerna.
+		'/matchdagen/': '/nivaer/',
 		'/rod/division-1/': '/rod/#division-1',
 		'/rod/division-2/': '/rod/#division-2',
 		'/rod/division-3/': '/rod/#division-3',

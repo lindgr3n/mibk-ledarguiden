@@ -45,11 +45,9 @@ test('nivåerna visas i ordningen röd, blå, grön och ljusgrön, med divisione
 	await expect(items.nth(3)).toContainText('Inga matcher');
 });
 
-test('Matchdagen och Regler och dokument nås från startsidan', async ({ page }) => {
+test('Regler och dokument nås från startsidan, och Matchdagen finns inte som eget val', async ({ page }) => {
 	await page.goto('/');
-	await page.getByRole('region', { name: 'Matchdagen' }).getByRole('link').click();
-	await expect(page).toHaveURL('/matchdagen/');
-	await page.goto('/');
+	await expect(page.getByRole('region', { name: 'Matchdagen' })).toHaveCount(0);
 	await page.getByRole('region', { name: 'Officiella dokument' }).getByRole('link').click();
 	await expect(page).toHaveURL('/regler/');
 });

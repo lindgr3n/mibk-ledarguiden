@@ -1,90 +1,115 @@
-# Matchdagen, säsong 2026/27. Källa: docs/matchdagen.md; kraven är kontrollerade mot PDF-dokumenten.
-# Skriv aldrig in matchflyttsavgifter eller tidsgränser här – de ändras; länka till aktuell information.
-# detail anger var i dokumentet kravet står, eftersom en länk till hela matrisen annars inte säger vilken del som gäller.
+# Matchdagen, säsong 2026/27: en checklista per nivå (grön, blå, röd). En punkt utan `levels` gäller alla nivåer.
+# `homeOnly` visas som "Hemmalag/arrangör". Källorna står en gång längst ned på sidan, inte på varje punkt.
+# Skriv aldrig in matchflyttsavgifter eller tidsgränser under relocation – de ändras; länka till aktuell information.
 season: 2026-2027
 
-# Delade källor (ankare). Ignoreras av schemat.
-_kallor:
-  matris: &matris
-    label: Västernorrlands ungdomsmatris 2026/27, sida 1
-    url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf#page=1"
-  lokala: &lokala
-    label: Lokala förutsättningar 2026/27, sida 11
+checked: "2026-11-15"
+sourceNote: >-
+  Manualen är uppdaterad 2025-12-09 och avser säsongen 2025/26, så kontrollera den mot aktuell version. Där manualen
+  och ungdomsmatrisen 2026/27 skiljer sig gäller matrisen.
+sources:
+  - label: "VIBF: Manual för sammandrag och ungdomsserier i Västernorrland (2025/26)"
+    url: "https://www.innebandy.se/media/wqod33zp/manual-sammandrag-ungdomsmatcher-2025-26-reviderad-20251209.pdf"
+  - label: Västernorrlands ungdomsmatris 2026/27
+    url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf"
+  - label: Lokala förutsättningar 2026/27, sida 11
     url: "https://www.innebandy.se/media/sb3hooik/lokala-forutsattningar-vnibf-2026-2027.pdf#page=11"
 
 sections:
+  - id: veckan-fore
+    title: Veckan före
+    items:
+      - id: laguppstallning-ibis
+        text: "Lägg in laguppställningen i iBIS: inför helgmatch senast fredag lunch, inför vardagsmatch senast 24 timmar före. Fyll i tröjnummer, målvakter och lagkapten."
+      - id: licenser
+        text: Alla ledare i båset har rätt ledarlicens och alla spelare har personlig spelarlicens.
+      - id: kalla-ibis
+        levels: [bla, rod]
+        homeOnly: true
+        text: Kalla domare och motståndare via iBIS (fliken Kallelse), helst minst tre dagar före.
+      - id: foreningsdomare
+        levels: [gron]
+        homeOnly: true
+        text: Ordna föreningsdomare. Division 8–9 kallas inte via iBIS, så kontakta domarna själva eller kansliet om ni saknar.
+      - id: ovan-arrangor
+        homeOnly: true
+        text: "Är ni ovana som arrangör: kontakta hallens vaktmästare i god tid (7–10 dagar före) och se till att hallen är bokad som MATCH, annars blir det ingen matchbelysning eller matchklocka."
   - id: fore-match
     title: Före match
     items:
-      - id: licens-skyddsglasogon
-        text: Spelarna har licens och skyddsglasögon.
-        ruleSource: distriktsanpassning
-        checked: "2026-10-12"
-        source:
-          <<: *matris
-          detail: "Inledande text ovanför divisionstabellen: personlig spelarlicens och glasögon i alla serier"
-      - id: ibis
-        text: Laguppställningen är inlagd i iBIS i god tid.
-        ruleSource: distriktsanpassning
-        checked: "2026-10-12"
-        source:
-          <<: *lokala
-          detail: "Sekretariatets uppgifter före match, punkt b: matchprotokollet ifyllt i iBIS i god tid innan match"
-      - id: ledarlicens
-        text: Alla i båset har rätt ledarlicens.
-        ruleSource: distriktsanpassning
-        checked: "2026-10-12"
-        source:
-          <<: *matris
-          detail: "Inledande text ovanför divisionstabellen: alla ledare i båset ska ha Grundutbildning barn/ungdom och Steg 1 på rätt nivå"
       - id: matchvardar
-        text: "Hemmamatch: två matchvärdar med rosa västar är utsedda."
         homeOnly: true
-        ruleSource: distriktsanpassning
-        checked: "2026-10-12"
-        source:
-          <<: *matris
-          detail: "Inledande text ovanför divisionstabellen: två matchvärdar i alla serier (västarnas färg anges inte här)"
+        text: Två matchvärdar finns på plats hela tiden, med matchvärdspåsen. De hälsar motståndare och domare välkomna och visar omklädningsrummen.
       - id: sekretariat
-        text: "Hemmamatch: sekretariat/tidtagare är bemannat enligt divisionens matris."
         homeOnly: true
-        ruleSource: distriktsanpassning
-        checked: "2026-10-12"
-        source:
-          <<: *matris
-          detail: "Divisionstabellen, kolumnen Sekretariat"
+        text: "Sekretariatet är på plats 20 minuter före matchstart: minst två personer, en tidtagare och en protokollförare, som kan matchklockan och protokollet."
+      - id: sarg-mal-bollar
+        homeOnly: true
+        text: Sargen är uppbyggd, målburarna är godkända och hela, matchbollar och reservbollar finns hos domarna och uppvärmningsbollar delas ut till båda lagen.
+      - id: matchprotokoll
+        homeOnly: true
+        text: Det digitala matchprotokollet finns vid matchstart. Saknas det förs protokollet på papper och läggs in i iBIS efteråt.
+      - id: glasogon
+        text: Alla spelare på planen bär skyddsglasögon.
       - id: mottagande
         text: Domare och gästande lag får ett bra mottagande.
-        ruleSource: foreningsvagledning
-  - id: under-och-efter-match
-    title: Under och efter match
+  - id: under-match
+    title: Under match
     items:
-      - id: tryggt-klimat
-        text: Matchvärdarna hjälper till att upprätthålla ett tryggt klimat.
-        ruleSource: distriktsanpassning
-        checked: "2026-10-12"
-        source:
-          <<: *matris
-          detail: "Inledande text ovanför divisionstabellen: matchvärdarnas uppgift är att verka för ett gott klimat i hallarna och ta hand om domarna"
-      - id: resultat
-        text: Resultat och matchuppgifter hanteras enligt aktuell divisions rutin.
-        ruleSource: foreningsvagledning
-      - id: uteblivna-domare
-        text: "Om domare uteblir eller annat går fel: informera VIBF:s kansli."
-        ruleSource: foreningsvagledning
+      - id: respektera-domarna
+        homeOnly: true
+        text: Sekretariatet läser upp texten "Respektera domarna" (finns i matchvärdspåsen).
+      - id: klimat
+        homeOnly: true
+        text: Matchvärdarna håller koll på klimatet. Arrangören agerar om publiken beter sig illa.
+      - id: effektiv-tid-bla
+        levels: [bla]
+        homeOnly: true
+        text: Division 6 har effektiv speltid, division 7 rullande tid. Vid effektiv tid stoppar sekretariatet klockan vid mål, utvisning, när bollen lämnar planen och på domarens tecken.
+      - id: effektiv-tid-rod
+        levels: [rod]
+        homeOnly: true
+        text: Effektiv speltid. Sekretariatet stoppar klockan vid mål, utvisning, när bollen lämnar planen och på domarens tecken, och startar när spelet är igång.
+      - id: handelser
+        levels: [rod]
+        homeOnly: true
+        text: Rapportera löpande händelser (mål, utvisningar) i iBIS under matchen. Anteckna på papper om det blir stressigt och mata in efteråt.
+  - id: efter-match
+    title: Efter match
+    items:
+      - id: resultat-gron
+        levels: [gron]
+        homeOnly: true
+        text: Inga resultat rapporteras på grön nivå.
+      - id: resultat-bla
+        levels: [bla]
+        homeOnly: true
+        text: Rapportera slutresultatet i iBIS direkt efter matchen (på m.ibis.innebandy.se behöver du matchnumret och koden från protokollet). Inga löpande händelser.
+      - id: resultat-rod
+        levels: [rod]
+        homeOnly: true
+        text: Kontrollera att alla händelser och resultatet är inrapporterade i iBIS.
+      - id: arvode-gron
+        levels: [gron]
+        homeOnly: true
+        text: Samla in domararvodet från de deltagande lagen och betala domaren direkt när uppdraget är klart, mot kvitto (swish går bra).
+      - id: arvode-bla-rod
+        levels: [bla, rod]
+        homeOnly: true
+        text: Förbundet betalar domaren via iBIS. Ni betalar inget på plats.
+      - id: stadning
+        homeOnly: true
+        text: Riv sargen om det inte är innebandy efter, och grovstäda hallen och omklädningsrummen.
+  - id: om-nagot-gar-fel
+    title: Om något går fel
+    items:
+      - id: domare
+        text: Kommer ingen domare spelas matchen ändå, med ledare eller föräldrar som dömer. Kontakta förbundet och berätta vad som hänt. Kommer fel domare, eller saknas en, meddela också förbundet.
+
 relocation:
   title: Om matchen behöver flyttas
-  intro: Avgifter och tidsgränser för matchflytt ändras under säsongen och visas därför inte här. Kontrollera alltid aktuell information innan du gör något.
-  reminder: Kom ihåg att avboka halltid.
+  intro: Matchflytt går alltid via förbundet. Avgifter och tidsgränser ändras under säsongen och visas därför inte här. Kontrollera alltid aktuell information innan du gör något.
+  reminder: Boka om halltiden som MATCH och avboka den gamla.
   link:
     label: Aktuell matchflyttsinformation hos Västernorrlands IBF
     url: "https://www.innebandy.se/vasternorrland/tavling/matchflytt"
-readMore:
-  - label: Ungdomsmatris 2026/27 – divisionernas krav, även sida 2
-    url: "https://www.innebandy.se/media/bjoi2qrd/matris-ungdom-2026-27-med-arvoden.pdf"
-  - label: Barn och ungdom – manualer och föreskrifter
-    url: "https://www.innebandy.se/vasternorrland/tavling/barnungdom"
-  - label: Lokala förutsättningar 2026/27
-    url: "https://www.innebandy.se/media/sb3hooik/lokala-forutsattningar-vnibf-2026-2027.pdf"
-  - label: Upptaktsträffar (presentationen för blå/röd 29/9)
-    url: "https://www.innebandy.se/vasternorrland/tavling/barnungdom/upptaktstraffar-powerpoint"

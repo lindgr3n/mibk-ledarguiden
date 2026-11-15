@@ -168,19 +168,14 @@ const divisionsanpassningar = defineCollection({
 // (nationell regel / distriktsanpassning) kräver originalkälla och kontrolldatum; rena
 // föreningsråd (foreningsvagledning) behöver ingen. Matchflytt har bara en länk till aktuell
 // information – avgifter och tidsgränser får inte lagras här.
-const checklistpunkt = z
-	.object({
-		id: z.string().min(1),
-		text: z.string().min(1),
-		homeOnly: z.boolean().default(false),
-		ruleSource: z.enum(['nationell-regel', 'distriktsanpassning', 'foreningsvagledning']),
-		checked: isoDate.optional(),
-		source: originalkalla.optional(),
-	})
-	.refine((p) => p.ruleSource === 'foreningsvagledning' || (p.checked && p.source), {
-		message: 'Punkter som anger regelfakta kräver checked och source',
-		path: ['source'],
-	});
+// En punkt i matchdagens checklista. Utan `levels` gäller den alla nivåer (grön, blå, röd).
+// Källorna anges en gång för hela matchdagen, inte per punkt.
+const checklistpunkt = z.object({
+	id: z.string().min(1),
+	text: z.string().min(1),
+	homeOnly: z.boolean().default(false),
+	levels: z.array(z.enum(['gron', 'bla', 'rod'])).min(1).optional(),
+});
 
 const matchdagen = defineCollection({
 	loader: glob({ pattern: '*.yaml', base: `${contentRoot}/matchdagen` }),
@@ -202,7 +197,9 @@ const matchdagen = defineCollection({
 				reminder: z.string().min(1),
 				link: originalkalla,
 			}),
-			readMore: z.array(originalkalla).min(1),
+			sources: z.array(z.object({ label: z.string().min(1), url: z.url().refine((u) => u.startsWith('https://')) })).min(1),
+			checked: isoDate,
+			sourceNote: z.string().min(1).optional(),
 		})
 		.superRefine((m, ctx) => {
 			const ids = m.sections.flatMap((s) => s.items.map((i) => i.id));

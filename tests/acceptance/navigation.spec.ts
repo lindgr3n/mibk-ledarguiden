@@ -5,11 +5,10 @@ import { arTillatenExtern } from './tillatna-varder';
 const menu = [
 	{ name: 'Hem', path: '/', heading: 'Moälvens IBK – Ledarguide 2026/27' },
 	{ name: 'Nivåer', path: '/nivaer/', heading: 'Nivåer' },
-	{ name: 'Matchdagen', path: '/matchdagen/', heading: 'Matchdagen' },
 	{ name: 'Regler och dokument', path: '/regler/', heading: 'Regler och dokument' },
 ];
 
-test('webbplatsen är svensk och menyn har exakt fyra val', async ({ page }) => {
+test('webbplatsen är svensk och menyn har exakt tre val', async ({ page }) => {
 	await page.goto('/');
 	await expect(page.locator('html')).toHaveAttribute('lang', 'sv');
 	const links = page.getByRole('navigation', { name: 'Huvudmeny' }).getByRole('link');
